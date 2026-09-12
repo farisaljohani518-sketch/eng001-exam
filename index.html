@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>RCJY ENG001 Examination Platform | English Language & Preparatory Year</title>
-  <meta name="description" content="Official ENG001 Foundation English Examination Platform with 15 Mock Tests, 900 Questions, Direct Academic Tutor, Textual Evidence, and Vocabulary Hub.">
+  <meta name="description" content="Official ENG001 Foundation English Examination Platform with 15 Mock Tests, 900 Questions, Direct Academic Tutor, Textual Evidence, and Fullscreen Vocabulary Hub.">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,14 +17,18 @@
       <div class="brand-section">
         <div class="brand-logo-badge">RCJY</div>
         <div class="brand-text">
-          <h1 class="brand-title">ENG001 Foundation English Exam Platform</h1>
+          <h1 class="brand-title">ENG001 Foundation English Platform</h1>
           <p class="brand-subtitle">Royal Commission for Jubail & Yanbu • English Language & Preparatory Year Institute</p>
         </div>
+        <!-- Theme Toggle Mobile Button -->
+        <button id="themeToggleBtnMobile" class="icon-btn mobile-only-inline" aria-label="Toggle Theme" title="Toggle Theme">
+          <span class="theme-icon-slot">🌙</span>
+        </button>
       </div>
       
       <div class="nav-actions">
         <!-- Vocabulary Hub Button -->
-        <button id="openVocabHubBtn" class="btn btn-vocab-hub" title="Open Core Vocabulary Bank & Interactive Flashcards">
+        <button id="openVocabHubBtn" class="btn btn-vocab-hub" title="Open Fullscreen Vocabulary Hub & Flashcards">
           <span class="btn-icon">📚</span> بنك مفردات المنهج (Vocab Hub)
         </button>
 
@@ -44,24 +48,27 @@
           </button>
         </div>
 
-        <!-- Theme Toggle -->
-        <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
-          <span id="themeIcon">🌙</span>
+        <!-- Theme Toggle Desktop -->
+        <button id="themeToggleBtn" class="icon-btn desktop-only-inline" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
+          <span class="theme-icon-slot">🌙</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Sticky Exam Status Strip -->
+  <!-- Sticky Exam Status Strip (Optimized for Mobile & Desktop) -->
   <div class="exam-status-bar">
     <div class="status-container">
       <div class="status-left">
-        <span id="currentModelBadge" class="badge badge-primary">Model 1 (Series 1)</span>
-        <span id="currentSectionBadge" class="badge badge-secondary">Part 1: Grammar</span>
-        <span id="answeredCountBadge" class="badge badge-neutral">0 / 60 Answered (0%)</span>
+        <span id="currentModelBadge" class="badge badge-primary">Model 1</span>
+        <span id="answeredCountBadge" class="badge badge-neutral">0/60</span>
+        <!-- Mobile Palette Quick Trigger -->
+        <button id="openMobilePaletteBtn" class="btn btn-outline btn-xs mobile-only-inline" title="Open Question Palette">
+          🔢 1–60
+        </button>
       </div>
 
-      <div class="progress-bar-container">
+      <div class="progress-bar-container desktop-only-inline">
         <div id="examProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
       </div>
 
@@ -71,8 +78,12 @@
           <span class="timer-icon">⏳</span>
           <span id="timerDisplay" class="timer-clock">60:00</span>
         </div>
-        <button id="submitExamTopBtn" class="btn btn-primary btn-sm">Submit Exam</button>
+        <button id="submitExamTopBtn" class="btn btn-primary btn-sm">Submit</button>
       </div>
+    </div>
+    <!-- Slim Mobile Progress Line -->
+    <div class="mobile-progress-line">
+      <div id="mobileProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
     </div>
   </div>
 
@@ -83,10 +94,10 @@
       <!-- Resume Banner (if state saved) -->
       <div id="resumeBanner" class="notification-banner hidden">
         <div class="banner-content">
-          <span><strong>Saved Progress Found:</strong> Would you like to resume your previous examination session?</span>
+          <span><strong>Saved Progress:</strong> Resume previous examination session?</span>
           <div class="banner-actions">
             <button id="resumeYesBtn" class="btn btn-sm btn-primary">Resume</button>
-            <button id="resumeNoBtn" class="btn btn-sm btn-outline">Start Fresh</button>
+            <button id="resumeNoBtn" class="btn btn-sm btn-outline">Fresh Start</button>
           </div>
         </div>
       </div>
@@ -121,7 +132,7 @@
           </div>
         </div>
 
-        <!-- Practice Mode & Review: Academic Smart Tutor Panel -->
+        <!-- Practice Mode & Review: Direct Academic Tutor Panel -->
         <section id="smartTutorPanel" class="tutor-panel hidden">
           <div class="tutor-header">
             <div class="tutor-title-wrap">
@@ -214,7 +225,7 @@
           </div>
         </section>
 
-        <!-- Question Navigation Bar -->
+        <!-- Question Navigation Bar (Desktop & Mobile) -->
         <div class="question-nav-footer">
           <button id="prevQuestionBtn" class="btn btn-outline" disabled>← Previous</button>
           <div class="footer-center-nav">
@@ -316,8 +327,8 @@
       </section>
     </div>
 
-    <!-- Right Sidebar: Question Palette & Navigation -->
-    <aside class="sidebar-palette">
+    <!-- Right Sidebar: Question Palette (Desktop View) -->
+    <aside class="sidebar-palette desktop-only-block" id="desktopPalette">
       <div class="palette-card">
         <div class="palette-header">
           <h3 class="palette-title">Question Palette</h3>
@@ -355,6 +366,26 @@
     </aside>
   </main>
 
+  <!-- Mobile Question Palette Drawer Modal -->
+  <div id="mobilePaletteModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="mobilePaletteTitle">
+    <div class="modal-box mobile-palette-modal-box">
+      <div class="modal-header">
+        <h3 id="mobilePaletteTitle" class="modal-title">Question Palette (قائمة الأسئلة 1–60)</h3>
+        <button id="closeMobilePaletteBtn" class="modal-close-x">&times;</button>
+      </div>
+      <div class="palette-tabs mobile-palette-tabs">
+        <button class="pal-tab active" data-filter="all">All (60)</button>
+        <button class="pal-tab" data-filter="Grammar">Grammar</button>
+        <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
+        <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
+        <button class="pal-tab" data-filter="Mixed Review">Review</button>
+      </div>
+      <div id="mobileQuestionsGrid" class="questions-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
   <!-- Submission Modal -->
   <div id="submitModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-box">
@@ -387,18 +418,19 @@
     </div>
   </div>
 
-  <!-- VOCABULARY MASTER HUB MODAL (Interactive Flashcards & Memorization) -->
-  <div id="vocabModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="vocabHubTitle">
-    <div class="modal-box vocab-modal-box">
-      <div class="modal-header vocab-modal-header">
+  <!-- VOCABULARY MASTER HUB MODAL (100% FULLSCREEN EXPERIENCE) -->
+  <div id="vocabModal" class="modal-backdrop fullscreen-modal hidden" role="dialog" aria-modal="true" aria-labelledby="vocabHubTitle">
+    <div class="modal-box vocab-modal-box fullscreen-box">
+      <!-- Fullscreen Top Header Bar -->
+      <div class="vocab-modal-header">
         <div class="vocab-title-wrap">
           <span class="vocab-badge-icon">📚</span>
           <div>
-            <h3 id="vocabHubTitle" class="modal-title">RCJY ENG001 Vocabulary Master Hub</h3>
-            <p class="vocab-modal-sub">بنك ومفردات المنهج الشامل • بطاقات حفظ تفاعلية ونطق صوتي لكافة وحدات المقرر (Units 1–6)</p>
+            <h3 id="vocabHubTitle" class="modal-title">RCJY Vocabulary Master Hub</h3>
+            <p class="vocab-modal-sub">بنك مفردات المنهج الشامل • بطاقات حفظ تفاعلية ونطق صوتي لكافة وحدات المقرر (Units 1–6)</p>
           </div>
         </div>
-        <button id="closeVocabModalBtn" class="modal-close-x">&times;</button>
+        <button id="closeVocabModalBtn" class="modal-close-x" title="Close Fullscreen Hub">&times;</button>
       </div>
 
       <!-- Hub Controls & View Switcher -->
@@ -423,7 +455,7 @@
         </div>
       </div>
 
-      <!-- VIEW 1: Interactive 3D Flashcards -->
+      <!-- VIEW 1: Interactive 3D Flashcards (Fullscreen Optimized) -->
       <div id="vocabFlashcardsView" class="vocab-view-container">
         <div class="flashcard-scene">
           <div id="activeFlashcard" class="flashcard">
@@ -440,7 +472,7 @@
                 </div>
               </div>
               <div class="fc-flip-hint">
-                <span>🔄 اضغط على البطاقة لقلبها ومعرفة المعنى والمثال (Click to flip)</span>
+                <span>🔄 اضغط على البطاقة لقلبها ومعرفة المعنى والمثال (Tap to flip)</span>
               </div>
             </div>
 
@@ -469,14 +501,14 @@
           </div>
         </div>
 
-        <!-- Flashcard Navigation -->
+        <!-- Flashcard Navigation Controls -->
         <div class="fc-controls">
-          <button id="fcPrevBtn" class="btn btn-outline btn-sm">← Previous Card</button>
+          <button id="fcPrevBtn" class="btn btn-outline">← السابق (Prev)</button>
           <div class="fc-counter-wrap">
             <span id="fcCounter">Card 1 of 60</span>
-            <button id="fcShuffleBtn" class="btn-text-tool fc-shuffle-btn" title="Shuffle cards randomly">🔀 عشوائي (Shuffle)</button>
+            <button id="fcShuffleBtn" class="btn-text-tool fc-shuffle-btn" title="Shuffle cards randomly">🔀 عشوائي</button>
           </div>
-          <button id="fcNextBtn" class="btn btn-primary btn-sm">Next Card →</button>
+          <button id="fcNextBtn" class="btn btn-primary">التالي (Next) →</button>
         </div>
       </div>
 
@@ -494,7 +526,7 @@
       <div id="vocabQuizView" class="vocab-view-container hidden">
         <div class="quiz-box-card">
           <div class="quiz-header">
-            <span id="quizCounter" class="badge badge-secondary">Question 1 of 5</span>
+            <span id="quizCounter" class="badge badge-secondary">Question 1 of 10</span>
             <span id="quizScoreBadge" class="badge badge-primary">Score: 0 / 0</span>
           </div>
           <div class="quiz-question-area">
