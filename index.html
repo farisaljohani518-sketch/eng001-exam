@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RCJY ENG001 Examination Platform | English Language & Preparatory Year</title>
+  <meta name="description" content="Official ENG001 Foundation English Examination Platform with 15 Mock Tests, 900 Questions, Bilingual Smart Tutor, and Analytics.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <!-- Top Academic Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand-section">
+        <div class="brand-logo-badge">RCJY</div>
+        <div class="brand-text">
+          <h1 class="brand-title">ENG001 Foundation English Exam Platform</h1>
+          <p class="brand-subtitle">Royal Commission for Jubail & Yanbu • English Language & Preparatory Year Institute</p>
+        </div>
+      </div>
+      
+      <div class="nav-actions">
+        <!-- Model Selector -->
+        <div class="control-group">
+          <label for="modelSelect" class="control-label">Mock Model:</label>
+          <select id="modelSelect" class="academic-select" aria-label="Select Mock Examination Model"></select>
+        </div>
+
+        <!-- Mode Toggle -->
+        <div class="mode-pill-toggle">
+          <button id="examModeBtn" class="pill-btn active" title="Strict exam conditions with timer and automatic grading">
+            <span class="pill-icon">⏱️</span> Exam Mode
+          </button>
+          <button id="practiceModeBtn" class="pill-btn" title="Instant answers, Smart Tutor, Arabic translation, and Beginner mode">
+            <span class="pill-icon">💡</span> Practice Mode
+          </button>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="icon-btn" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
+          <span id="themeIcon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Exam Status Strip -->
+  <div class="exam-status-bar">
+    <div class="status-container">
+      <div class="status-left">
+        <span id="currentModelBadge" class="badge badge-primary">Model 1 (Series 1)</span>
+        <span id="currentSectionBadge" class="badge badge-secondary">Part 1: Grammar</span>
+        <span id="answeredCountBadge" class="badge badge-neutral">0 / 60 Answered (0%)</span>
+      </div>
+
+      <div class="progress-bar-container">
+        <div id="examProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
+      </div>
+
+      <div class="status-right">
+        <!-- Timer -->
+        <div id="timerContainer" class="timer-box">
+          <span class="timer-icon">⏳</span>
+          <span id="timerDisplay" class="timer-clock">60:00</span>
+        </div>
+        <button id="submitExamTopBtn" class="btn btn-primary btn-sm">Submit Exam</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Examination Workspace -->
+  <main class="main-layout">
+    <!-- Left / Center: Question & Passage Arena -->
+    <div class="content-arena">
+      <!-- Resume Banner (if state saved) -->
+      <div id="resumeBanner" class="notification-banner hidden">
+        <div class="banner-content">
+          <span><strong>Saved Progress Found:</strong> Would you like to resume your previous session?</span>
+          <div class="banner-actions">
+            <button id="resumeYesBtn" class="btn btn-sm btn-primary">Resume</button>
+            <button id="resumeNoBtn" class="btn btn-sm btn-outline">Start Fresh</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading Passage Card (for Part 3) -->
+      <section id="passageSection" class="passage-card hidden">
+        <div class="passage-header">
+          <span class="passage-badge">📖 Reading Comprehension Text</span>
+          <h2 id="passageTitle" class="passage-title">Reading Passage Title</h2>
+        </div>
+        <div id="passageBody" class="passage-body"></div>
+      </section>
+
+      <!-- Active Question Card -->
+      <section class="question-card" id="questionCard">
+        <div class="question-card-header">
+          <div class="q-header-meta">
+            <span id="qNumberBadge" class="q-num-pill">Question 1 of 60</span>
+            <span id="qSectionTag" class="q-sec-tag">Grammar</span>
+            <span id="qTopicTag" class="q-topic-tag">Parts of Speech</span>
+          </div>
+          <div class="q-header-tools">
+            <button id="resetAnswersBtn" class="btn-text-tool" title="Clear current answer">Clear Choice</button>
+          </div>
+        </div>
+
+        <div class="question-body">
+          <div id="questionText" class="question-text">Loading examination questions...</div>
+          
+          <div id="optionsContainer" class="options-grid">
+            <!-- Options dynamically rendered -->
+          </div>
+        </div>
+
+        <!-- Practice Mode & Review: Smart Tutor Explanation Panel -->
+        <section id="smartTutorPanel" class="tutor-panel hidden">
+          <div class="tutor-header">
+            <div class="tutor-title-wrap">
+              <span class="tutor-logo">🎓</span>
+              <div>
+                <h3 class="tutor-title">Smart Pedagogical Tutor</h3>
+                <p class="tutor-subtitle">Interactive Concept Breakdown & Diagnostic Feedback</p>
+              </div>
+            </div>
+
+            <!-- Tutor Feature Switches -->
+            <div class="tutor-switches">
+              <button id="translateBtn" class="btn btn-tutor-tool" title="Switch explanation to clear Arabic with RTL support">
+                🌐 Translate Explanation (ترجمة الشرح)
+              </button>
+              <button id="beginnerBtn" class="btn btn-tutor-tool" title="Simplify the concept, vocabulary, and test-taking clues">
+                👶 Explain Like I'm a Beginner
+              </button>
+            </div>
+          </div>
+
+          <!-- Learning Memory Alert Card -->
+          <div id="memoryAlertCard" class="tutor-card memory-card hidden">
+            <div class="card-icon">🧠</div>
+            <div class="card-content">
+              <h4 class="memory-heading">Learning Memory Reminder</h4>
+              <p id="memoryText" class="memory-body"></p>
+            </div>
+          </div>
+
+          <!-- Diagnostic Cards Grid -->
+          <div class="tutor-cards-grid">
+            <!-- Your Answer vs Correct Answer -->
+            <div class="tutor-card comparison-badge-card">
+              <div class="badge-item wrong-side">
+                <span class="sub-label">Your Selection</span>
+                <span id="tutorUserAnswer" class="selection-tag red-tag">-</span>
+              </div>
+              <div class="badge-divider">vs</div>
+              <div class="badge-item right-side">
+                <span class="sub-label">Official Answer</span>
+                <span id="tutorCorrectAnswer" class="selection-tag green-tag">-</span>
+              </div>
+            </div>
+
+            <!-- Mistake Classification -->
+            <div class="tutor-card diagnostic-card">
+              <span class="card-tag">Diagnostic Classification</span>
+              <h4 id="tutorMistakeType" class="card-title text-amber">Rule Misunderstanding</h4>
+            </div>
+
+            <!-- Why your answer is wrong -->
+            <div class="tutor-card why-wrong-card">
+              <span class="card-tag">Why Your Answer is Incorrect</span>
+              <p id="tutorWhyWrong" class="card-text"></p>
+            </div>
+
+            <!-- The Rule You Need -->
+            <div class="tutor-card rule-card">
+              <span class="card-tag">The Rule You Need</span>
+              <p id="tutorRule" class="card-text font-bold"></p>
+            </div>
+
+            <!-- Why the correct answer is right -->
+            <div class="tutor-card why-right-card">
+              <span class="card-tag">Why The Correct Answer Works</span>
+              <p id="tutorWhyRight" class="card-text"></p>
+            </div>
+
+            <!-- Direct Comparison -->
+            <div class="tutor-card difference-card">
+              <span class="card-tag">Comparison & Key Difference</span>
+              <p id="tutorComparison" class="card-text"></p>
+            </div>
+
+            <!-- How to Avoid Next Time -->
+            <div class="tutor-card strategy-card">
+              <span class="card-tag">How To Avoid This Trap Next Time</span>
+              <p id="tutorHowToAvoid" class="card-text"></p>
+            </div>
+
+            <!-- Short Example -->
+            <div class="tutor-card example-card">
+              <span class="card-tag">Illustrative Example</span>
+              <p id="tutorExample" class="card-text code-text"></p>
+            </div>
+          </div>
+
+          <!-- Practice Mode: Retry Controls -->
+          <div class="tutor-footer">
+            <button id="retryQuestionBtn" class="btn btn-secondary">↺ Try Answering Again</button>
+          </div>
+        </section>
+
+        <!-- Question Navigation Bar -->
+        <div class="question-nav-footer">
+          <button id="prevQuestionBtn" class="btn btn-outline" disabled>← Previous</button>
+          <div class="footer-center-nav">
+            <span id="footerQTracker">Question 1 of 60</span>
+          </div>
+          <button id="nextQuestionBtn" class="btn btn-outline">Next →</button>
+        </div>
+      </section>
+
+      <!-- Results View (Hidden until submission) -->
+      <section id="resultsSection" class="results-container hidden">
+        <div class="results-card">
+          <div class="results-hero">
+            <div class="score-circle">
+              <span id="resTotalScore" class="score-number">0</span>
+              <span class="score-max">/ 60</span>
+            </div>
+            <h2 id="resTitle" class="results-title">Examination Completed</h2>
+            <p id="resSubtitle" class="results-sub">Review your detailed performance metrics and learning recommendations below.</p>
+            <div class="results-tags">
+              <span id="resPercentageBadge" class="badge badge-primary">0%</span>
+              <span id="resGradeBadge" class="badge badge-secondary">Grade: -</span>
+              <span id="resTimeSpentBadge" class="badge badge-neutral">Time: 0m</span>
+            </div>
+          </div>
+
+          <!-- Section Breakdown -->
+          <div class="results-breakdown-section">
+            <h3 class="section-title">Section Performance Breakdown</h3>
+            <div class="breakdown-grid">
+              <div class="breakdown-card">
+                <div class="b-header">
+                  <h4>Part 1: Grammar</h4>
+                  <span id="bGrammarScore" class="b-score">0 / 20</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div id="bGrammarBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-card">
+                <div class="b-header">
+                  <h4>Part 2: Vocabulary</h4>
+                  <span id="bVocabScore" class="b-score">0 / 15</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div id="bVocabBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-card">
+                <div class="b-header">
+                  <h4>Part 3: Reading Comprehension</h4>
+                  <span id="bReadingScore" class="b-score">0 / 15</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div id="bReadingBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-card">
+                <div class="b-header">
+                  <h4>Part 4: Mixed Review</h4>
+                  <span id="bMixedScore" class="b-score">0 / 10</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div id="bMixedBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weak Areas & Recommendations -->
+          <div class="analytics-recommendations-grid">
+            <div class="analytics-card weak-card">
+              <div class="a-header">
+                <span class="a-icon">⚠️</span>
+                <h4>Identified Weak Areas (نقاط الضعف المحددة)</h4>
+              </div>
+              <ul id="weakAreasList" class="recommendations-list"></ul>
+            </div>
+
+            <div class="analytics-card tips-card">
+              <div class="a-header">
+                <span class="a-icon">🎯</span>
+                <h4>Actionable Study Directives (توجيهات المذاكرة)</h4>
+              </div>
+              <ul id="recommendationsList" class="recommendations-list"></ul>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="results-actions">
+            <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 60 Questions With Explanations</button>
+            <button id="retakeExamBtn" class="btn btn-outline btn-lg">↺ Retake Current Model</button>
+            <button id="nextModelBtn" class="btn btn-secondary btn-lg">Next Model →</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Sidebar: Question Palette & Navigation -->
+    <aside class="sidebar-palette">
+      <div class="palette-card">
+        <div class="palette-header">
+          <h3 class="palette-title">Question Palette</h3>
+          <span class="palette-hint">Jump to any question</span>
+        </div>
+
+        <!-- Section Filter Tabs -->
+        <div class="palette-tabs">
+          <button class="pal-tab active" data-filter="all">All (60)</button>
+          <button class="pal-tab" data-filter="Grammar">Grammar</button>
+          <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
+          <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
+          <button class="pal-tab" data-filter="Mixed Review">Review</button>
+        </div>
+
+        <!-- Questions Grid (1..60) -->
+        <div id="questionsGrid" class="questions-grid">
+          <!-- 60 question buttons rendered dynamically -->
+        </div>
+
+        <!-- Palette Legend -->
+        <div class="palette-legend">
+          <div class="legend-item"><span class="legend-dot dot-current"></span> Current</div>
+          <div class="legend-item"><span class="legend-dot dot-answered"></span> Answered</div>
+          <div class="legend-item"><span class="legend-dot dot-unanswered"></span> Unanswered</div>
+          <div class="legend-item practice-legend hidden"><span class="legend-dot dot-correct"></span> Correct</div>
+          <div class="legend-item practice-legend hidden"><span class="legend-dot dot-incorrect"></span> Incorrect</div>
+        </div>
+
+        <!-- Quick Reset / Summary -->
+        <div class="palette-footer">
+          <button id="submitExamSidebarBtn" class="btn btn-primary btn-block">Submit Examination</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Submit Confirmation Modal -->
+  <div id="submitModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modalTitle" class="modal-title">Confirm Examination Submission</h3>
+        <button id="modalCloseBtn" class="modal-close-x">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Are you sure you want to finish and submit your exam?</p>
+        <div class="modal-stats-card">
+          <div class="stat-col">
+            <span id="modalAnsweredCount" class="stat-num text-primary">0</span>
+            <span class="stat-sub">Answered</span>
+          </div>
+          <div class="stat-col">
+            <span id="modalUnansweredCount" class="stat-num text-amber">60</span>
+            <span class="stat-sub">Unanswered</span>
+          </div>
+          <div class="stat-col">
+            <span id="modalTimerRemaining" class="stat-num text-secondary">60:00</span>
+            <span class="stat-sub">Time Left</span>
+          </div>
+        </div>
+        <p id="modalWarningText" class="modal-warning hidden">⚠️ You have unanswered questions! Unanswered questions will be scored as 0.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="modalCancelBtn" class="btn btn-outline">Return to Exam</button>
+        <button id="modalConfirmSubmitBtn" class="btn btn-primary">Yes, Finalize & Grade</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Embed Data & Script -->
+  <script src="script.js"></script>
+</body>
+</html>
