@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RCJY ENG001 Examination Platform | English Language & Preparatory Year</title>
-  <meta name="description" content="Official ENG001 Foundation English Examination Platform with 15 Mock Tests, 900 Questions, Bilingual Smart Tutor, and Analytics.">
+  <meta name="description" content="Official ENG001 Foundation English Examination Platform with 15 Mock Tests, 900 Questions, Legendary Smart Tutor, Passage Evidence, and Vocabulary Hub.">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,11 @@
       </div>
       
       <div class="nav-actions">
+        <!-- Vocabulary Hub Button -->
+        <button id="openVocabHubBtn" class="btn btn-vocab-hub" title="Open Core Vocabulary Bank, Flashcards & Word Quiz">
+          <span class="btn-icon">📚</span> بنك مفردات المنهج (Vocab Hub)
+        </button>
+
         <!-- Model Selector -->
         <div class="control-group">
           <label for="modelSelect" class="control-label">Mock Model:</label>
@@ -34,7 +39,7 @@
           <button id="examModeBtn" class="pill-btn active" title="Strict exam conditions with timer and automatic grading">
             <span class="pill-icon">⏱️</span> Exam Mode
           </button>
-          <button id="practiceModeBtn" class="pill-btn" title="Instant answers, Smart Tutor, Arabic translation, and Beginner mode">
+          <button id="practiceModeBtn" class="pill-btn" title="Instant answers, Legendary Smart Tutor, Arabic translation, and Beginner mode">
             <span class="pill-icon">💡</span> Practice Mode
           </button>
         </div>
@@ -78,7 +83,7 @@
       <!-- Resume Banner (if state saved) -->
       <div id="resumeBanner" class="notification-banner hidden">
         <div class="banner-content">
-          <span><strong>Saved Progress Found:</strong> Would you like to resume your previous session?</span>
+          <span><strong>Saved Progress Found:</strong> Would you like to resume your previous examination session?</span>
           <div class="banner-actions">
             <button id="resumeYesBtn" class="btn btn-sm btn-primary">Resume</button>
             <button id="resumeNoBtn" class="btn btn-sm btn-outline">Start Fresh</button>
@@ -116,25 +121,35 @@
           </div>
         </div>
 
-        <!-- Practice Mode & Review: Smart Tutor Explanation Panel -->
+        <!-- Practice Mode & Review: Legendary Smart Tutor Panel -->
         <section id="smartTutorPanel" class="tutor-panel hidden">
           <div class="tutor-header">
             <div class="tutor-title-wrap">
               <span class="tutor-logo">🎓</span>
               <div>
-                <h3 class="tutor-title">Smart Pedagogical Tutor</h3>
-                <p class="tutor-subtitle">Interactive Concept Breakdown & Diagnostic Feedback</p>
+                <h3 class="tutor-title">Legendary Smart Tutor (المعلم الذكي)</h3>
+                <p class="tutor-subtitle">Interactive Linguistic Diagnostic & Exact Textual Evidence</p>
               </div>
             </div>
 
             <!-- Tutor Feature Switches -->
             <div class="tutor-switches">
-              <button id="translateBtn" class="btn btn-tutor-tool" title="Switch explanation to clear Arabic with RTL support">
+              <button id="translateBtn" class="btn btn-tutor-tool" title="Switch explanation to clear academic Arabic with RTL support">
                 🌐 Translate Explanation (ترجمة الشرح)
               </button>
               <button id="beginnerBtn" class="btn btn-tutor-tool" title="Simplify the concept, vocabulary, and test-taking clues">
-                👶 Explain Like I'm a Beginner
+                👶 Explain Like I'm a Beginner (شرح مبسط)
               </button>
+            </div>
+          </div>
+
+          <!-- Reading Passage Evidence Card (Shown specifically for Reading Comprehension) -->
+          <div id="evidenceAlertCard" class="tutor-card evidence-card hidden">
+            <div class="evidence-icon">🔍</div>
+            <div class="evidence-content">
+              <span class="evidence-tag">📖 Textual Evidence from Passage (الدليل الصريح من نص القطعة)</span>
+              <blockquote id="evidenceQuote" class="evidence-blockquote"></blockquote>
+              <p id="evidenceExplanation" class="evidence-explanation"></p>
             </div>
           </div>
 
@@ -142,7 +157,7 @@
           <div id="memoryAlertCard" class="tutor-card memory-card hidden">
             <div class="card-icon">🧠</div>
             <div class="card-content">
-              <h4 class="memory-heading">Learning Memory Reminder</h4>
+              <h4 class="memory-heading">Learning Memory Reminder (تنبيه تكرار الخطأ)</h4>
               <p id="memoryText" class="memory-body"></p>
             </div>
           </div>
@@ -152,62 +167,69 @@
             <!-- Your Answer vs Correct Answer -->
             <div class="tutor-card comparison-badge-card">
               <div class="badge-item wrong-side">
-                <span class="sub-label">Your Selection</span>
+                <span class="sub-label">Your Selection (إجابتك)</span>
                 <span id="tutorUserAnswer" class="selection-tag red-tag">-</span>
               </div>
               <div class="badge-divider">vs</div>
               <div class="badge-item right-side">
-                <span class="sub-label">Official Answer</span>
+                <span class="sub-label">Official Answer (الإجابة المعتمدة)</span>
                 <span id="tutorCorrectAnswer" class="selection-tag green-tag">-</span>
               </div>
             </div>
 
+            <!-- Formula & Clue Card -->
+            <div class="tutor-card formula-card">
+              <span class="card-tag">⚡ Syntactic Formula & Clue (المعادلة النحوية ومفتاح السؤال)</span>
+              <div id="tutorFormula" class="formula-box"></div>
+              <p id="tutorClue" class="clue-box"></p>
+            </div>
+
             <!-- Mistake Classification -->
             <div class="tutor-card diagnostic-card">
-              <span class="card-tag">Diagnostic Classification</span>
+              <span class="card-tag">Diagnostic Classification (تصنيف الخطأ)</span>
               <h4 id="tutorMistakeType" class="card-title text-amber">Rule Misunderstanding</h4>
             </div>
 
             <!-- Why your answer is wrong -->
             <div class="tutor-card why-wrong-card">
-              <span class="card-tag">Why Your Answer is Incorrect</span>
+              <span class="card-tag">Why Your Selection is Incorrect (لماذا اختيارك غير دقيق)</span>
               <p id="tutorWhyWrong" class="card-text"></p>
             </div>
 
             <!-- The Rule You Need -->
             <div class="tutor-card rule-card">
-              <span class="card-tag">The Rule You Need</span>
+              <span class="card-tag">The Rule You Need (القاعدة الأساسية)</span>
               <p id="tutorRule" class="card-text font-bold"></p>
             </div>
 
             <!-- Why the correct answer is right -->
             <div class="tutor-card why-right-card">
-              <span class="card-tag">Why The Correct Answer Works</span>
+              <span class="card-tag">Why The Correct Answer Works (سر الإجابة الصحيحة)</span>
               <p id="tutorWhyRight" class="card-text"></p>
             </div>
 
             <!-- Direct Comparison -->
             <div class="tutor-card difference-card">
-              <span class="card-tag">Comparison & Key Difference</span>
+              <span class="card-tag">Comparison & Contrast (المقارنة والفرق الجوهري)</span>
               <p id="tutorComparison" class="card-text"></p>
             </div>
 
             <!-- How to Avoid Next Time -->
             <div class="tutor-card strategy-card">
-              <span class="card-tag">How To Avoid This Trap Next Time</span>
+              <span class="card-tag">How To Avoid This Trap Next Time (حيلة الاختبار الذكية)</span>
               <p id="tutorHowToAvoid" class="card-text"></p>
             </div>
 
             <!-- Short Example -->
             <div class="tutor-card example-card">
-              <span class="card-tag">Illustrative Example</span>
+              <span class="card-tag">Illustrative Example (مثال توضيحي نموذجي)</span>
               <p id="tutorExample" class="card-text code-text"></p>
             </div>
           </div>
 
           <!-- Practice Mode: Retry Controls -->
           <div class="tutor-footer">
-            <button id="retryQuestionBtn" class="btn btn-secondary">↺ Try Answering Again</button>
+            <button id="retryQuestionBtn" class="btn btn-secondary">↺ Try Answering Again (إعادة المحاولة)</button>
           </div>
         </section>
 
@@ -244,7 +266,7 @@
             <div class="breakdown-grid">
               <div class="breakdown-card">
                 <div class="b-header">
-                  <h4>Part 1: Grammar</h4>
+                  <h4>Part 1: Grammar (القواعد)</h4>
                   <span id="bGrammarScore" class="b-score">0 / 20</span>
                 </div>
                 <div class="progress-bar-container">
@@ -254,7 +276,7 @@
 
               <div class="breakdown-card">
                 <div class="b-header">
-                  <h4>Part 2: Vocabulary</h4>
+                  <h4>Part 2: Vocabulary (المفردات)</h4>
                   <span id="bVocabScore" class="b-score">0 / 15</span>
                 </div>
                 <div class="progress-bar-container">
@@ -264,7 +286,7 @@
 
               <div class="breakdown-card">
                 <div class="b-header">
-                  <h4>Part 3: Reading Comprehension</h4>
+                  <h4>Part 3: Reading Comprehension (الاستيعاب القرائي)</h4>
                   <span id="bReadingScore" class="b-score">0 / 15</span>
                 </div>
                 <div class="progress-bar-container">
@@ -274,7 +296,7 @@
 
               <div class="breakdown-card">
                 <div class="b-header">
-                  <h4>Part 4: Mixed Review</h4>
+                  <h4>Part 4: Mixed Review (المراجعة العامة)</h4>
                   <span id="bMixedScore" class="b-score">0 / 10</span>
                 </div>
                 <div class="progress-bar-container">
@@ -297,7 +319,7 @@
             <div class="analytics-card tips-card">
               <div class="a-header">
                 <span class="a-icon">🎯</span>
-                <h4>Actionable Study Directives (توجيهات المذاكرة)</h4>
+                <h4>Actionable Study Directives (توجيهات المذاكرة المركزة)</h4>
               </div>
               <ul id="recommendationsList" class="recommendations-list"></ul>
             </div>
@@ -305,7 +327,7 @@
 
           <!-- Action Buttons -->
           <div class="results-actions">
-            <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 60 Questions With Explanations</button>
+            <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 60 Questions With Smart Tutor</button>
             <button id="retakeExamBtn" class="btn btn-outline btn-lg">↺ Retake Current Model</button>
             <button id="nextModelBtn" class="btn btn-secondary btn-lg">Next Model →</button>
           </div>
@@ -352,7 +374,7 @@
     </aside>
   </main>
 
-  <!-- Submit Confirmation Modal -->
+  <!-- Submission Modal -->
   <div id="submitModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-box">
       <div class="modal-header">
@@ -360,7 +382,7 @@
         <button id="modalCloseBtn" class="modal-close-x">&times;</button>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">Are you sure you want to finish and submit your exam?</p>
+        <p class="modal-desc">Are you sure you want to finalize and submit your examination?</p>
         <div class="modal-stats-card">
           <div class="stat-col">
             <span id="modalAnsweredCount" class="stat-num text-primary">0</span>
@@ -375,12 +397,240 @@
             <span class="stat-sub">Time Left</span>
           </div>
         </div>
-        <p id="modalWarningText" class="modal-warning hidden">⚠️ You have unanswered questions! Unanswered questions will be scored as 0.</p>
+        <p id="modalWarningText" class="modal-warning hidden">⚠️ You have unanswered questions! Unanswered items are counted as 0.</p>
       </div>
       <div class="modal-footer">
         <button id="modalCancelBtn" class="btn btn-outline">Return to Exam</button>
         <button id="modalConfirmSubmitBtn" class="btn btn-primary">Yes, Finalize & Grade</button>
       </div>
+    </div>
+  </div>
+
+  <!-- VOCABULARY MASTER HUB MODAL (Interactive Flashcards, Dual Quiz & Custom Words) -->
+  <div id="vocabModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="vocabHubTitle">
+    <div class="modal-box vocab-modal-box">
+      <div class="modal-header vocab-modal-header">
+        <div class="vocab-title-wrap">
+          <span class="vocab-badge-icon">📚</span>
+          <div>
+            <h3 id="vocabHubTitle" class="modal-title">RCJY ENG001 Vocabulary Master Hub</h3>
+            <p class="vocab-modal-sub">بنك ومفردات المنهج الشامل • بطاقات تفاعلية واختبارات متعددة مع إمكانية إضافة كلماتك الخاصة</p>
+          </div>
+        </div>
+        <div class="vocab-header-actions">
+          <button id="openAddWordModalBtn" class="btn btn-sm btn-primary" title="Add your own custom vocabulary word">
+            ➕ إضافة كلمة جديدة (Add Word)
+          </button>
+          <button id="closeVocabModalBtn" class="modal-close-x">&times;</button>
+        </div>
+      </div>
+
+      <!-- Hub Controls & View Switcher -->
+      <div class="vocab-controls-bar">
+        <div class="vocab-nav-pills">
+          <button id="viewFlashcardsBtn" class="v-pill active">🗂️ بطاقات الحفظ (Flashcards)</button>
+          <button id="viewQuizBtn" class="v-pill">🎯 اختبار الكلمات (Quiz Mode)</button>
+          <button id="viewListBtn" class="v-pill">📋 القاموس الكامل (Word List)</button>
+        </div>
+
+        <div class="vocab-filters">
+          <label for="vocabUnitSelect" class="sr-only">Filter by Unit</label>
+          <select id="vocabUnitSelect" class="academic-select v-select">
+            <option value="all">جميع الكلمات (All Words)</option>
+            <option value="Unit 1: Introductions & Identity">Unit 1: Introductions & Identity</option>
+            <option value="Unit 2: Campus Places">Unit 2: Campus Places & Facilities</option>
+            <option value="Unit 3: Daily Routines & Activities">Unit 3: Daily Routines & Activities</option>
+            <option value="Unit 4: Geography, Nature & Climate">Unit 4: Geography, Nature & Climate</option>
+            <option value="Unit 5: Travel, Directions & Transport">Unit 5: Travel, Directions & Transport</option>
+            <option value="Unit 6: Occupations & Personality">Unit 6: Occupations, Work & Personality</option>
+            <option value="custom">📌 كلماتي المضافة (My Custom Words)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- VIEW 1: Interactive 3D Flashcards with Mastery Self-Check -->
+      <div id="vocabFlashcardsView" class="vocab-view-container">
+        <!-- Mastery Filter -->
+        <div class="mastery-filter-bar">
+          <span class="mastery-stat">
+            حفظت: <strong id="masteredCount" class="text-success">0</strong> من أصل <strong id="totalVocabCount">74</strong> كلمة
+          </span>
+          <div class="mastery-pills">
+            <button class="m-pill active" data-mastery="all">الكل (All)</button>
+            <button class="m-pill" data-mastery="mastered">✅ تم حفظها</button>
+            <button class="m-pill" data-mastery="unmastered">❌ تحتاج مراجعة</button>
+          </div>
+        </div>
+
+        <div class="flashcard-scene">
+          <div id="activeFlashcard" class="flashcard">
+            <!-- FRONT OF CARD -->
+            <div class="flashcard-face flashcard-front">
+              <span id="fcUnitBadge" class="fc-unit-tag">Unit 2: Campus Places</span>
+              <div class="fc-front-content">
+                <h2 id="fcWord" class="fc-word-text">Café</h2>
+                <div class="fc-pos-wrap">
+                  <span id="fcPos" class="fc-pos-badge">Noun</span>
+                  <button id="fcPronounceBtn" class="fc-audio-btn" title="Listen to pronunciation">
+                    🔊 استمع للنطق
+                  </button>
+                </div>
+              </div>
+              <div class="fc-flip-hint">
+                <span>🔄 اضغط على البطاقة لقلبها ومعرفة المعنى والمثال (Click to flip)</span>
+              </div>
+            </div>
+
+            <!-- BACK OF CARD -->
+            <div class="flashcard-face flashcard-back">
+              <div class="fc-back-arabic">
+                <span class="back-tag">المعنى بالعربي الدقيق:</span>
+                <h3 id="fcArabicMeaning" class="fc-ar-text">مقهى يقدم مشروبات ساخنة ووجبات خفيفة</h3>
+              </div>
+
+              <div class="fc-back-definition">
+                <span class="back-tag">English Definition:</span>
+                <p id="fcEnglishDef" class="fc-en-text">A small restaurant where hot drinks and light snacks are served.</p>
+              </div>
+
+              <div class="fc-back-example">
+                <span class="back-tag">Example in Context (مثال في جملة):</span>
+                <p id="fcExample" class="fc-ex-text">Students meet at the student café to drink coffee.</p>
+                <p id="fcExampleAr" class="fc-ex-ar"></p>
+              </div>
+
+              <div class="fc-back-collocation">
+                <span id="fcCollocation" class="fc-colloc-text">Collocation: campus café, drink coffee</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Self-Evaluation Buttons -->
+        <div class="fc-eval-bar">
+          <button id="markMasteredBtn" class="btn-eval btn-eval-yes">
+            ✅ حفظتها وعرفتها (Mastered)
+          </button>
+          <button id="markReviewBtn" class="btn-eval btn-eval-no">
+            ❌ أحتاج أراجعها (Need Review)
+          </button>
+        </div>
+
+        <!-- Flashcard Navigation -->
+        <div class="fc-controls">
+          <button id="fcPrevBtn" class="btn btn-outline btn-sm">← Previous Card</button>
+          <div class="fc-counter-wrap">
+            <span id="fcCounter">Card 1 of 74</span>
+            <button id="fcShuffleBtn" class="btn-text-tool fc-shuffle-btn" title="Shuffle cards randomly">🔀 ترتيب عشوائي (Shuffle)</button>
+          </div>
+          <button id="fcNextBtn" class="btn btn-primary btn-sm">Next Card →</button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: Multiple Choice Word Quiz (Dual Modes: EN->AR or AR->EN) -->
+      <div id="vocabQuizView" class="vocab-view-container hidden">
+        <div class="quiz-box-card">
+          <div class="quiz-top-settings">
+            <div class="quiz-direction-toggle">
+              <label for="quizDirectionSelect" class="control-label">نوع الاختبار:</label>
+              <select id="quizDirectionSelect" class="academic-select v-select">
+                <option value="en-to-ar">إنجليزي ➔ اختر المعنى العربي</option>
+                <option value="ar-to-en">عربي ➔ اختر الكلمة الإنجليزية</option>
+              </select>
+            </div>
+            <div class="quiz-stats">
+              <span id="quizCounter" class="badge badge-secondary">Question 1 of 10</span>
+              <span id="quizScoreBadge" class="badge badge-primary">Score: 0 / 0</span>
+              <span id="quizStreakBadge" class="badge badge-neutral">🔥 Streak: 0</span>
+            </div>
+          </div>
+
+          <div class="quiz-question-area">
+            <h3 id="quizQuestionText" class="quiz-prompt-text">What is the English word for: "..."?</h3>
+          </div>
+
+          <div id="quizOptionsContainer" class="quiz-options-list">
+            <!-- 4 options rendered dynamically -->
+          </div>
+
+          <div class="quiz-footer">
+            <button id="quizNextBtn" class="btn btn-primary hidden">Next Question →</button>
+            <button id="quizRestartBtn" class="btn btn-outline hidden">↺ اختبار جديد (New Quiz)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: Complete Word List & Instant Search -->
+      <div id="vocabListView" class="vocab-view-container hidden">
+        <div class="v-search-bar-wrap">
+          <input type="text" id="vocabSearchInput" class="v-search-input" placeholder="🔍 ابحث عن أي كلمة أو معنى بالعربي أو الإنجليزي (Search English or Arabic words)...">
+        </div>
+        <div id="vocabTableContainer" class="vocab-cards-grid">
+          <!-- Cards generated dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD CUSTOM WORD MODAL -->
+  <div id="addWordModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="addWordModalTitle">
+    <div class="modal-box add-word-modal-box">
+      <div class="modal-header">
+        <h3 id="addWordModalTitle" class="modal-title">➕ إضافة كلمة جديدة لقائمتك</h3>
+        <button id="closeAddWordModalBtn" class="modal-close-x">&times;</button>
+      </div>
+      <form id="addWordForm" class="add-word-form">
+        <div class="form-group">
+          <label for="newWordInput" class="form-label">الكلمة بالإنجليزية (English Word) *:</label>
+          <input type="text" id="newWordInput" class="academic-input" placeholder="مثال: Syllabus" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="newWordPos" class="form-label">نوع الكلمة (Part of Speech):</label>
+            <select id="newWordPos" class="academic-select">
+              <option value="Noun">Noun (اسم)</option>
+              <option value="Verb">Verb (فعل)</option>
+              <option value="Adj">Adjective (صفة)</option>
+              <option value="Adv">Adverb (ظرف)</option>
+              <option value="Phrase">Phrase (تعبير/عبارة)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="newWordUnit" class="form-label">الوحدة أو القسم (Unit):</label>
+            <select id="newWordUnit" class="academic-select">
+              <option value="Unit 1: Introductions & Identity">Unit 1</option>
+              <option value="Unit 2: Campus Places">Unit 2</option>
+              <option value="Unit 3: Daily Routines & Activities">Unit 3</option>
+              <option value="Unit 4: Geography, Nature & Climate">Unit 4</option>
+              <option value="Unit 5: Travel, Directions & Transport">Unit 5</option>
+              <option value="Unit 6: Occupations & Personality">Unit 6</option>
+              <option value="Custom / Extra" selected>كلمات إضافية (Custom)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newWordAr" class="form-label">المعنى باللغة العربية *:</label>
+          <input type="text" id="newWordAr" class="academic-input" placeholder="مثال: الخطة الدراسية أو المنهج" required>
+        </div>
+
+        <div class="form-group">
+          <label for="newWordEnDef" class="form-label">التعريف بالإنجليزية (English Definition):</label>
+          <input type="text" id="newWordEnDef" class="academic-input" placeholder="مثال: An outline of the subjects in a course of study.">
+        </div>
+
+        <div class="form-group">
+          <label for="newWordExample" class="form-label">مثال في جملة (Example Sentence):</label>
+          <input type="text" id="newWordExample" class="academic-input" placeholder="مثال: The instructor distributed the course syllabus.">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="cancelAddWordBtn" class="btn btn-outline">إلغاء</button>
+          <button type="submit" class="btn btn-primary">💾 حفظ الكلمة في بنك المفردات</button>
+        </div>
+      </form>
     </div>
   </div>
 
