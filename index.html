@@ -17,8 +17,11 @@
       <div class="brand-section">
         <div class="brand-logo-badge">RCJY</div>
         <div class="brand-text">
-          <h1 class="brand-title">ENG001 Foundation English Platform</h1>
-          <p class="brand-subtitle">Royal Commission for Jubail & Yanbu • English Language & Preparatory Year Institute</p>
+          <div class="brand-title-row">
+            <h1 class="brand-title">ENG001 Foundation English Platform</h1>
+            <span class="quiz1-active-badge">🎯 كويز 1: Unlock 1 (الوحدات 3 - 4 - 5)</span>
+          </div>
+          <p class="brand-subtitle">Royal Commission for Jubail & Yanbu • Course Delivery Plan 481</p>
         </div>
         <!-- Theme Toggle Mobile Button -->
         <button id="themeToggleBtnMobile" class="icon-btn mobile-only-inline" aria-label="Toggle Theme" title="Toggle Theme">
@@ -27,9 +30,19 @@
       </div>
       
       <div class="nav-actions">
+        <!-- Listening Lab Button -->
+        <button id="openListeningHubBtn" class="btn btn-listening-hub" title="مختبر الاستماع التفاعلي لكويز 1">
+          <span class="btn-icon">🎧</span> مختبر الاستماع (Listening Lab)
+        </button>
+
+        <!-- Syllabus & Quiz 1 Rules Button -->
+        <button id="openSyllabusBtn" class="btn btn-syllabus-hub" title="عرض خطة كويز 1 والقواعد المعتمدة">
+          <span class="btn-icon">📋</span> خطة كويز 1 والقواعد
+        </button>
+
         <!-- Vocabulary Hub Button -->
         <button id="openVocabHubBtn" class="btn btn-vocab-hub" title="Open Fullscreen Vocabulary Hub & Flashcards">
-          <span class="btn-icon">📚</span> بنك مفردات المنهج (Vocab Hub)
+          <span class="btn-icon">📚</span> مفردات كويز 1 (Vocab Hub)
         </button>
 
         <!-- Model Selector -->
@@ -111,11 +124,71 @@
         <div id="passageBody" class="passage-body"></div>
       </section>
 
+        <!-- Exam Listening Audio Station (Active for Listening Comprehension questions) -->
+        <section id="examAudioStation" class="audio-station-card hidden">
+          <div class="audio-station-header">
+            <div class="audio-track-info">
+              <span id="examAudioTrackBadge" class="audio-track-badge">🎧 Listening Audio Track</span>
+              <h3 id="examAudioTrackTitle" class="audio-track-title">Audio Track Title</h3>
+            </div>
+            <div id="examAudioPlayCounter" class="audio-play-counter">🔊 استمعت: 0 / 2</div>
+          </div>
+
+          <!-- Animated Sound Equalizer Waves -->
+          <div id="examSoundWaveContainer" class="sound-wave-container">
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+          </div>
+
+          <!-- Audio Player Controls -->
+          <div class="audio-player-controls">
+            <div class="audio-main-btns">
+              <button id="examPlayAudioBtn" class="btn-play-audio">
+                <span id="examPlayAudioIcon">▶️</span> <span id="examPlayAudioText">استمع للمقطع</span>
+              </button>
+              <button id="examStopAudioBtn" class="btn-stop-audio">
+                <span>⏹️</span> إيقاف
+              </button>
+            </div>
+
+            <!-- Speed Controls -->
+            <div class="audio-speed-group">
+              <button class="speed-btn active exam-speed-btn" data-rate="0.85">🐢 0.85x (Exam Pace)</button>
+              <button class="speed-btn exam-speed-btn" data-rate="1.0">⚡ 1.0x (Normal)</button>
+            </div>
+
+            <!-- Transcript Toggle -->
+            <button id="examToggleTranscriptBtn" class="btn-toggle-transcript">
+              👁️ إظهار النص المسموع (Transcript)
+            </button>
+          </div>
+
+          <!-- Collapsible Transcript Box -->
+          <div id="examAudioTranscriptBox" class="audio-transcript-box hidden">
+            <div class="transcript-en" id="examTranscriptEn"></div>
+            <div class="transcript-ar" id="examTranscriptAr"></div>
+          </div>
+        </section>
+
       <!-- Active Question Card -->
       <section class="question-card" id="questionCard">
         <div class="question-card-header">
           <div class="q-header-meta">
             <span id="qNumberBadge" class="q-num-pill">Question 1 of 60</span>
+            <span id="qUnitBadge" class="q-unit-pill">Unit 3: Grammar</span>
             <span id="qSectionTag" class="q-sec-tag">Grammar</span>
             <span id="qTopicTag" class="q-topic-tag">Parts of Speech</span>
           </div>
@@ -168,6 +241,13 @@
               <h4 class="memory-heading">Learning Memory Reminder (تنبيه تكرار الخطأ)</h4>
               <p id="memoryText" class="memory-body"></p>
             </div>
+          </div>
+
+          <!-- Syllabus & Unit Reference Box -->
+          <div class="syllabus-ref-box">
+            <span class="syllabus-icon">📘</span>
+            <span class="syllabus-label">المرجع من خطة المنهج (Course Plan):</span>
+            <span id="tutorSyllabusRef" class="syllabus-val">Unlock 1: Unit 3 (Daily Routines & Present Simple)</span>
           </div>
 
           <!-- Clean Diagnostic & Explanation Cards Grid -->
@@ -342,6 +422,16 @@
                   <div id="bMixedBar" class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
               </div>
+
+              <div class="breakdown-card">
+                <div class="b-header">
+                  <h4>Part 5: Listening Comprehension (الاستماع)</h4>
+                  <span id="bListeningScore" class="b-score">0 / 10</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div id="bListeningBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -384,10 +474,11 @@
 
         <!-- Section Filter Tabs -->
         <div class="palette-tabs">
-          <button class="pal-tab active" data-filter="all">All (60)</button>
+          <button class="pal-tab active" data-filter="all">All (70)</button>
           <button class="pal-tab" data-filter="Grammar">Grammar</button>
           <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
           <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
+          <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
           <button class="pal-tab" data-filter="Mixed Review">Review</button>
         </div>
 
@@ -421,10 +512,11 @@
         <button id="closeMobilePaletteBtn" class="modal-close-x">&times;</button>
       </div>
       <div class="palette-tabs mobile-palette-tabs">
-        <button class="pal-tab active" data-filter="all">All (60)</button>
+        <button class="pal-tab active" data-filter="all">All (70)</button>
         <button class="pal-tab" data-filter="Grammar">Grammar</button>
         <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
         <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
+        <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
         <button class="pal-tab" data-filter="Mixed Review">Review</button>
       </div>
       <div id="mobileQuestionsGrid" class="questions-grid">
@@ -491,13 +583,10 @@
         <div class="vocab-filters">
           <label for="vocabUnitSelect" class="sr-only">Filter by Unit</label>
           <select id="vocabUnitSelect" class="academic-select v-select">
-            <option value="all">جميع الوحدات (All Units 1–6)</option>
-            <option value="Unit 1">Unit 1: Introductions & Identity</option>
-            <option value="Unit 2">Unit 2: Campus Places & Facilities</option>
-            <option value="Unit 3">Unit 3: Daily Routines & Activities</option>
-            <option value="Unit 4">Unit 4: Geography, Nature & Climate</option>
-            <option value="Unit 5">Unit 5: Travel, Directions & Transport</option>
-            <option value="Unit 6">Unit 6: Occupations, Work & Personality</option>
+            <option value="all">🎯 جميع مفردات كويز 1 (Units 3, 4, 5)</option>
+            <option value="Unit 3">الوحدة 3: Unit 3 (Daily Routines & College Life)</option>
+            <option value="Unit 4">الوحدة 4: Unit 4 (Places, Geography & Nature)</option>
+            <option value="Unit 5">الوحدة 5: Unit 5 (Travel, Transport, Rules & Adjectives)</option>
           </select>
         </div>
       </div>
@@ -592,5 +681,304 @@
 
   <!-- Embed Script -->
   <script src="script.js"></script>
+
+  <!-- =========================================================================
+       COURSE DELIVERY PLAN & QUIZ 1 SYLLABUS MODAL
+       ========================================================================= -->
+  <div id="syllabusModal" class="fullscreen-modal hidden" role="dialog" aria-modal="true" aria-labelledby="syllabusModalTitle">
+    <div class="modal-card syllabus-modal-card">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <div class="brand-title-row">
+            <h3 id="syllabusModalTitle" class="modal-title">📋 خطة كويز 1 وقواعد المنهج المعتمدة</h3>
+            <span class="quiz1-active-badge">Active: Quiz 1 Focus</span>
+          </div>
+          <p class="modal-subtitle">ENG 001 - Course Delivery Plan (Semester 481) • معهد ينبع للغة الإنجليزية والسنة التحضيرية</p>
+        </div>
+        <button id="closeSyllabusModalBtn" class="modal-close-btn" aria-label="Close Syllabus Guide">&times;</button>
+      </div>
+
+      <div class="modal-body-scrollable">
+        <!-- Official Assessment Plan Banner -->
+        <div class="assessment-overview-banner">
+          <div class="assessment-meta-item">
+            <span class="meta-label">المقرر والقسم</span>
+            <span class="meta-value">ENG 001 - English I • ELD Department</span>
+          </div>
+          <div class="assessment-meta-item">
+            <span class="meta-label">منسقو المقرر</span>
+            <span class="meta-value">Mr. Habib Bouagada & Ms. Haneen Sarouji</span>
+          </div>
+          <div class="assessment-meta-item">
+            <span class="meta-label">موعد كويز 1 القادم</span>
+            <span class="meta-value" style="color:#10b981;">الأحد 20 سبتمبر 2026 (Week 5)</span>
+          </div>
+          <div class="assessment-meta-item">
+            <span class="meta-label">وزن كويز 1</span>
+            <span class="meta-value" style="color:#38bdf8;">7.5% (من درجات المقرر)</span>
+          </div>
+        </div>
+
+        <!-- Official Assessment Roadmap Table -->
+        <div class="assessment-table-wrap">
+          <table class="assessment-table">
+            <thead>
+              <tr>
+                <th>التقييم (Assessment)</th>
+                <th>الوزن %</th>
+                <th>الأسبوع المحدد</th>
+                <th>التاريخ</th>
+                <th>النطاق المعتمد (Coverage)</th>
+                <th>المهارات المطلوبة في الاختبار</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="active-row">
+                <td><strong>🎯 Quiz 1 (النشط حالياً)</strong></td>
+                <td><strong>7.5%</strong></td>
+                <td>Week 5</td>
+                <td><strong>2026-09-20</strong></td>
+                <td><strong>Unlock 1: Units 3, 4, 5 (Weeks 2–4)</strong></td>
+                <td>Grammar (2%) • Reading (2%) • Vocab (1.5%) • Listening (2%)</td>
+              </tr>
+              <tr>
+                <td>📝 Assignment 1 (In Class)</td>
+                <td>5%</td>
+                <td>Week 6</td>
+                <td>2026-09-29</td>
+                <td>Present simple, There is/are, Prepositions of place, Comparatives + than</td>
+                <td>Writing & Grammar</td>
+              </tr>
+              <tr>
+                <td>🏛️ Midterm Exam</td>
+                <td>20%</td>
+                <td>Week 8</td>
+                <td>TBD (أكتوبر)</td>
+                <td>Unlock 1: Units 4, 5, 6, 7, 8 (Weeks 3–7)</td>
+                <td>Grammar (4%) • Reading (4%) • Vocab (4%) • Listening (4%) • Speaking (4%)</td>
+              </tr>
+              <tr>
+                <td>📝 Assignment 2</td>
+                <td>5%</td>
+                <td>Weeks 9–11</td>
+                <td>2026-10-18</td>
+                <td>Because/So, Past simple, Profile paragraph</td>
+                <td>Writing & Grammar</td>
+              </tr>
+              <tr>
+                <td>🔒 Quiz 2</td>
+                <td>7.5%</td>
+                <td>Week 13</td>
+                <td>2026-11-16</td>
+                <td>Unlock 2: Units 1 & 2 (Weeks 9–12)</td>
+                <td>Grammar (2%) • Reading (2%) • Vocab (1.5%) • Listening (2%)</td>
+              </tr>
+              <tr>
+                <td>🎓 Final Exam</td>
+                <td>30%</td>
+                <td>Week 17</td>
+                <td>TBD (ديسمبر)</td>
+                <td>Unlock 1 (Units 6–8) + Unlock 2 (Units 1–3)</td>
+                <td>جميع المهارات الست (Grammar, Vocab, Reading, Listening, Speaking, Writing)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="syllabus-grid">
+          <!-- Card 1: Unit 3 -->
+          <div class="syllabus-card">
+            <div class="syllabus-card-header">
+              <span class="syllabus-card-title">📘 Unlock 1: Unit 3</span>
+              <span class="syllabus-status-tag status-active">داخل بكويز 1 ✔</span>
+            </div>
+            <p class="text-sm font-bold text-primary mb-2">الموضوع: Daily Routines & College Activities</p>
+            <ul class="syllabus-rule-list">
+              <li class="syllabus-rule-item"><strong>المضارع البسيط (Present Simple):</strong> التفرقة بين الفاعل المفرد (إضافة s/es) والجمع (الفعل مجرد).</li>
+              <li class="syllabus-rule-item"><strong>النفي والسؤال:</strong> استخدام do/does في الأسئلة و don't/doesn't في النفي.</li>
+              <li class="syllabus-rule-item"><strong>حروف جر الوقت (Time Prepositions):</strong> 
+                <br>• <code>at</code> + الوقت المحدد (at 8:00 a.m., at night).
+                <br>• <code>on</code> + الأيام والتواريخ (on Friday, on weekdays).
+                <br>• <code>in</code> + الفترات والشهور (in the morning, in August).
+              </li>
+              <li class="syllabus-rule-item"><strong>التلازمات اللفظية وتعبيرات الوقت:</strong> collocations مع الأفعال، وتعبير (every + noun).</li>
+            </ul>
+          </div>
+
+          <!-- Card 2: Unit 4 -->
+          <div class="syllabus-card">
+            <div class="syllabus-card-header">
+              <span class="syllabus-card-title">📗 Unlock 1: Unit 4</span>
+              <span class="syllabus-status-tag status-active">داخل بكويز 1 ✔</span>
+            </div>
+            <p class="text-sm font-bold text-primary mb-2">الموضوع: Places, Nature & Climate</p>
+            <ul class="syllabus-rule-list">
+              <li class="syllabus-rule-item"><strong>قاعدة There is / There are:</strong>
+                <br>• <code>There is</code> + اسم مفرد أو غير معدود (There is a library).
+                <br>• <code>There are</code> + اسم جمع (There are many parks).
+              </li>
+              <li class="syllabus-rule-item"><strong>أدوات التعريف والتنكير (Articles):</strong>
+                <br>• <code>a</code> قبل المفرد المعدود البادئ بصوت ساكن (a campus).
+                <br>• <code>an</code> قبل المفرد المعدود البادئ بصوت متحرك (an international company).
+                <br>• <code>the</code> عند الحديث عن شيء محدد أو ذكر للمرة الثانية.
+                <br>• <code>Ø (بدون أداة)</code> مع الجمع العام والأسماء غير المعدودة.
+              </li>
+              <li class="syllabus-rule-item"><strong>حروف جر المكان:</strong> in, on, at, next to, opposite, between.</li>
+              <li class="syllabus-rule-item"><strong>العبارات الاسمية بـ of:</strong> تركيب (noun + of + noun) مثل: center of town.</li>
+            </ul>
+          </div>
+
+          <!-- Card 3: Unit 5 -->
+          <div class="syllabus-card">
+            <div class="syllabus-card-header">
+              <span class="syllabus-card-title">📙 Unlock 1: Unit 5</span>
+              <span class="syllabus-status-tag status-active">داخل بكويز 1 ✔</span>
+            </div>
+            <p class="text-sm font-bold text-primary mb-2">الموضوع: Travel, Transport & Rules</p>
+            <ul class="syllabus-rule-list">
+              <li class="syllabus-rule-item"><strong>أفعال الإلزام والضرورة (Modals of Necessity):</strong>
+                <br>• <code>must</code> و <code>have to</code> للتعبير عن القوانين والإلزام الإجباري.
+                <br>• <code>must not (mustn't)</code> للمنع القاطع والمحظورات.
+              </li>
+              <li class="syllabus-rule-item"><strong>إعطاء النصائح (Giving Advice):</strong> استخدام <code>should + مصدر الفعل</code>.</li>
+              <li class="syllabus-rule-item"><strong>صفات المقارنة (Comparative Adjectives):</strong>
+                <br>• الصفات القصيرة: <code>adj + er + than</code> (faster than).
+                <br>• الصفات الطويلة: <code>more + adj + than</code> (more comfortable than).
+              </li>
+              <li class="syllabus-rule-item"><strong>عبارات الصفات:</strong> تركيب (very + adj) وتعبير (good at + noun/V-ing).</li>
+              <li class="syllabus-rule-item"><strong>الجمل المركبة:</strong> ربط جملتين بسيطتين باستخدام <code>and</code>.</li>
+            </ul>
+          </div>
+
+          <!-- Card 4: Core Foundation & Roadmap -->
+          <div class="syllabus-card">
+            <div class="syllabus-card-header">
+              <span class="syllabus-card-title">⚡ أقسام الكلام (Parts of Speech)</span>
+              <span class="syllabus-status-tag status-active">مهارة أساسية بكويز 1 ✔</span>
+            </div>
+            <p class="text-sm font-bold text-primary mb-2">السر في التفريق بالاختبار:</p>
+            <ul class="syllabus-rule-list">
+              <li class="syllabus-rule-item"><strong>الاسم (Noun):</strong> يسبقه the/a/an/صفة، ويكون فاعل أو مفعول (The test, a call).</li>
+              <li class="syllabus-rule-item"><strong>الفعل (Verb):</strong> يدل على حدث، يأتي بعد الفاعل ويقبل الماضي و s (They test, I call).</li>
+              <li class="syllabus-rule-item"><strong>الصفة (Adjective):</strong> تسبق الاسم وتصفه (international company).</li>
+              <li class="syllabus-rule-item"><strong>الظرف (Adverb):</strong> يصف الفعل وينتهي غالباً بـ -ly (speaks fluently).</li>
+            </ul>
+          </div>
+        </div>
+      </div><div class="modal-footer">
+        <button id="closeSyllabusFooterBtn" class="btn btn-primary">فهمت المنهج • العودة للتدريب</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================================
+       LISTENING LAB MODAL (QUIZ 1 FOCUS)
+       ========================================================================= -->
+  <div id="listeningModal" class="fullscreen-modal hidden" role="dialog" aria-modal="true" aria-labelledby="listeningModalTitle">
+    <div class="modal-card listening-modal-card">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <div class="brand-title-row">
+            <h3 id="listeningModalTitle" class="modal-title">🎧 مختبر الاستماع التفاعلي لكويز 1</h3>
+            <span class="quiz1-active-badge">Quiz 1: 2.0% Weight</span>
+          </div>
+          <p class="modal-subtitle">Unlock 1 (Units 3, 4, 5) • مقاطع صوتية قصيرة لا تتجاوز 5 أسئلة لكل مقطع مع تدريب النطق</p>
+        </div>
+        <button id="closeListeningModalBtn" class="modal-close-btn" aria-label="Close Listening Lab">&times;</button>
+      </div>
+
+      <div class="modal-body-scrollable">
+        <!-- Track Selector Pills -->
+        <div class="listening-track-selector">
+          <button class="track-pill-btn active" data-track="0">🎙️ المقطع 1: روتين الكلية (Unit 3)</button>
+          <button class="track-pill-btn" data-track="1">🎙️ المقطع 2: مرافق الكلية والقوانين (Units 4 & 5)</button>
+          <button class="track-pill-btn" data-track="2">🎙️ المقطع 3: رحلة ينبع والطقس (Units 4 & 5)</button>
+        </div>
+
+        <!-- Audio Station Card -->
+        <div class="audio-station-card">
+          <div class="audio-station-header">
+            <div class="audio-track-info">
+              <span id="audioTrackBadge" class="audio-track-badge">📘 Unit 3 • 32 ثانية</span>
+              <h4 id="audioTrackTitle" class="audio-track-title">Audio Track 1: College Routine & Classes at YIC</h4>
+            </div>
+            <div id="audioPlayCounter" class="audio-play-counter">🔊 عدد مرات الاستماع: 0</div>
+          </div>
+
+          <!-- Animated Sound Equalizer Waves -->
+          <div id="soundWaveContainer" class="sound-wave-container">
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+          </div>
+
+          <!-- Controls Bar -->
+          <div class="audio-player-controls">
+            <div class="audio-main-btns">
+              <button id="playAudioBtn" class="btn-play-audio">
+                <span id="playAudioIcon">▶️</span> <span id="playAudioText">استمع للمقطع</span>
+              </button>
+              <button id="stopAudioBtn" class="btn-stop-audio">
+                <span>⏹️</span> إيقاف
+              </button>
+            </div>
+
+            <!-- Speed Controls -->
+            <div class="audio-speed-group">
+              <button class="speed-btn active" data-rate="0.85">🐢 0.85x (Exam Pace)</button>
+              <button class="speed-btn" data-rate="1.0">⚡ 1.0x (Normal)</button>
+            </div>
+
+            <!-- Transcript Toggle -->
+            <button id="toggleTranscriptBtn" class="btn-toggle-transcript">
+              👁️ إظهار النص المسموع (Transcript)
+            </button>
+          </div>
+
+          <!-- Collapsible Transcript Box -->
+          <div id="audioTranscriptBox" class="audio-transcript-box hidden">
+            <div class="transcript-en" id="transcriptEn"></div>
+            <div class="transcript-ar" id="transcriptAr"></div>
+          </div>
+        </div>
+
+        <!-- Score & Status Banner -->
+        <div class="listening-score-banner">
+          <div>
+            <span class="text-sm font-bold text-slate-300">الأسئلة المنجزة لهذا المقطع: </span>
+            <span id="listeningSolvedCount" class="font-bold text-emerald-400">0 / 5</span>
+          </div>
+          <div>
+            <span class="text-sm font-bold text-slate-300">الدقة: </span>
+            <span id="listeningAccuracy" class="font-bold text-cyan-400">0%</span>
+          </div>
+          <button id="resetListeningQuizBtn" class="btn-text-tool" style="font-size:0.8rem;">🔄 إعادة المحاولة</button>
+        </div>
+
+        <!-- Questions List Container (Exactly 5 Questions) -->
+        <div id="listeningQuestionsContainer">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="closeListeningFooterBtn" class="btn btn-primary">العودة للاختبارات</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
