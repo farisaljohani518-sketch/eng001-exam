@@ -124,65 +124,6 @@
         <div id="passageBody" class="passage-body"></div>
       </section>
 
-        <!-- Exam Listening Audio Station (Active for Listening Comprehension questions) -->
-        <section id="examAudioStation" class="audio-station-card hidden">
-          <div class="audio-station-header">
-            <div class="audio-track-info">
-              <span id="examAudioTrackBadge" class="audio-track-badge">🎧 Listening Audio Track</span>
-              <h3 id="examAudioTrackTitle" class="audio-track-title">Audio Track Title</h3>
-            </div>
-            <div id="examAudioPlayCounter" class="audio-play-counter">🔊 استمعت: 0 / 2</div>
-          </div>
-
-          <!-- Animated Sound Equalizer Waves -->
-          <div id="examSoundWaveContainer" class="sound-wave-container">
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-          </div>
-
-          <!-- Audio Player Controls -->
-          <div class="audio-player-controls">
-            <div class="audio-main-btns">
-              <button id="examPlayAudioBtn" class="btn-play-audio">
-                <span id="examPlayAudioIcon">▶️</span> <span id="examPlayAudioText">استمع للمقطع</span>
-              </button>
-              <button id="examStopAudioBtn" class="btn-stop-audio">
-                <span>⏹️</span> إيقاف
-              </button>
-            </div>
-
-            <!-- Speed Controls -->
-            <div class="audio-speed-group">
-              <button class="speed-btn active exam-speed-btn" data-rate="0.85">🐢 0.85x (Exam Pace)</button>
-              <button class="speed-btn exam-speed-btn" data-rate="1.0">⚡ 1.0x (Normal)</button>
-            </div>
-
-            <!-- Transcript Toggle -->
-            <button id="examToggleTranscriptBtn" class="btn-toggle-transcript">
-              👁️ إظهار النص المسموع (Transcript)
-            </button>
-          </div>
-
-          <!-- Collapsible Transcript Box -->
-          <div id="examAudioTranscriptBox" class="audio-transcript-box hidden">
-            <div class="transcript-en" id="examTranscriptEn"></div>
-            <div class="transcript-ar" id="examTranscriptAr"></div>
-          </div>
-        </section>
-
       <!-- Active Question Card -->
       <section class="question-card" id="questionCard">
         <div class="question-card-header">
@@ -422,16 +363,6 @@
                   <div id="bMixedBar" class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
               </div>
-
-              <div class="breakdown-card">
-                <div class="b-header">
-                  <h4>Part 5: Listening Comprehension (الاستماع)</h4>
-                  <span id="bListeningScore" class="b-score">0 / 10</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="bListeningBar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -474,11 +405,10 @@
 
         <!-- Section Filter Tabs -->
         <div class="palette-tabs">
-          <button class="pal-tab active" data-filter="all">All (70)</button>
+          <button class="pal-tab active" data-filter="all">All (60)</button>
           <button class="pal-tab" data-filter="Grammar">Grammar</button>
           <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
           <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
-          <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
           <button class="pal-tab" data-filter="Mixed Review">Review</button>
         </div>
 
@@ -512,11 +442,10 @@
         <button id="closeMobilePaletteBtn" class="modal-close-x">&times;</button>
       </div>
       <div class="palette-tabs mobile-palette-tabs">
-        <button class="pal-tab active" data-filter="all">All (70)</button>
+        <button class="pal-tab active" data-filter="all">All (60)</button>
         <button class="pal-tab" data-filter="Grammar">Grammar</button>
         <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
         <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
-        <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
         <button class="pal-tab" data-filter="Mixed Review">Review</button>
       </div>
       <div id="mobileQuestionsGrid" class="questions-grid">
@@ -678,6 +607,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Embed Script -->
+  <script src="script.js"></script>
 
   <!-- =========================================================================
        COURSE DELIVERY PLAN & QUIZ 1 SYLLABUS MODAL
@@ -977,8 +909,5 @@
     </div>
   </div>
 
-
-  <!-- Embed Script at bottom -->
-  <script src="script.js"></script>
 </body>
 </html>
