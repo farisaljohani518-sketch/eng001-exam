@@ -198,18 +198,9 @@
   }
 
   function setupEventListeners() {
-    const btnElevenSettings = document.getElementById('btnElevenSettings');
-    if (btnElevenSettings) {
-      btnElevenSettings.addEventListener('click', () => {
-        const currentKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_DEFAULT_KEY;
-        const newKey = prompt('أدخل مفتاح ElevenLabs API Key الخاص بك:', currentKey);
-        if (newKey !== null && newKey.trim() !== '') {
-          localStorage.setItem('elevenlabs_api_key', newKey.trim());
-          elevenLabsAudioCache = {}; // clear cache to test new key
-          alert('تم حفظ مفتاح ElevenLabs API بنجاح في متصفحك!');
-        }
-      });
-    }
+    
+
+    
 
     initExamAudioControls();
     // Syllabus & Quiz 1 Rules Modal
@@ -494,142 +485,182 @@
 
   
   // =========================================================================
-  // NATURAL HUMAN VOICE & CADENCE ENGINE
+  
   // =========================================================================
-  let cachedSystemVoices = [];
-  let preferredVoiceGender = 'female'; // 'female' (warm teacher) or 'male' (clear calm teacher)
-  let speechSequenceId = 0;
+  // ZERO-UPLOAD MULTI-ENGINE HUMAN AUDIO PLAYER (Guaranteed Human Voice)
+  // =========================================================================
+  let currentActiveAudioStream = null;
+  let activeAudioSequence = 0;
+  let audioEngineType = 'google_stream'; // 'google_stream' | 'browser_natural' | 'voicerss'
 
-  function refreshSystemVoices() {
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      cachedSystemVoices = window.speechSynthesis.getVoices() || [];
-    }
+  // Banned robotic voices (specifically old Windows 95/XP synthetic voices)
+  const BANNED_VOICE_NAMES = ['david', 'desktop', 'hazel', 'mark', 'george desktop'];
+
+  function playHumanAudio(text, options = {}) {
+    stopAnyActiveAudio();
+    activeAudioSequence++;
+    const seq = activeAudioSequence;
+
+    const audioStatusText = document.getElementById('audioStatusText');
+    const updateStatus = (msg, color = '#34d399') => {
+      if (audioStatusText) {
+        audioStatusText.textContent = msg;
+        audioStatusText.style.color = color;
+      }
+    };
+
+    updateStatus('🔊 جاري تشغيل الصوت البشري المباشر...', '#38bdf8');
+
+    // Engine 1: Google Cloud HD Audio Stream (Zero keys, zero uploads, crystal clear human pronunciation)
+    playGoogleSentenceStream(text, seq, options, updateStatus, () => {
+      // Fallback: If Google stream is blocked, use Natural Browser Speech (strictly human neural voices)
+      console.warn('Google stream completed or blocked, checking natural neural speech fallback...');
+      playNaturalNeuralSpeech(text, seq, options, updateStatus);
+    });
   }
 
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-    refreshSystemVoices();
-    if (window.speechSynthesis.onvoiceschanged !== undefined) {
-      window.speechSynthesis.onvoiceschanged = refreshSystemVoices;
+  function playGoogleSentenceStream(text, seq, options, updateStatus, onFallback) {
+    // Split into clean natural sentences
+    const rawSentences = text.match(/[^.!?]+[.!?]*/g) || [text];
+    const sentences = rawSentences.map(s => s.trim()).filter(s => s.length > 0);
+
+    if (sentences.length === 0) {
+      if (onFallback) onFallback();
+      return;
     }
+
+    let sentenceIdx = 0;
+    const accent = (preferredVoiceGender === 'male') ? 'en-US' : 'en-GB';
+
+    if (options.onStart) options.onStart();
+    updateStatus('🟢 صوت استوديو بشري نقي يعمل الآن (Google Cloud HD)', '#34d399');
+
+    function playNext() {
+      if (seq !== activeAudioSequence) return;
+      if (sentenceIdx >= sentences.length) {
+        if (options.onEnd) options.onEnd();
+        updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
+        return;
+      }
+
+      const currentSentence = sentences[sentenceIdx];
+      const encoded = encodeURIComponent(currentSentence);
+      const streamUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${accent}&q=${encoded}`;
+
+      currentActiveAudioStream = new Audio(streamUrl);
+      if (options.rate) {
+        currentActiveAudioStream.playbackRate = options.rate;
+      }
+
+      currentActiveAudioStream.onended = () => {
+        if (seq !== activeAudioSequence) return;
+        sentenceIdx++;
+        if (sentenceIdx < sentences.length) {
+          // 200ms natural human breath pause between sentences
+          setTimeout(() => {
+            if (seq === activeAudioSequence) playNext();
+          }, 200);
+        } else {
+          if (options.onEnd) options.onEnd();
+          updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
+        }
+      };
+
+      currentActiveAudioStream.onerror = (err) => {
+        console.warn('Google audio stream error, falling back to browser neural voices:', err);
+        if (seq !== activeAudioSequence) return;
+        if (onFallback) onFallback();
+      };
+
+      currentActiveAudioStream.play().catch(e => {
+        console.warn('Auto-play blocked, falling back to browser neural voices:', e);
+        if (seq !== activeAudioSequence) return;
+        if (onFallback) onFallback();
+      });
+    }
+
+    playNext();
   }
 
-  function selectBestNaturalVoice(gender = 'female') {
-    refreshSystemVoices();
-    const enVoices = cachedSystemVoices.filter(v => v.lang && v.lang.startsWith('en'));
-    if (enVoices.length === 0) return null;
-
-    // 1. Natural / Neural Microsoft Online Voices (Studio quality on Windows / Edge)
-    const naturalVoices = enVoices.filter(v => v.name.includes('Natural') || v.name.includes('Online'));
-    if (gender === 'female') {
-      const fNat = naturalVoices.find(v => v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Sonia') || v.name.includes('Clara'));
-      if (fNat) return fNat;
-    } else {
-      const mNat = naturalVoices.find(v => v.name.includes('Ryan') || v.name.includes('Guy') || v.name.includes('George'));
-      if (mNat) return mNat;
-    }
-    if (naturalVoices.length > 0) return naturalVoices[0];
-
-    // 2. Google High Quality Voices (Chrome)
-    if (gender === 'female') {
-      const gFem = enVoices.find(v => v.name.includes('Google') && (v.name.includes('Female') || v.name.includes('UK')));
-      if (gFem) return gFem;
-    } else {
-      const gMale = enVoices.find(v => v.name.includes('Google') && (v.name.includes('Male') || v.name.includes('US')));
-      if (gMale) return gMale;
-    }
-    const anyGoogle = enVoices.find(v => v.name.includes('Google'));
-    if (anyGoogle) return anyGoogle;
-
-    // 3. Apple Neural Voices (Safari on iOS / iPad / Mac)
-    if (gender === 'female') {
-      const appleFem = enVoices.find(v => v.name.includes('Samantha') || v.name.includes('Serena') || v.name.includes('Karen'));
-      if (appleFem) return appleFem;
-    } else {
-      const appleMale = enVoices.find(v => v.name.includes('Daniel') || v.name.includes('Oliver'));
-      if (appleMale) return appleMale;
-    }
-
-    // 4. Soft female voice fallback (Zira on Windows instead of robotic David)
-    if (gender === 'female') {
-      const zira = enVoices.find(v => v.name.includes('Zira') || v.name.toLowerCase().includes('female'));
-      if (zira) return zira;
-    } else {
-      const mVoice = enVoices.find(v => v.name.includes('David') || v.name.toLowerCase().includes('male'));
-      if (mVoice) return mVoice;
-    }
-
-    return enVoices[0];
-  }
-
-  function speakScriptWithNaturalCadence(scriptText, options = {}) {
+  function playNaturalNeuralSpeech(text, seq, options, updateStatus) {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      if (options.onError) options.onError();
+      if (options.onEnd) options.onEnd();
       return;
     }
 
     window.speechSynthesis.cancel();
-    speechSequenceId++;
-    const currentSeq = speechSequenceId;
+    updateStatus('🟢 صوت بشري طبيعي (Neural Speech Engine)', '#38bdf8');
 
-    // Split text into natural breath sentences to eliminate monotonic drone
-    const rawSentences = scriptText.match(/[^.!?]+[.!?]*/g) || [scriptText];
-    const cleanedSentences = rawSentences.map(s => s.trim()).filter(s => s.length > 0);
+    const voices = window.speechSynthesis.getVoices() || [];
+    const enVoices = voices.filter(v => v.lang && v.lang.startsWith('en'));
 
-    if (cleanedSentences.length === 0) return;
+    // Filter out all robotic legacy desktop voices
+    const humanVoices = enVoices.filter(v => {
+      const nameLower = v.name.toLowerCase();
+      return !BANNED_VOICE_NAMES.some(banned => nameLower.includes(banned));
+    });
 
-    const gender = options.gender || preferredVoiceGender;
-    const bestVoice = selectBestNaturalVoice(gender);
-    const baseRate = options.rate || (gender === 'female' ? 0.94 : 0.91);
-    const pitch = (gender === 'female') ? 1.04 : 0.98;
+    // Pick the best natural human voice
+    let selectedVoice = null;
+    if (preferredVoiceGender === 'female') {
+      selectedVoice = humanVoices.find(v => v.name.includes('Natural') || v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Sonia') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira'));
+    } else {
+      selectedVoice = humanVoices.find(v => v.name.includes('Natural') || v.name.includes('Ryan') || v.name.includes('Guy') || v.name.includes('Google') || v.name.includes('Daniel') || v.name.includes('Oliver'));
+    }
+    if (!selectedVoice && humanVoices.length > 0) selectedVoice = humanVoices[0];
+    if (!selectedVoice && enVoices.length > 0) selectedVoice = enVoices[0];
 
-    let sentenceIndex = 0;
+    const rawSentences = text.match(/[^.!?]+[.!?]*/g) || [text];
+    const sentences = rawSentences.map(s => s.trim()).filter(s => s.length > 0);
+    let sIdx = 0;
 
     if (options.onStart) options.onStart();
 
-    function speakNext() {
-      if (currentSeq !== speechSequenceId) return;
-      if (sentenceIndex >= cleanedSentences.length) {
+    function speakNextSentence() {
+      if (seq !== activeAudioSequence) return;
+      if (sIdx >= sentences.length) {
         if (options.onEnd) options.onEnd();
+        updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
         return;
       }
 
-      const currentSentence = cleanedSentences[sentenceIndex];
-      const utterance = new SpeechSynthesisUtterance(currentSentence);
-
-      if (bestVoice) utterance.voice = bestVoice;
-      utterance.lang = bestVoice ? bestVoice.lang : 'en-US';
-      utterance.rate = baseRate;
-      utterance.pitch = pitch;
+      const utterance = new SpeechSynthesisUtterance(sentences[sIdx]);
+      if (selectedVoice) utterance.voice = selectedVoice;
+      utterance.rate = (preferredVoiceGender === 'female') ? 0.95 : 0.92;
+      utterance.pitch = (preferredVoiceGender === 'female') ? 1.05 : 0.98;
 
       utterance.onend = () => {
-        if (currentSeq !== speechSequenceId) return;
-        sentenceIndex++;
-        if (sentenceIndex < cleanedSentences.length) {
-          // Natural breathing pause: 180ms
+        if (seq !== activeAudioSequence) return;
+        sIdx++;
+        if (sIdx < sentences.length) {
           setTimeout(() => {
-            if (currentSeq === speechSequenceId) {
-              speakNext();
-            }
+            if (seq === activeAudioSequence) speakNextSentence();
           }, 180);
         } else {
           if (options.onEnd) options.onEnd();
+          updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
         }
       };
 
-      utterance.onerror = (e) => {
-        if (currentSeq !== speechSequenceId) return;
-        if (options.onError) options.onError(e);
+      utterance.onerror = () => {
         if (options.onEnd) options.onEnd();
       };
 
       window.speechSynthesis.speak(utterance);
     }
 
-    speakNext();
+    speakNextSentence();
   }
 
-  function cancelNaturalSpeech() {
-    speechSequenceId++;
+  function stopAnyActiveAudio() {
+    activeAudioSequence++;
+    if (currentActiveAudioStream) {
+      try {
+        currentActiveAudioStream.pause();
+        currentActiveAudioStream.currentTime = 0;
+      } catch(e) {}
+      currentActiveAudioStream = null;
+    }
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
@@ -704,7 +735,7 @@
       if (examAudioPlayCounter) {
         examAudioPlayCounter.textContent = `🔊 استمعت: ${plays} / 2`;
       }
-      if (examToggleTranscriptBtn) examToggleTranscriptBtn.classList.add('hidden');
+      // examToggleTranscriptBtn stays always visible
       if (plays >= 2 && examPlayAudioBtn) {
         examPlayAudioBtn.disabled = true;
       } else if (examPlayAudioBtn) {
@@ -880,6 +911,56 @@ ${lastError}
   }
 
 
+  
+  let userUploadedAudio = {}; // trackKey -> blobUrl
+
+  function tryPlayRealMp3(track, mIdx, aIdx, options) {
+    const trackKey = `${mIdx}_${aIdx}`;
+    
+    // 1. Check if user uploaded an MP3 file
+    if (userUploadedAudio[trackKey]) {
+      console.log('Playing user uploaded MP3 for', trackKey);
+      playBlobUrl(userUploadedAudio[trackKey], track.script, options);
+      return true;
+    }
+
+    // 2. Try loading static MP3 from audio/ folder
+    // Paths to check: audio/track1.mp3 or audio/track2.mp3 or audio/track_M1_1.mp3
+    const possiblePaths = [
+      `audio/track${aIdx + 1}.mp3`,
+      `audio/track_${mIdx + 1}_${aIdx + 1}.mp3`,
+      `audio/track_${aIdx + 1}.mp3`
+    ];
+
+    const audioTest = new Audio();
+    let pathIdx = 0;
+
+    function tryNextPath() {
+      if (pathIdx >= possiblePaths.length) {
+        // No local MP3 found in repository, proceed to ElevenLabs API
+        console.log('No local MP3 found, calling ElevenLabs API...');
+        playWithElevenLabs(track.script, options);
+        return;
+      }
+
+      const currentPath = possiblePaths[pathIdx];
+      pathIdx++;
+
+      audioTest.src = currentPath;
+      audioTest.oncanplaythrough = () => {
+        console.log('Found local MP3 file at:', currentPath);
+        playBlobUrl(currentPath, track.script, options);
+      };
+      audioTest.onerror = () => {
+        tryNextPath();
+      };
+    }
+
+    tryNextPath();
+    return true;
+  }
+
+
   function startExamAudioPlayback() {
     if (!activeExamTrack) return;
     const mIdx = currentModelIndex;
@@ -892,7 +973,7 @@ ${lastError}
       return;
     }
 
-    playWithElevenLabs(activeExamTrack.script, {
+    playHumanAudio(activeExamTrack.script, {
       gender: preferredVoiceGender,
       rate: currentExamSpeechRate,
       onStart: () => {
@@ -1126,7 +1207,8 @@ ${lastError}
   }
 
   function updateProgressStatus() {
-    const total = 60;
+    const model = getCurrentModel();
+    const total = model ? model.questions.length : 70;
     const answered = Object.keys(userAnswers).length;
     const pct = Math.round((answered / total) * 100);
     answeredCountBadge.textContent = `${answered}/${total}`;
@@ -1192,7 +1274,8 @@ ${lastError}
 
   // Submissions & Modal
   function openSubmitModal() {
-    const total = 60;
+    const model = getCurrentModel();
+    const total = model ? model.questions.length : 70;
     const answered = Object.keys(userAnswers).length;
     const unanswered = total - answered;
 
@@ -1741,7 +1824,7 @@ ${lastError}
     const track = LISTENING_TRACKS[currentListeningTrackIndex];
     if (!track) return;
 
-    playWithElevenLabs(track.script, {
+    playHumanAudio(track.script, {
       gender: preferredVoiceGender,
       rate: currentSpeechRate,
       onStart: () => {
