@@ -185,7 +185,54 @@
               </div>
             </div>
 
-            <!-- DEDICATED VOCABULARY BREAKDOWN CARD -->
+            <!-- 1. DEDICATED PARTS OF SPEECH MASTER TUTOR CARD -->
+            <div id="posBreakdownCard" class="tutor-card pos-breakdown-card hidden">
+              <div class="pos-card-header">
+                <span class="card-tag">🎯 تحليل نوع الكلمة (Parts of Speech Master Tutor)</span>
+                <div class="pos-target-badge-wrap">
+                  <span class="sub-label">الكلمة المحددة:</span>
+                  <span id="posTargetWord" class="target-word">test</span>
+                  <span class="badge-divider">➔</span>
+                  <span class="sub-label">النوع الصحيح:</span>
+                  <span id="posTargetType" class="selection-tag green-tag">Noun (اسم)</span>
+                </div>
+              </div>
+
+              <div class="pos-teacher-note">
+                <div class="pos-note-icon">👨‍🏫</div>
+                <div class="pos-note-content">
+                  <h4 class="pos-box-title">شرح المعلم المباشر:</h4>
+                  <p id="posTeacherExplanation" class="card-text font-bold"></p>
+                </div>
+              </div>
+
+              <div class="pos-why-box">
+                <h4 class="pos-box-title">🔍 ليه اخترنا <span id="posWhyType" class="text-primary">اسم (Noun)</span> بدال <span id="posWhyNotType" class="text-danger">فعل (Verb)</span>؟</h4>
+                <p id="posWhyReason" class="card-text" style="white-space: pre-line;"></p>
+              </div>
+
+              <div class="pos-comparison-box">
+                <h4 class="pos-box-title">💡 سر التفريق في الاختبار (المقارنة المباشرة):</h4>
+                <p id="posComparison" class="card-text font-bold text-amber"></p>
+              </div>
+
+              <div class="pos-golden-rule">
+                <h4 class="pos-box-title">⚡ المعادلة الذهبية لحل هذا النمط:</h4>
+                <div id="posGoldenRule" class="formula-box"></div>
+              </div>
+
+              <div class="pos-quick-matrix">
+                <span class="sub-label">📌 كبسولة التمييز السريع في الاختبار (Cheat Sheet):</span>
+                <ul class="pos-matrix-list">
+                  <li><strong>الاسم (Noun):</strong> مسمى الشيء؛ يسبقه (The / A / An / صفة / My) ويكون فاعلاً أو مفعولاً.</li>
+                  <li><strong>الفعل (Verb):</strong> حركة أو عمل يقوم به الفاعل ويأتي بعد الفاعل مباشرة (يختبر، يعمل، يُجيب).</li>
+                  <li><strong>الصفة (Adjective):</strong> تصف الاسم وتأتي <u>قبله</u> مباشرة (helpful response, modern building).</li>
+                  <li><strong>الظرف (Adverb):</strong> يصف طريقة حدوث الفعل وينتهي غالباً بـ <u>-ly</u> (clearly, successfully).</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 2. DEDICATED VOCABULARY BREAKDOWN CARD -->
             <div id="vocabBreakdownCard" class="tutor-card vocab-breakdown-card hidden">
               <span class="card-tag">📚 معاني الكلمات وسياق الجملة (Vocabulary Breakdown)</span>
               <div id="vocabOptionsList" class="vocab-options-grid"></div>
@@ -199,20 +246,20 @@
               </div>
             </div>
 
-            <!-- Grammar: Formula & Clue Card -->
+            <!-- 3. General Grammar: Formula & Clue Card -->
             <div id="formulaCard" class="tutor-card formula-card">
               <span class="card-tag">⚡ Grammar Formula & Clue (القاعدة والمفتاح)</span>
               <div id="tutorFormula" class="formula-box"></div>
               <p id="tutorClue" class="clue-box"></p>
             </div>
 
-            <!-- Grammar: The Rule You Need -->
+            <!-- 4. General Grammar: The Rule You Need -->
             <div id="ruleCard" class="tutor-card rule-card">
               <span class="card-tag">The Rule You Need (القاعدة الأساسية)</span>
               <p id="tutorRule" class="card-text font-bold"></p>
             </div>
 
-            <!-- Why the correct answer is right -->
+            <!-- 5. General Grammar: Why the correct answer is right -->
             <div id="whyRightCard" class="tutor-card why-right-card">
               <span class="card-tag">Why The Correct Answer Works (سر الإجابة الصحيحة)</span>
               <p id="tutorWhyRight" class="card-text"></p>

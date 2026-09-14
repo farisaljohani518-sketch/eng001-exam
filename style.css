@@ -1919,3 +1919,137 @@ body.rtl-mode .formula-card {
   }
 }
 
+
+/* ==========================================================================
+   TARGET WORD UNDERLINE & HIGHLIGHTING
+   ========================================================================== */
+.target-word, u.target-word {
+  text-decoration: underline !important;
+  text-decoration-color: var(--color-primary) !important;
+  text-decoration-thickness: 3px !important;
+  text-underline-offset: 5px !important;
+  font-weight: 800 !important;
+  color: var(--color-primary) !important;
+  background-color: var(--color-primary-soft) !important;
+  padding: 0.15rem 0.5rem !important;
+  border-radius: var(--radius-sm) !important;
+  display: inline-block !important;
+  border: 1px solid rgba(37, 99, 235, 0.25) !important;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+body.dark-mode .target-word, body.dark-mode u.target-word {
+  text-decoration-color: #60a5fa !important;
+  color: #60a5fa !important;
+  background-color: rgba(96, 165, 250, 0.2) !important;
+  border-color: rgba(96, 165, 250, 0.4) !important;
+}
+
+/* PARTS OF SPEECH MASTER TUTOR CARD */
+.pos-breakdown-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(16, 185, 129, 0.05));
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.pos-card-header {
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.pos-target-badge-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.pos-teacher-note {
+  display: flex;
+  gap: 0.85rem;
+  background: var(--bg-surface);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.15rem;
+  margin-bottom: 0.85rem;
+}
+
+.pos-note-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.pos-box-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+}
+
+.pos-why-box, .pos-comparison-box, .pos-golden-rule, .pos-quick-matrix {
+  margin-top: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.pos-why-box {
+  border-left: 4px solid var(--color-primary);
+}
+
+body.rtl-mode .pos-why-box {
+  border-left: 1px solid var(--border-subtle);
+  border-right: 4px solid var(--color-primary);
+}
+
+.pos-comparison-box {
+  border-left: 4px solid var(--color-accent);
+  background-color: rgba(245, 158, 11, 0.05);
+}
+
+body.rtl-mode .pos-comparison-box {
+  border-left: 1px solid var(--border-subtle);
+  border-right: 4px solid var(--color-accent);
+}
+
+.pos-golden-rule {
+  border-left: 4px solid var(--color-success);
+}
+
+body.rtl-mode .pos-golden-rule {
+  border-left: 1px solid var(--border-subtle);
+  border-right: 4px solid var(--color-success);
+}
+
+.pos-matrix-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.pos-matrix-list li {
+  padding: 0.4rem 0.75rem;
+  background-color: var(--bg-surface-soft);
+  border-radius: var(--radius-sm);
+}
+
+.text-danger {
+  color: var(--color-danger) !important;
+}
+
+.text-amber {
+  color: #d97706 !important;
+}
