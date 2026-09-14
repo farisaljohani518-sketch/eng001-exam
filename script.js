@@ -454,6 +454,177 @@
     saveState();
   }
 
+  
+  // =========================================================================
+  // EXAM LISTENING AUDIO STATION ENGINE (Fully Defined & Safe)
+  // =========================================================================
+  const examAudioStation = document.getElementById('examAudioStation');
+  const examAudioTrackBadge = document.getElementById('examAudioTrackBadge');
+  const examAudioTrackTitle = document.getElementById('examAudioTrackTitle');
+  const examAudioPlayCounter = document.getElementById('examAudioPlayCounter');
+  const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
+  const examPlayAudioBtn = document.getElementById('examPlayAudioBtn');
+  const examPlayAudioIcon = document.getElementById('examPlayAudioIcon');
+  const examPlayAudioText = document.getElementById('examPlayAudioText');
+  const examStopAudioBtn = document.getElementById('examStopAudioBtn');
+  const examToggleTranscriptBtn = document.getElementById('examToggleTranscriptBtn');
+  const examAudioTranscriptBox = document.getElementById('examAudioTranscriptBox');
+  const examTranscriptEn = document.getElementById('examTranscriptEn');
+  const examTranscriptAr = document.getElementById('examTranscriptAr');
+  const bListeningScore = document.getElementById('bListeningScore');
+  const bListeningBar = document.getElementById('bListeningBar');
+
+  let currentExamSpeechRate = 0.85;
+  let isExamAudioPlaying = false;
+  let activeExamTrack = null;
+  let examAudioPlayCounts = {}; // key: "mIdx_aIdx" -> count
+
+  function initExamAudioControls() {
+    if (examPlayAudioBtn) {
+      examPlayAudioBtn.addEventListener('click', () => {
+        if (isExamAudioPlaying) {
+          stopExamAudioPlayback();
+        } else {
+          startExamAudioPlayback();
+        }
+      });
+    }
+
+    if (examStopAudioBtn) {
+      examStopAudioBtn.addEventListener('click', stopExamAudioPlayback);
+    }
+
+    if (examToggleTranscriptBtn && examAudioTranscriptBox) {
+      examToggleTranscriptBtn.addEventListener('click', () => {
+        examAudioTranscriptBox.classList.toggle('hidden');
+        examToggleTranscriptBtn.textContent = examAudioTranscriptBox.classList.contains('hidden')
+          ? '👁️ إظهار النص المسموع (Transcript)'
+          : '🙈 إخفاء النص المسموع';
+      });
+    }
+
+    document.querySelectorAll('.exam-speed-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.exam-speed-btn').forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        currentExamSpeechRate = parseFloat(e.currentTarget.dataset.rate);
+        if (isExamAudioPlaying) {
+          stopExamAudioPlayback();
+          startExamAudioPlayback();
+        }
+      });
+    });
+  }
+
+  function renderExamAudioStation(track, mIdx, aIdx) {
+    if (!track || !examAudioStation) return;
+    activeExamTrack = track;
+    const trackKey = `${mIdx}_${aIdx}`;
+    if (examAudioPlayCounts[trackKey] === undefined) {
+      examAudioPlayCounts[trackKey] = 0;
+    }
+
+    if (examAudioTrackBadge) {
+      examAudioTrackBadge.textContent = `🎧 ${track.unit} • ${track.duration_sec}s • 5 Questions`;
+    }
+    if (examAudioTrackTitle) {
+      examAudioTrackTitle.textContent = track.title;
+    }
+    
+    if (currentMode === 'exam') {
+      const plays = examAudioPlayCounts[trackKey];
+      if (examAudioPlayCounter) {
+        examAudioPlayCounter.textContent = `🔊 استمعت: ${plays} / 2`;
+      }
+      if (examToggleTranscriptBtn) examToggleTranscriptBtn.classList.add('hidden');
+      if (plays >= 2 && examPlayAudioBtn) {
+        examPlayAudioBtn.disabled = true;
+      } else if (examPlayAudioBtn) {
+        examPlayAudioBtn.disabled = false;
+      }
+    } else {
+      if (examAudioPlayCounter) {
+        examAudioPlayCounter.textContent = `🔊 تشغيل غير محدود (Practice Mode)`;
+      }
+      if (examToggleTranscriptBtn) examToggleTranscriptBtn.classList.remove('hidden');
+      if (examPlayAudioBtn) examPlayAudioBtn.disabled = false;
+    }
+
+    if (examTranscriptEn) examTranscriptEn.textContent = track.script;
+    if (examTranscriptAr) examTranscriptAr.textContent = track.script_ar;
+    if (examAudioTranscriptBox) examAudioTranscriptBox.classList.add('hidden');
+    if (examToggleTranscriptBtn) examToggleTranscriptBtn.textContent = '👁️ إظهار النص المسموع (Transcript)';
+  }
+
+  function startExamAudioPlayback() {
+    if (!activeExamTrack) return;
+    const mIdx = currentModelIndex;
+    const q = getCurrentQuestion();
+    const aIdx = (q && q.audio_ref) ? q.audio_ref - 1 : 0;
+    const trackKey = `${mIdx}_${aIdx}`;
+
+    if (currentMode === 'exam' && examAudioPlayCounts[trackKey] >= 2) {
+      alert('عذراً، انتهت مرات الاستماع المسموحة في وضع الاختبار (مرتان كحد أقصى).');
+      return;
+    }
+
+    if (!('speechSynthesis' in window)) {
+      alert('متصفحك لا يدعم خاصية الصوت المباشرة');
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(activeExamTrack.script);
+    utterance.rate = currentExamSpeechRate;
+    utterance.pitch = 1.0;
+    utterance.lang = 'en-US';
+
+    const voices = window.speechSynthesis.getVoices();
+    const naturalVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Samantha') || v.name.includes('Google') || v.name.includes('Daniel')));
+    if (naturalVoice) utterance.voice = naturalVoice;
+
+    utterance.onstart = () => {
+      isExamAudioPlaying = true;
+      if (examSoundWaveContainer) examSoundWaveContainer.classList.add('playing');
+      if (examPlayAudioIcon) examPlayAudioIcon.textContent = '⏸️';
+      if (examPlayAudioText) examPlayAudioText.textContent = 'إيقاف مؤقت';
+
+      examAudioPlayCounts[trackKey] = (examAudioPlayCounts[trackKey] || 0) + 1;
+      if (currentMode === 'exam') {
+        if (examAudioPlayCounter) examAudioPlayCounter.textContent = `🔊 استمعت: ${examAudioPlayCounts[trackKey]} / 2`;
+        if (examAudioPlayCounts[trackKey] >= 2 && examPlayAudioBtn) {
+          examPlayAudioBtn.disabled = true;
+        }
+      }
+    };
+
+    utterance.onend = () => {
+      stopExamAudioVisuals();
+    };
+
+    utterance.onerror = () => {
+      stopExamAudioVisuals();
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  function stopExamAudioPlayback() {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    stopExamAudioVisuals();
+  }
+
+  function stopExamAudioVisuals() {
+    isExamAudioPlaying = false;
+    if (examSoundWaveContainer) examSoundWaveContainer.classList.remove('playing');
+    if (examPlayAudioIcon) examPlayAudioIcon.textContent = '▶️';
+    if (examPlayAudioText) examPlayAudioText.textContent = 'استمع للمقطع';
+  }
+
+
   function renderCurrentQuestion() {
     const model = getCurrentModel();
     const q = getCurrentQuestion();
