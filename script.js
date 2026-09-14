@@ -198,6 +198,19 @@
   }
 
   function setupEventListeners() {
+    const btnElevenSettings = document.getElementById('btnElevenSettings');
+    if (btnElevenSettings) {
+      btnElevenSettings.addEventListener('click', () => {
+        const currentKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_DEFAULT_KEY;
+        const newKey = prompt('أدخل مفتاح ElevenLabs API Key الخاص بك:', currentKey);
+        if (newKey !== null && newKey.trim() !== '') {
+          localStorage.setItem('elevenlabs_api_key', newKey.trim());
+          elevenLabsAudioCache = {}; // clear cache to test new key
+          alert('تم حفظ مفتاح ElevenLabs API بنجاح في متصفحك!');
+        }
+      });
+    }
+
     initExamAudioControls();
     // Syllabus & Quiz 1 Rules Modal
     const syllabusModal = document.getElementById('syllabusModal');
@@ -724,50 +737,107 @@
   async function playWithElevenLabs(text, options = {}) {
     stopAnyActiveAudio();
 
-    const voiceId = options.voiceId || ELEVENLABS_DEFAULT_VOICE_ID;
-    const apiKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_DEFAULT_KEY;
-    const cacheKey = `${voiceId}_${text.substring(0, 35)}`;
+    const audioStatusText = document.getElementById('audioStatusText');
+    const examPlayAudioText = document.getElementById('examPlayAudioText');
+    const playAudioText = document.getElementById('playAudioText');
 
-    // 1. Check in-memory Cache to save quota & provide zero-latency replay
-    if (elevenLabsAudioCache[cacheKey]) {
-      playBlobUrl(elevenLabsAudioCache[cacheKey], text, options);
-      return;
+    const updateStatus = (msg, color = '#a78bfa') => {
+      if (audioStatusText) {
+        audioStatusText.textContent = msg;
+        audioStatusText.style.color = color;
+      }
+      if (examPlayAudioText && isExamAudioPlaying === false) {
+        examPlayAudioText.textContent = msg;
+      }
+    };
+
+    updateStatus('⏳ جاري جلب الصوت البشري فائق النقاء من ElevenLabs...', '#38bdf8');
+
+    const userVoiceId = options.voiceId || localStorage.getItem('elevenlabs_voice_id') || ELEVENLABS_DEFAULT_VOICE_ID;
+    const apiKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_DEFAULT_KEY;
+
+    // Ordered list of candidate Voice IDs:
+    // 1. User's specified voice ID (e.g. C9fbwSpEaejywLWx722Z)
+    // 2. Rachel: 21m00Tcm4TlvDq8ikWAM (Universal default female on every ElevenLabs account)
+    // 3. Adam: pNInz6obpgDQGcFmaJgB (Universal default male on every ElevenLabs account)
+    const candidateVoices = [userVoiceId, '21m00Tcm4TlvDq8ikWAM', 'pNInz6obpgDQGcFmaJgB'].filter((v, i, a) => v && a.indexOf(v) === i);
+
+    // 1. Check in-memory Cache for instant replay
+    for (const vId of candidateVoices) {
+      const cacheKey = `${vId}_${text.substring(0, 35)}`;
+      if (elevenLabsAudioCache[cacheKey]) {
+        updateStatus('🟢 تشغيل من الذاكرة الفورية (ElevenLabs HD)', '#34d399');
+        playBlobUrl(elevenLabsAudioCache[cacheKey], text, options);
+        return;
+      }
     }
 
-    // 2. Fetch from ElevenLabs High-Definition Voice API
-    try {
-      if (options.onLoading) options.onLoading();
+    // 2. Try candidate voices and models
+    let lastError = null;
+    for (const voiceId of candidateVoices) {
+      // Try models: eleven_turbo_v2_5 first (fastest & best English quality), fallback to eleven_multilingual_v2
+      const candidateModels = ['eleven_turbo_v2_5', 'eleven_multilingual_v2'];
+      
+      for (const modelId of candidateModels) {
+        try {
+          if (options.onLoading) options.onLoading();
 
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': apiKey
-        },
-        body: JSON.stringify({
-          text: text,
-          model_id: 'eleven_multilingual_v2',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75
+          const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+            method: 'POST',
+            headers: {
+              'Accept': 'audio/mpeg',
+              'Content-Type': 'application/json',
+              'xi-api-key': apiKey.trim()
+            },
+            body: JSON.stringify({
+              text: text,
+              model_id: modelId,
+              voice_settings: {
+                stability: 0.5,
+                similarity_boost: 0.8
+              }
+            })
+          });
+
+          if (response.ok) {
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            const cacheKey = `${voiceId}_${text.substring(0, 35)}`;
+            elevenLabsAudioCache[cacheKey] = blobUrl;
+
+            updateStatus('🟢 صوت بشري نقي يعمل الآن (ElevenLabs Studio HD)', '#34d399');
+            playBlobUrl(blobUrl, text, options);
+            return; // SUCCESS!
+          } else {
+            const errJson = await response.json().catch(() => ({}));
+            lastError = `ElevenLabs Error ${response.status}: ${errJson.detail ? JSON.stringify(errJson.detail) : response.statusText}`;
+            console.warn(`Voice ${voiceId} with model ${modelId} failed (${response.status}), trying next candidate...`);
+            // If 401 (Invalid Key) or 429 (Rate Limit), break model loop to try other options or report
+            if (response.status === 401 || response.status === 403) {
+              break;
+            }
           }
-        })
-      });
-
-      if (!response.ok) {
-        console.warn('ElevenLabs API response status:', response.status, 'Falling back to natural TTS.');
-        throw new Error(`API error ${response.status}`);
+        } catch (err) {
+          lastError = err.message;
+          console.warn(`Network/CORS error for voice ${voiceId}:`, err);
+          break;
+        }
       }
+    }
 
-      const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      elevenLabsAudioCache[cacheKey] = blobUrl;
+    // If ALL ElevenLabs attempts failed:
+    console.error('All ElevenLabs candidates failed. Last error:', lastError);
+    updateStatus(`⚠️ تعذر جلب صوت ElevenLabs: ${lastError}`, '#f87171');
+    
+    // DO NOT secretly play robotic voice! Ask or alert user clearly:
+    const proceedWithFallback = confirm(`تعذر تشغيل صوت ElevenLabs البشري بسبب:
+${lastError}
 
-      playBlobUrl(blobUrl, text, options);
-    } catch (err) {
-      console.warn('Falling back to Natural Human Cadence engine:', err);
+هل تريد التشغيل بالصوت المحلي كبديل؟`);
+    if (proceedWithFallback) {
       speakScriptWithNaturalCadence(text, options);
+    } else {
+      if (options.onEnd) options.onEnd();
     }
   }
 
