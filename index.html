@@ -19,7 +19,7 @@
         <div class="brand-text">
           <div class="brand-title-row">
             <h1 class="brand-title">ENG001 Foundation English Platform</h1>
-            <span class="quiz1-active-badge">🎯 كويز 1: Unlock 1 (الوحدات 3 - 4 - 5)</span>
+            <span class="quiz1-active-badge">🎯 كويز 1 (Quiz 1 Focus)</span>
           </div>
           <p class="brand-subtitle">Royal Commission for Jubail & Yanbu • Course Delivery Plan 481</p>
         </div>
@@ -123,6 +123,71 @@
         </div>
         <div id="passageBody" class="passage-body"></div>
       </section>
+
+        <!-- Exam Listening Audio Station (Active for Listening Comprehension questions) -->
+        <section id="examAudioStation" class="audio-station-card hidden">
+          <div class="audio-station-header">
+            <div class="audio-track-info">
+              <span id="examAudioTrackBadge" class="audio-track-badge">🎧 Listening Audio Track</span>
+              <h3 id="examAudioTrackTitle" class="audio-track-title">Audio Track Title</h3>
+            </div>
+            <div id="examAudioPlayCounter" class="audio-play-counter">🔊 استمعت: 0 / 2</div>
+          </div>
+
+          <!-- Animated Sound Equalizer Waves -->
+          <div id="examSoundWaveContainer" class="sound-wave-container">
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+            <div class="sound-bar"></div>
+          </div>
+
+          <!-- Audio Player Controls -->
+          <div class="audio-player-controls">
+            <div class="audio-main-btns">
+              <button id="examPlayAudioBtn" class="btn-play-audio">
+                <span id="examPlayAudioIcon">▶️</span> <span id="examPlayAudioText">استمع للمقطع</span>
+              </button>
+              <button id="examStopAudioBtn" class="btn-stop-audio">
+                <span>⏹️</span> إيقاف
+              </button>
+            </div>
+
+            <!-- Voice Tone Selector (Human Natural) -->
+            <div class="voice-selector-group">
+              <button class="voice-btn active exam-voice-btn" data-voice="female" title="صوت طبيعي مريح وواضح">👩‍🏫 صوت المعلمة (Natural)</button>
+              <button class="voice-btn exam-voice-btn" data-voice="male" title="صوت طبيعي واضح وهادئ">👨‍🏫 صوت المعلم (Natural)</button>
+            </div>
+
+            <!-- Speed Controls -->
+            <div class="audio-speed-group">
+              <button class="speed-btn active exam-speed-btn" data-rate="0.92">🐢 سرعة هادئة (0.92x)</button>
+              <button class="speed-btn exam-speed-btn" data-rate="1.0">⚡ سرعة طبيعية (1.0x)</button>
+            </div>
+
+            <!-- Transcript Toggle -->
+            <button id="examToggleTranscriptBtn" class="btn-toggle-transcript">
+              👁️ إظهار النص المسموع (Transcript)
+            </button>
+          </div>
+
+          <!-- Collapsible Transcript Box -->
+          <div id="examAudioTranscriptBox" class="audio-transcript-box hidden">
+            <div class="transcript-en" id="examTranscriptEn"></div>
+            <div class="transcript-ar" id="examTranscriptAr"></div>
+          </div>
+        </section>
 
       <!-- Active Question Card -->
       <section class="question-card" id="questionCard">
@@ -363,6 +428,16 @@
                   <div id="bMixedBar" class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
               </div>
+
+              <div class="breakdown-card">
+                <div class="b-header">
+                  <h4>Part 5: Listening Comprehension (الاستماع)</h4>
+                  <span id="bListeningScore" class="b-score">0 / 10</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div id="bListeningBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -405,10 +480,11 @@
 
         <!-- Section Filter Tabs -->
         <div class="palette-tabs">
-          <button class="pal-tab active" data-filter="all">All (60)</button>
+          <button class="pal-tab active" data-filter="all">All (70)</button>
           <button class="pal-tab" data-filter="Grammar">Grammar</button>
           <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
           <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
+          <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
           <button class="pal-tab" data-filter="Mixed Review">Review</button>
         </div>
 
@@ -442,10 +518,11 @@
         <button id="closeMobilePaletteBtn" class="modal-close-x">&times;</button>
       </div>
       <div class="palette-tabs mobile-palette-tabs">
-        <button class="pal-tab active" data-filter="all">All (60)</button>
+        <button class="pal-tab active" data-filter="all">All (70)</button>
         <button class="pal-tab" data-filter="Grammar">Grammar</button>
         <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
         <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
+        <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
         <button class="pal-tab" data-filter="Mixed Review">Review</button>
       </div>
       <div id="mobileQuestionsGrid" class="questions-grid">
@@ -512,7 +589,7 @@
         <div class="vocab-filters">
           <label for="vocabUnitSelect" class="sr-only">Filter by Unit</label>
           <select id="vocabUnitSelect" class="academic-select v-select">
-            <option value="all">🎯 جميع مفردات كويز 1 (Units 3, 4, 5)</option>
+            <option value="all">🎯 جميع مفردات كويز 1 (Quiz 1 Words)</option>
             <option value="Unit 3">الوحدة 3: Unit 3 (Daily Routines & College Life)</option>
             <option value="Unit 4">الوحدة 4: Unit 4 (Places, Geography & Nature)</option>
             <option value="Unit 5">الوحدة 5: Unit 5 (Travel, Transport, Rules & Adjectives)</option>
@@ -608,9 +685,6 @@
     </div>
   </div>
 
-  <!-- Embed Script -->
-  <script src="script.js"></script>
-
   <!-- =========================================================================
        COURSE DELIVERY PLAN & QUIZ 1 SYLLABUS MODAL
        ========================================================================= -->
@@ -640,7 +714,7 @@
           </div>
           <div class="assessment-meta-item">
             <span class="meta-label">موعد كويز 1 القادم</span>
-            <span class="meta-value" style="color:#10b981;">الأحد 20 سبتمبر 2026 (Week 5)</span>
+            <span class="meta-value" style="color:#10b981;">الأحد 27 سبتمبر 2026 (Week 6)</span>
           </div>
           <div class="assessment-meta-item">
             <span class="meta-label">وزن كويز 1</span>
@@ -665,8 +739,8 @@
               <tr class="active-row">
                 <td><strong>🎯 Quiz 1 (النشط حالياً)</strong></td>
                 <td><strong>7.5%</strong></td>
-                <td>Week 5</td>
-                <td><strong>2026-09-20</strong></td>
+                <td>Week 6</td>
+                <td><strong>2026-09-27</strong></td>
                 <td><strong>Unlock 1: Units 3, 4, 5 (Weeks 2–4)</strong></td>
                 <td>Grammar (2%) • Reading (2%) • Vocab (1.5%) • Listening (2%)</td>
               </tr>
@@ -865,10 +939,16 @@
               </button>
             </div>
 
+            <!-- Voice Tone Selector (Human Natural) -->
+            <div class="voice-selector-group">
+              <button class="voice-btn active modal-voice-btn" data-voice="female" title="صوت طبيعي مريح وواضح">👩‍🏫 صوت المعلمة (Natural)</button>
+              <button class="voice-btn modal-voice-btn" data-voice="male" title="صوت طبيعي واضح وهادئ">👨‍🏫 صوت المعلم (Natural)</button>
+            </div>
+
             <!-- Speed Controls -->
             <div class="audio-speed-group">
-              <button class="speed-btn active" data-rate="0.85">🐢 0.85x (Exam Pace)</button>
-              <button class="speed-btn" data-rate="1.0">⚡ 1.0x (Normal)</button>
+              <button class="speed-btn active" data-rate="0.92">🐢 سرعة هادئة (0.92x)</button>
+              <button class="speed-btn" data-rate="1.0">⚡ سرعة طبيعية (1.0x)</button>
             </div>
 
             <!-- Transcript Toggle -->
@@ -909,5 +989,8 @@
     </div>
   </div>
 
+
+  <!-- Embed Script at bottom -->
+  <script src="script.js"></script>
 </body>
 </html>
