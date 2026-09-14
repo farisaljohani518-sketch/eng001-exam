@@ -711,6 +711,105 @@
     if (examToggleTranscriptBtn) examToggleTranscriptBtn.textContent = '👁️ إظهار النص المسموع (Transcript)';
   }
 
+  
+  // =========================================================================
+  // ELEVENLABS AI STUDIO VOICE INTEGRATION
+  // =========================================================================
+  const ELEVENLABS_DEFAULT_KEY = atob('c2tfODA4NDNkMDk5ZWIwZDIxYTQ4YTE2Mjc1ZDQ4MjczNzMxOGQ0YjkyZDVhY2U4NjE5');
+  const ELEVENLABS_DEFAULT_VOICE_ID = 'C9fbwSpEaejywLWx722Z';
+
+  let elevenLabsAudioCache = {}; // cacheKey -> blobUrl
+  let currentHtml5Audio = null;
+
+  async function playWithElevenLabs(text, options = {}) {
+    stopAnyActiveAudio();
+
+    const voiceId = options.voiceId || ELEVENLABS_DEFAULT_VOICE_ID;
+    const apiKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_DEFAULT_KEY;
+    const cacheKey = `${voiceId}_${text.substring(0, 35)}`;
+
+    // 1. Check in-memory Cache to save quota & provide zero-latency replay
+    if (elevenLabsAudioCache[cacheKey]) {
+      playBlobUrl(elevenLabsAudioCache[cacheKey], text, options);
+      return;
+    }
+
+    // 2. Fetch from ElevenLabs High-Definition Voice API
+    try {
+      if (options.onLoading) options.onLoading();
+
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'audio/mpeg',
+          'Content-Type': 'application/json',
+          'xi-api-key': apiKey
+        },
+        body: JSON.stringify({
+          text: text,
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.75
+          }
+        })
+      });
+
+      if (!response.ok) {
+        console.warn('ElevenLabs API response status:', response.status, 'Falling back to natural TTS.');
+        throw new Error(`API error ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      elevenLabsAudioCache[cacheKey] = blobUrl;
+
+      playBlobUrl(blobUrl, text, options);
+    } catch (err) {
+      console.warn('Falling back to Natural Human Cadence engine:', err);
+      speakScriptWithNaturalCadence(text, options);
+    }
+  }
+
+  function playBlobUrl(blobUrl, originalText, options) {
+    currentHtml5Audio = new Audio(blobUrl);
+    if (options.rate) {
+      currentHtml5Audio.playbackRate = options.rate;
+    }
+
+    currentHtml5Audio.onplay = () => {
+      if (options.onStart) options.onStart();
+    };
+
+    currentHtml5Audio.onended = () => {
+      currentHtml5Audio = null;
+      if (options.onEnd) options.onEnd();
+    };
+
+    currentHtml5Audio.onerror = (e) => {
+      console.warn('HTML5 Audio error, using fallback:', e);
+      currentHtml5Audio = null;
+      speakScriptWithNaturalCadence(originalText, options);
+    };
+
+    currentHtml5Audio.play().catch(e => {
+      console.warn('Auto-play blocked, using fallback:', e);
+      speakScriptWithNaturalCadence(originalText, options);
+    });
+  }
+
+  function stopAnyActiveAudio() {
+    if (currentHtml5Audio) {
+      try {
+        currentHtml5Audio.pause();
+        currentHtml5Audio.currentTime = 0;
+      } catch(e) {}
+      currentHtml5Audio = null;
+    }
+    cancelNaturalSpeech();
+  }
+
+
   function startExamAudioPlayback() {
     if (!activeExamTrack) return;
     const mIdx = currentModelIndex;
@@ -723,7 +822,7 @@
       return;
     }
 
-    speakScriptWithNaturalCadence(activeExamTrack.script, {
+    playWithElevenLabs(activeExamTrack.script, {
       gender: preferredVoiceGender,
       rate: currentExamSpeechRate,
       onStart: () => {
@@ -750,7 +849,7 @@
   }
 
   function stopExamAudioPlayback() {
-    cancelNaturalSpeech();
+    stopAnyActiveAudio();
     stopExamAudioVisuals();
   }
 
@@ -1572,7 +1671,7 @@
     const track = LISTENING_TRACKS[currentListeningTrackIndex];
     if (!track) return;
 
-    speakScriptWithNaturalCadence(track.script, {
+    playWithElevenLabs(track.script, {
       gender: preferredVoiceGender,
       rate: currentSpeechRate,
       onStart: () => {
@@ -1596,9 +1695,7 @@
   }
 
   function stopAudioPlayback() {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
+    stopAnyActiveAudio();
     stopAudioVisuals();
   }
 

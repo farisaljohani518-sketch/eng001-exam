@@ -2697,3 +2697,34 @@ body.rtl-mode .pos-golden-rule {
   color: #ffffff;
   box-shadow: 0 2px 6px rgba(139, 92, 246, 0.4);
 }
+
+/* ElevenLabs AI Studio Voice Badges */
+.elevenlabs-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+  color: #f472b6;
+  border: 1px solid rgba(236, 72, 153, 0.35);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(236, 72, 153, 0.15);
+}
+
+.elevenlabs-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+  display: inline-block;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
