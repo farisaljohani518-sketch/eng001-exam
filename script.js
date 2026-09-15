@@ -177,32 +177,71 @@
 
   // Initialize
 
-  // ==========================================
-  // UNIT STUDY & PRACTICE HUB (UNITS 3, 4, 5)
-  // ==========================================
+  // ==========================================================================
+  // RCJY UNIT STUDY MASTER HUB (100% FULLSCREEN EXPERIENCE - LIKE VOCAB HUB)
+  // ==========================================================================
   const UNIT_STUDY_DATA = {"unit_3": {"id": "unit_3", "number": 3, "title": "Unit 3: Daily Routines & College Activities", "theme": "Unlock 1 - Unit 3 • الروتين اليومي والأنشطة الجامعية", "badge": "📘 داخل بكويز 1 (Quiz 1)", "grammar_summary": {"title": "قواعد Unit 3 المعتمدة في كويز 1", "sections": [{"title": "1. زمن المضارع البسيط (Present Simple for Routines & Facts)", "type": "HIGH-YIELD", "explanation_en": "Present Simple describes regular routines, habits, and permanent facts. The verb changes shape ONLY with third-person singular subjects (he / she / it / singular noun) by adding -s, -es, or -ies. All other subjects use the base form.", "explanation_ar": "يُستخدم المضارع البسيط للحديث عن العادات اليومية والحقائق الثابتة. الفعل يأخذ إضافة (-s / -es / -ies) فقط مع الفاعل المفرد (He, She, It أو اسم مفرد). أما مع (I, We, You, They والجمع) فيبقى الفعل مجرداً بدون أي إضافات.", "formula": "He / She / It + Verb(-s / -es / -ies)\nI / You / We / They + Base Verb", "inflection_rules": [{"rule": "معظم الأفعال", "change": "+ s", "example": "work → works, eat → eats, study → studies"}, {"rule": "الأفعال المنتهية بـ (-ch, -sh, -ss, -x, -z, -o)", "change": "+ es", "example": "watch → watches, go → goes, do → does"}, {"rule": "ساكن + y", "change": "احذف y وأضف -ies", "example": "study → studies, fly → flies"}, {"rule": "متحرك + y", "change": "أضف s فقط", "example": "play → plays, enjoy → enjoys"}], "exam_classic": "فخ Does يلتهم الـ s: عند وجود does أو doesn't في الجملة (السؤال أو النفي)، يعود الفعل الرئيسي لمصدره مجرداً تماماً!\n✓ Does he work at the hospital?\n✗ Does he works at the hospital?"}, {"title": "2. حروف جر الوقت (Prepositions of Time: AT / ON / IN)", "type": "HIGH-YIELD", "explanation_en": "Prepositions of time link actions to specific temporal points, days, or periods.", "explanation_ar": "حروف جر الوقت تُحدد توقيت حدوث الفعل بدقة وفق قاعدة زمنية صارمة:", "rules_table": [{"prep": "AT", "usage": "الوقت المحدد بالساعة، الليل، وعطلة نهاية الأسبوع", "examples": "at 6:30 am, at 8:00, at night, at the weekend"}, {"prep": "ON", "usage": "أيام الأسبوع، التواريخ المحددة، ويوم مقترن بفترة", "examples": "on Monday, on weekdays, on June 1st, on Sunday morning"}, {"prep": "IN", "usage": "فترات اليوم، الشهور، فصول السنة، والسنوات", "examples": "in the morning, in the afternoon, in July, in summer, in 2026"}, {"prep": "NO PREP", "usage": "تعبير Every لا يحتاج لأي حرف جر قبله", "examples": "every day, every morning, every week"}], "exam_classic": "قاعدة 'اليوم يكسب دائماً' (The Sunday Morning Principle): إذا اجتمع اسم اليوم مع فترة من فترات النهار، اليوم هو الأقوى وحرف الجر دائماً ON!\n✓ on Sunday morning\n✗ in Sunday morning"}, {"title": "3. التلازمات اللفظية الثابتة (Collocations with DO vs. MAKE)", "type": "IMPORTANT", "explanation_en": "Collocations are fixed word pairings required by native English. Translating them literally from Arabic causes errors.", "explanation_ar": "التلازمات اللفظية هي كلمات مقترنة معاً لا تتغير ولا تترجم حرفياً:", "collocations": [{"pair": "do homework", "note": "الواجبات والتكليفات الدراسية تأخذ دائماً DO (وليس Make)"}, {"pair": "do sport / exercise", "note": "التمارين والأنشطة الرياضية تأخذ دائماً DO"}, {"pair": "make a mistake", "note": "ارتكاب الأخطاء يأخذ دائماً MAKE"}, {"pair": "listen to", "note": "الفعل listen يحتاج دائماً حرف الجر TO قبل المفعول"}, {"pair": "have breakfast / lunch", "note": "تناول الوجبات يأخذ الفعل HAVE"}], "common_confusion": "do homework vs. make homework:\nالمهام الأكاديمية والتمارين الجسدية تأخذ DO. أما الصناعة والإنشاء أو الأخطاء فتأخذ MAKE.\n✓ do homework\n✗ make homework"}]}, "vocab": [{"word": "Get up", "pos": "Phrasal verb", "en_def": "To rise from bed after sleeping or lying down.", "ar_def": "ينهض من الفراش بعد الاستيقاظ.", "synonyms": "Rise, wake up", "antonyms": "Lie down, go to bed, sleep", "example": "I usually get up at 6 AM to start my day."}, {"word": "Go to bed", "pos": "Verb phrase", "en_def": "To go to bed when you are ready to sleep.", "ar_def": "يذهب إلى الفراش استعداداً للنوم ليلاً.", "synonyms": "Retire, turn in, go to sleep", "antonyms": "Get up, rise, awaken", "example": "I usually go to bed at 10:30 p.m."}, {"word": "Breakfast", "pos": "Noun", "en_def": "The first meal of the day, usually eaten in the morning.", "ar_def": "وجبة الإفطار الصباحية.", "synonyms": "Morning meal", "antonyms": "Dinner", "example": "I always have eggs and toast for breakfast."}, {"word": "Lunch", "pos": "Noun", "en_def": "A meal eaten in the middle of the day.", "ar_def": "وجبة الغداء في منتصف النهار.", "synonyms": "Midday meal", "antonyms": "Breakfast, dinner", "example": "We had sandwiches for lunch today."}, {"word": "Dinner", "pos": "Noun", "en_def": "The main meal eaten in the evening.", "ar_def": "وجبة العشاء في المساء.", "synonyms": "Supper, evening meal", "antonyms": "Breakfast", "example": "They invited us over for a lovely dinner."}, {"word": "Sunbathe", "pos": "Verb", "en_def": "To sit or lie in the sun, especially to make your skin darker.", "ar_def": "يستلقي في الشمس للاستجمام أو التسمير.", "synonyms": "Lie in the sun", "antonyms": "Stay in the shade, cover", "example": "We like to sunbathe on the beach in the morning."}, {"word": "Light", "pos": "Noun / Verb / Adj", "en_def": "The brightness that comes from the sun, a lamp, or another source.", "ar_def": "الضوء والسطوع الناتج من الشمس أو المصابيح.", "synonyms": "Brightness, glow", "antonyms": "Darkness", "example": "The room has plenty of natural light."}, {"word": "Grow", "pos": "Verb", "en_def": "To become bigger, taller, or older over time.", "ar_def": "ينمو ويكبر تدريجياً مع الوقت.", "synonyms": "Develop, increase, expand", "antonyms": "Shrink, decrease, reduce", "example": "Plants need water and sunlight to grow."}, {"word": "Café", "pos": "Noun", "en_def": "A small restaurant where drinks and light meals are served.", "ar_def": "مقهى يقدم مشروبات ووجبات خفيفة.", "synonyms": "Coffee shop, bistro", "antonyms": "Large restaurant", "example": "We met at the café for a cup of coffee after work."}, {"word": "Busy", "pos": "Adjective", "en_def": "Engaged in activity or with tasks; having no free time.", "ar_def": "مشغول ومليء بالمهام والأنشطة.", "synonyms": "Engaged, active, swamped", "antonyms": "Idle, free", "example": "She’s too busy to take a break during the day."}, {"word": "Go out", "pos": "Phrasal verb", "en_def": "To leave home or a place to engage in social activities.", "ar_def": "يخرج من المنزل للتنزه أو مقابلة الأصدقاء.", "synonyms": "Socialize, hang out", "antonyms": "Stay in", "example": "We plan to go out tonight for dinner."}, {"word": "Gym", "pos": "Noun", "en_def": "A place equipped for physical exercise.", "ar_def": "صالة الألعاب الرياضية والتمارين (الجيم).", "synonyms": "Fitness center, workout room", "antonyms": "Home", "example": "I go to the gym three times a week to stay fit."}, {"word": "Parents", "pos": "Noun", "en_def": "A mother and father; individuals responsible for the care of children.", "ar_def": "الوالدان (الأب والأم).", "synonyms": "Guardians, caretakers", "antonyms": "Children", "example": "My parents always support my decisions."}, {"word": "Study", "pos": "Verb", "en_def": "The act of devoting time and attention to acquiring knowledge.", "ar_def": "يذاكر ويدرس لتحصيل المعرفة والعلوم.", "synonyms": "Learn, review, prepare", "antonyms": "Neglect, ignore", "example": "I need to study for my exams next week."}, {"word": "Play video games", "pos": "Verb phrase", "en_def": "To engage in electronic games played on a computer or console.", "ar_def": "يلعب ألعاب الفيديو الإلكترونية (ألعاب إلكترونية).", "synonyms": "Play computer games, gaming", "antonyms": "Work, study, exercise", "example": "After finishing his homework, he likes to play video games for an hour."}, {"word": "Exercise", "pos": "Verb / Noun", "en_def": "Physical activity done to improve health and fitness.", "ar_def": "يمارس التمارين الرياضية أو تمرين بدني.", "synonyms": "Work out, train, practice", "antonyms": "Rest, relax", "example": "She exercises every morning to stay fit."}, {"word": "Sleep", "pos": "Verb / Noun", "en_def": "To rest your mind and body with eyes closed.", "ar_def": "ينام ويرتاح ليلاً مع إغلاق العينين.", "synonyms": "Nap, slumber", "antonyms": "Wake up", "example": "I try to get at least eight hours of sleep every night."}, {"word": "Watch TV", "pos": "Verb phrase", "en_def": "To view television programs.", "ar_def": "يشاهد برامج التلفاز.", "synonyms": "Watch television, view programs", "antonyms": "Read, work, study", "example": "They usually watch TV after dinner."}, {"word": "Go online", "pos": "Verb phrase", "en_def": "To connect to the internet or browse the web.", "ar_def": "يتصل بالإنترنت ويتصفح المواقع الإلكترونية.", "synonyms": "Surf the web, browse the internet, log in", "antonyms": "Go offline, disconnect", "example": "He went online to research for his school project."}, {"word": "Do homework", "pos": "Verb phrase", "en_def": "To complete school assignments given to be done outside the classroom.", "ar_def": "يحل الواجبات المدرسية والتكليفات المنزلية.", "synonyms": "Complete assignments, study", "antonyms": "Play, relax", "example": "She always does her homework before watching TV."}, {"word": "Text", "pos": "Verb / Noun", "en_def": "To send a written message via a mobile phone.", "ar_def": "يرسل رسالة نصية عبر الجوال.", "synonyms": "Message, chat, SMS", "antonyms": "Call, speak", "example": "He texted his friend to confirm their meeting time."}, {"word": "Afternoon", "pos": "Noun", "en_def": "The period of time between noon and evening (12 PM to 5/6 PM).", "ar_def": "فترة ما بعد الظهر والعصر.", "synonyms": "Midday, post-lunch", "antonyms": "Morning, evening", "example": "I usually have a meeting in the afternoon after lunch."}, {"word": "Timetable", "pos": "Noun", "en_def": "A schedule showing the times at which events or classes happen.", "ar_def": "جدول الحصص والمواعيد الزمنية (الجدول الدراسي).", "synonyms": "Schedule, agenda, plan", "antonyms": "Disorganization", "example": "The teacher gave us a new timetable for the semester."}, {"word": "Morning", "pos": "Noun", "en_def": "The early part of the day, typically from sunrise until noon.", "ar_def": "فترة الصباح الباكر من الشروق حتى الظهيرة.", "synonyms": "Dawn, sunrise, daybreak", "antonyms": "Evening, night", "example": "I prefer to exercise in the morning before work."}, {"word": "Relax", "pos": "Verb", "en_def": "To become less tense; to rest and be at ease.", "ar_def": "يسترخي ويرتاح ويزيل التوتر.", "synonyms": "Rest, unwind", "antonyms": "Stress, work", "example": "After a long day at work, I like to relax with a book."}, {"word": "Evening", "pos": "Noun", "en_def": "The latter part of the day and early part of the night (6 PM to bedtime).", "ar_def": "فترة المساء وبداية الليل.", "synonyms": "Nightfall, dusk, twilight", "antonyms": "Morning, afternoon", "example": "We usually go out for dinner in the evening."}, {"word": "Weekdays", "pos": "Noun", "en_def": "The days of the week except weekend days (Sunday to Thursday in Saudi Arabia).", "ar_def": "أيام الدوام والأسبوع الرسمي (الأحد إلى الخميس).", "synonyms": "Workdays, business days", "antonyms": "Weekend, holidays", "example": "I have classes on weekdays, but my weekends are free."}, {"word": "Weekend", "pos": "Noun", "en_def": "The end of the week (Friday and Saturday), regarded as a time for rest.", "ar_def": "عطلة نهاية الأسبوع (الجمعة والسبت).", "synonyms": "Days off, break", "antonyms": "Weekdays, workdays", "example": "I usually spend the weekend with my family."}, {"word": "Wake up", "pos": "Phrasal verb", "en_def": "To stop sleeping and become awake.", "ar_def": "يستيقظ ويصحو من نومه.", "synonyms": "Awaken", "antonyms": "Fall asleep, sleep", "example": "I wake up at 7 every morning but I don't get up until 7:15."}, {"word": "On time", "pos": "Phrase", "en_def": "Punctual; arriving at the exact scheduled hour, not late.", "ar_def": "في الموعد المحدد تماماً دون تأخير (منضبط).", "synonyms": "Punctual, prompt", "antonyms": "Late, delayed", "example": "Engineering students must always arrive on time for lectures."}], "reading": {"title": "A Day in the Life of an RCJY Preparatory Student", "passage": "Sultan is an ambitious preparatory year student at the Royal Commission College in Yanbu. His daily routine is very structured. On weekdays, he wakes up at 6:00 a.m., but he does not get up until 6:15 a.m. After taking a warm shower, he has a healthy breakfast of eggs, bread, and orange juice with his roommate. At 7:15 a.m., they catch the campus shuttle bus to ensure they arrive on time for their 8:00 a.m. English lecture.\n\nDuring the day, Sultan has four hours of classes, followed by an hour of lunch at the college cafeteria. In the afternoon, he usually heads to the central library to do homework and study mathematics with his project group. Sultan believes that physical fitness is essential for mental focus, so he visits the college gym three times a week to exercise and lift weights. In the evening, he relaxes by chatting with his family or going online to read technology news. He never stays up past 10:30 p.m. because a good night of sleep helps him concentrate during exams.", "questions": [{"q": "What time does Sultan physically get out of bed?", "options": ["At 6:00 a.m.", "At 6:15 a.m.", "At 7:15 a.m.", "At 8:00 a.m."], "answer": "At 6:15 a.m.", "explanation": "The text states: 'he wakes up at 6:00 a.m., but he does not get up until 6:15 a.m.' (Line 3)."}, {"q": "Why does Sultan take the shuttle bus at 7:15 a.m.?", "options": ["To visit his family in Jeddah", "To arrive on time for his 8:00 a.m. class", "To go shopping at the city mall", "To exercise at the campus gym"], "answer": "To arrive on time for his 8:00 a.m. class", "explanation": "Paragraph 1 mentions: 'they catch the campus shuttle bus to ensure they arrive on time for their 8:00 a.m. English lecture.'"}, {"q": "Where does Sultan go in the afternoon to complete assignments?", "options": ["To the sports center", "To the student dorms", "To the central library", "To a seaside café"], "answer": "To the central library", "explanation": "Paragraph 2 states: 'In the afternoon, he usually heads to the central library to do homework and study mathematics.'"}, {"q": "According to the passage, how often does Sultan go to the gym?", "options": ["Every single day", "Three times a week", "Only on the weekend", "Once a month"], "answer": "Three times a week", "explanation": "Paragraph 2 explicitly states: 'he visits the college gym three times a week to exercise and lift weights.'"}, {"q": "What does the word 'relax' in paragraph 2 most closely mean?", "options": ["Study intensely", "Rest and unwind", "Run fast", "Eat heavily"], "answer": "Rest and unwind", "explanation": "In context, 'relaxes by chatting with his family or going online' means taking a rest and unwinding after a busy day."}]}, "practice_questions": [{"text": "Dr. Tariq does not _____ lectures on Sunday mornings because of faculty meetings.", "options": ["gives", "gave", "give", "giving"], "answer": "give", "topic": "Present Simple Auxiliary", "tutor": "قاعدة مهمة: بعد النفي بـ does not (أو doesn't)، يعود الفعل دائماً إلى صيغته المصدرية المجردة (base form) بدون أي إضافات."}, {"text": "The academic advisor has scheduled individual counseling sessions _____ Tuesday afternoons.", "options": ["at", "in", "on", "by"], "answer": "on", "topic": "Prepositions of Time", "tutor": "قاعدة 'اليوم يكسب دائماً': عند وجود اسم يوم من أيام الأسبوع (Tuesday) مقترناً بفترة (afternoons)، نستخدم دائماً حرف الجر ON."}, {"text": "Before preparing for their lab quizzes, college students must _____ their homework diligently.", "options": ["make", "do", "create", "act"], "answer": "do", "topic": "Fixed Collocations", "tutor": "التلازم اللفظي الصحيح: الواجبات المدرسية والتكليفات تأخذ دائماً الفعل DO (do homework)، واستخدام make خاطئ تماماً."}, {"text": "_____ your roommate study chemical engineering every evening at the dorm library?", "options": ["Do", "Is", "Does", "Are"], "answer": "Does", "topic": "Present Simple Questions", "tutor": "الفاعل هو your roommate (مفرد غائب / He or She) والفعل الرئيسي مجرد (study)، لذلك الأداة المساعدة الصحيحة في السؤال هي Does."}, {"text": "My older brother always _____ to the industrial college by bus, but on Thursdays he walks.", "options": ["go", "goes", "is going", "gone"], "answer": "goes", "topic": "Present Simple Spelling", "tutor": "الفاعل مفرد (My brother)، والفعل ينتهي بحرف -o (go)، لذلك تنص قاعدة الإملاء على إضافة -es ليصبح (goes)."}, {"text": "Sami usually _____ at 6:30 a.m., but he stays in bed reading until 7:00 a.m.", "options": ["wakes up", "wake up", "waking up", "is wake up"], "answer": "wakes up", "topic": "Daily Routine Verbs", "tutor": "مع الفاعل المفرد Sami في صيغة الروتين المتكرر نستخدم المضارع البسيط بإضافة -s إلى الفعل: wakes up."}, {"text": "Fahad is very disciplined; he always arrives _____ time for his morning classes.", "options": ["at", "in", "on", "with"], "answer": "on", "topic": "Time Idioms", "tutor": "التعبير الاصطلاحي الثابت للانضباط والوصول في الموعد المحدد هو: on time."}, {"text": "We usually eat our main evening meal, _____, around 8:30 p.m. with the family.", "options": ["breakfast", "lunch", "dinner", "brunch"], "answer": "dinner", "topic": "Daily Vocabulary", "tutor": "وجبة المساء الرئيسية هي dinner، بينما breakfast هي الصباح و lunch هي منتصف النهار."}, {"text": "Khalid loves physical fitness; he goes to the _____ three times a week to exercise.", "options": ["cinema", "gym", "bank", "clinic"], "answer": "gym", "topic": "Places Vocabulary", "tutor": "المكان المخصص للتمارين الرياضية واللياقة البدنية ورفع الأثقال هو gym."}, {"text": "College students have lectures on _____, but they can rest on Friday and Saturday.", "options": ["weekdays", "weekend", "midnight", "holidays"], "answer": "weekdays", "topic": "Time Expressions", "tutor": "أيام الدراسة والدوام الأسبوعي تسمى weekdays (أيام الأسبوع)، بينما الجمعة والسبت هي weekend."}]}, "unit_4": {"id": "unit_4", "number": 4, "title": "Unit 4: Places, Nature & Climate", "theme": "Unlock 1 - Unit 4 • الأماكن، الطبيعة والمناخ وأدوات التعريف", "badge": "📗 داخل بكويز 1 (Quiz 1)", "grammar_summary": {"title": "قواعد Unit 4 المعتمدة في كويز 1", "sections": [{"title": "1. قاعدة الوجود (There is / There are)", "type": "HIGH-YIELD", "explanation_en": "'There is' is used for singular countable nouns and uncountable nouns. 'There are' is used for plural countable nouns. The verb agrees with the noun that follows, not with 'there'.", "explanation_ar": "تُستخدم There is مع الاسم المفرد المعدود والأسماء غير المعدودة. بينما تُستخدم There are مع الأسماء الجمع. الفعل يتبع الاسم الذي بعده مباشرة:", "formula": "There is + Singular Countable Noun / Uncountable Noun\nThere are + Plural Countable Nouns", "rules_table": [{"structure": "There is a park", "type": "اسم مفرد معدود", "example": "There is a large park in Yanbu."}, {"structure": "There is heavy rainfall", "type": "اسم غير معدود (طقس/مرور)", "example": "There is heavy rain in winter."}, {"structure": "There are mountains", "type": "اسم جمع معدود", "example": "There are high mountains in the south."}], "exam_classic": "أسماء الطقس وحركة المرور غير معدودة وتأخذ There is دائماً:\n(rain, rainfall, weather, traffic) تعامل معاملة المفرد!\n✓ There is heavy rainfall in winter.\n✗ There are heavy rainfalls..."}, {"title": "2. أدوات التعريف والتنكير (Articles: A / An / The / Ø)", "type": "HIGH-YIELD", "explanation_en": "Articles specify whether a noun is indefinite (a/an), definite (the), or non-specific general (zero article Ø). Selection of a/an depends entirely on the initial SOUND, not the spelling letter.", "explanation_ar": "اختيار أداة النكرة (a / an) يعتمد 100% على صوت الحرف الأول وليس شكله الإملائي:", "rules_table": [{"tool": "a", "condition": "قبل الصوت الساكن (Consonant sound)", "example": "a university (/j/ sound), a campus, a modern city, a hospital"}, {"tool": "an", "condition": "قبل الصوت المتحرك (Vowel sound)", "example": "an apple, an engineer, an island, an hour (silent 'h')"}, {"tool": "the", "condition": "مع البحار والأنهار والمحيطات والأسماء السياسية المركبة والشيء المعرف", "example": "The Red Sea, The Arabian Gulf, The UK, The USA, The capital of..."}, {"tool": "Ø (بدون أداة)", "condition": "المدن العادية والدول المفردة والمواد الأكاديمية", "example": "Yanbu, Riyadh, Saudi Arabia, English, Mathematics"}], "common_confusion": "فخ a university و an hour:\nكلمة university تبدأ بحرف u ولكنه ينطق بصوت ساكن (/j/) فتأخذ (a university).\nكلمة hour تبدأ بحرف h صامت فتبدأ بصوت متحرك فتأخذ (an hour).\n✓ a university | an hour\n✗ an university | a hour", "exam_classic": "ممنوع استخدام 'The' قبل أسماء المدن والدول الفردية:\n✓ I live in Yanbu. | He traveled to Saudi Arabia.\n✗ I live in the Yanbu. | He traveled to the Saudi Arabia."}, {"title": "3. ترتيب الصفات والمضاف بـ OF (Genitive 'Of' Phrases)", "type": "IMPORTANT", "explanation_en": "Adjectives always precede nouns in English. In genitive 'of' questions, the linking verb agrees with the head noun (the first noun before 'of').", "explanation_ar": "في الإنجليزية تأتي الصفة دائماً قبل الموصوف. وفي أسئلة الإضافة بـ OF يتفق الفعل مع الاسم الأول الرئيسي:", "formula": "Adjective + Noun (e.g. A modern city)\nWhat is / are + [First Noun] + of + [Second Noun]?", "exam_classic": "اتفاق الفعل مع الاسم الأول في جمل of:\n✓ What is the capital of Saudi Arabia? (capital مفرد ← is)\n✓ What are the colors of the national flag? (colors جمع ← are)"}]}, "vocab": [{"word": "Food Court", "pos": "Noun", "en_def": "An area in a shopping center where there are many small restaurants.", "ar_def": "ردهة المطاعم المجمعة داخل المول التجاري.", "synonyms": "Dining area, food hall", "antonyms": "-", "example": "We grabbed lunch at the food court after shopping."}, {"word": "Shopping Centre", "pos": "Noun", "en_def": "A large building or group of buildings containing shops and restaurants.", "ar_def": "مركز تسوق تجاري كبير (مول).", "synonyms": "Mall", "antonyms": "Bazaar", "example": "The new shopping center has everything from clothing stores to restaurants."}, {"word": "Car Park", "pos": "Noun", "en_def": "An area where people can park their cars.", "ar_def": "مواقف السيارات المخصصة للمركبات.", "synonyms": "Parking lot", "antonyms": "Driveway", "example": "We found a spot in the car park close to the entrance."}, {"word": "Playground", "pos": "Noun", "en_def": "An outdoor area where children can play with swings and slides.", "ar_def": "ساحة ألعاب خارجية للأطفال بها مراجيح وزحاليق.", "synonyms": "Play area, park", "antonyms": "Classroom", "example": "The kids spent hours on the swings at the playground."}, {"word": "Cinema", "pos": "Noun", "en_def": "A theater where movies are shown for public entertainment.", "ar_def": "دار سينما لعرض الأفلام السينمائية.", "synonyms": "Movie theater", "antonyms": "Television", "example": "We went to the cinema to watch the latest action movie."}, {"word": "Hospital", "pos": "Noun", "en_def": "A facility that provides medical care to sick or injured people.", "ar_def": "مستشفى لتوفير الرعاية الطبية والعلاج للمرضى.", "synonyms": "Medical center, clinic", "antonyms": "Home", "example": "He was taken to the hospital after the accident."}, {"word": "Campus", "pos": "Noun", "en_def": "The grounds and buildings of a university, college, or school.", "ar_def": "الحرم الجامعي (مباني ومرافق الكلية أو الجامعة).", "synonyms": "University grounds", "antonyms": "Off-campus", "example": "The campus is beautiful, especially in the spring."}, {"word": "Toilets", "pos": "Noun (plural)", "en_def": "A room containing a toilet for public or private use.", "ar_def": "دورات المياه ومرافق النظافة العامة.", "synonyms": "Restroom, washroom", "antonyms": "-", "example": "The toilets are located at the back of the building."}, {"word": "Supermarket", "pos": "Noun", "en_def": "A very large shop that sells food, drinks, and daily home items.", "ar_def": "سوبرماركت كبير لبيع الأغذية والمستلزمات المنزلية اليومية.", "synonyms": "Grocery store", "antonyms": "Convenience store", "example": "I went to the supermarket to pick up some groceries."}, {"word": "Department Store", "pos": "Noun", "en_def": "A large store divided into several departments, each selling distinct goods.", "ar_def": "متجر متعدد الأقسام (ملابس، إلكترونيات، عطور، أدوات منزلية).", "synonyms": "Retail store", "antonyms": "Boutique", "example": "You can find clothing, electronics, and more at the department store."}, {"word": "Island", "pos": "Noun", "en_def": "A piece of land surrounded entirely by water.", "ar_def": "جزيرة (قطعة من اليابسة محاطة بالماء من جميع الجهات).", "synonyms": "Isle", "antonyms": "Mainland", "example": "Hawaii is a beautiful island in the Pacific Ocean."}, {"word": "Capital", "pos": "Noun", "en_def": "The city where the government of a country or region is located.", "ar_def": "العاصمة (المدينة الإدارية والسياسية الرئيسية للدولة).", "synonyms": "Metropolis", "antonyms": "Rural area", "example": "Riyadh is the capital of Saudi Arabia."}, {"word": "Beach", "pos": "Noun", "en_def": "An area of sand or small stones at the edge of the sea.", "ar_def": "شاطئ البحر الرملي.", "synonyms": "Shore, coast", "antonyms": "Mountain", "example": "They spent the afternoon relaxing on the beach."}, {"word": "Modern", "pos": "Adjective", "en_def": "Relating to the present or recent times; contemporary and new.", "ar_def": "حديث ومعاصر ومبني بأحدث طراز.", "synonyms": "Contemporary, current", "antonyms": "Ancient, old-fashioned", "example": "The museum showcases modern art from around the world."}, {"word": "Famous", "pos": "Adjective", "en_def": "Well-known by many people across cities or the world.", "ar_def": "مشهور ومعروف لدى شريحة واسعة من الناس.", "synonyms": "Renowned, celebrated", "antonyms": "Unknown, obscure", "example": "The Eiffel Tower is a famous landmark in Paris."}, {"word": "Tourist", "pos": "Noun", "en_def": "A person who travels for pleasure, sight-seeing, and recreation.", "ar_def": "سائح يسافر للزيارة والاستجمام والاطلاع على المعالم.", "synonyms": "Traveler, visitor", "antonyms": "Resident, local", "example": "The city was filled with tourists during the summer."}, {"word": "International", "pos": "Adjective", "en_def": "Relating to or involving more than one country globally.", "ar_def": "دولي وعالمي يربط أكثر من دولة.", "synonyms": "Global, worldwide", "antonyms": "Domestic, local", "example": "He was on an international flight from Yanbu to London."}, {"word": "Popular", "pos": "Adjective", "en_def": "Liked, admired, or supported by many people.", "ar_def": "محبوب وشائع وواسع الانتشار بين الناس.", "synonyms": "Well-liked, favored", "antonyms": "Unpopular, disliked", "example": "Soccer is a popular sport around the world."}, {"word": "Lake", "pos": "Noun", "en_def": "A large body of water surrounded entirely by land.", "ar_def": "بحيرة (مسطح مائي محاط باليابسة من جميع الجهات).", "synonyms": "Pond, water body", "antonyms": "Ocean", "example": "There is a calm freshwater lake near the green mountains."}, {"word": "Mountain", "pos": "Noun", "en_def": "A large natural elevation of the earth's surface rising abruptly from the level.", "ar_def": "جبل صخري شاهق الارتفاع.", "synonyms": "Peak, summit", "antonyms": "Valley, plain", "example": "Climbing the mountain requires strong physical stamina."}, {"word": "Valley", "pos": "Noun", "en_def": "A low area of land between hills or mountains, typically with a river.", "ar_def": "وادي (منطقة منخفضة بين التلال أو الجبال).", "synonyms": "Canyon, gorge", "antonyms": "Plateau, peak", "example": "The green valley receives water from seasonal mountain streams."}, {"word": "Forest", "pos": "Noun", "en_def": "A large area covered chiefly with trees and undergrowth.", "ar_def": "غابة كثيفة الأشجار والنباتات البرية.", "synonyms": "Woodland, woods", "antonyms": "Desert", "example": "Many bird species build nests in the deep national forest."}, {"word": "Coast / Coastal", "pos": "Noun / Adj", "en_def": "The part of the land near the sea; edge of the land.", "ar_def": "الساحل أو المنطقة الساحلية المحاذية للبحر.", "synonyms": "Seashore, shoreline", "antonyms": "Inland", "example": "Yanbu is an important coastal industrial city on the Red Sea."}, {"word": "Coral Reef", "pos": "Noun", "en_def": "A ridge of rock in the sea formed by the growth and deposit of coral.", "ar_def": "الشعاب المرجانية البحرية الخلابة.", "synonyms": "Marine reef", "antonyms": "-", "example": "Divers travel to the Red Sea to see the pristine coral reef."}, {"word": "Waterfall", "pos": "Noun", "en_def": "A cascade of water falling from a height, formed when a river falls steeply.", "ar_def": "شلال مائي يتدفق من قمة جبلية شاهقة.", "synonyms": "Cascade, falls", "antonyms": "-", "example": "The mountain waterfall attracts thousands of ecotourists each year."}, {"word": "Climate / Seasons", "pos": "Noun", "en_def": "The weather conditions prevailing in an area in general or over a long period.", "ar_def": "المناخ العام وفصول السنة (شتاء، ربيع، صيف، خريف).", "synonyms": "Weather pattern", "antonyms": "-", "example": "The coastal climate of Yanbu is warm during the winter months."}], "reading": {"title": "Yanbu Al-Sinaiyah: Nature and Industry on the Red Sea", "passage": "Yanbu Industrial City (Yanbu Al-Sinaiyah) is a remarkably modern city located on the western coast of Saudi Arabia along the Red Sea. Established by the Royal Commission, the city is globally renowned for its advanced petrochemical industries and its eco-friendly urban planning. Despite its heavy industrial base, Yanbu features extensive green parks, clean sandy beaches, and protected mangrove reserves along the shoreline.\n\nTourists and residents frequently visit the waterfront corniche during the mild winter months to enjoy outdoor recreational activities. There is a magnificent coral reef system just off the coast, making Yanbu one of the most famous diving destinations in the Middle East. Inside the city center, there are modern shopping centres, department stores, and convenient food courts offering diverse international cuisines. Yanbu effectively demonstrates that modern economic growth can coexist harmoniously with environmental conservation.", "questions": [{"q": "Where is Yanbu Industrial City geographically situated?", "options": ["On the eastern coast along the Arabian Gulf", "On the western coast along the Red Sea", "In the central desert plateau near Riyadh", "In the southern mountains near Abha"], "answer": "On the western coast along the Red Sea", "explanation": "Line 1 specifies: 'located on the western coast of Saudi Arabia along the Red Sea.'"}, {"q": "What makes Yanbu a world-famous destination for scuba divers?", "options": ["A large freshwater mountain lake", "Its magnificent offshore coral reef system", "Its historical gold and silver mines", "A network of underground caves"], "answer": "Its magnificent offshore coral reef system", "explanation": "Paragraph 2 states: 'There is a magnificent coral reef system just off the coast, making Yanbu one of the most famous diving destinations.'"}, {"q": "Which facility is described as offering diverse international cuisines in Yanbu?", "options": ["Car parks", "Food courts inside shopping centres", "Playgrounds in local parks", "University laboratories"], "answer": "Food courts inside shopping centres", "explanation": "Paragraph 2 states: 'there are modern shopping centres, department stores, and convenient food courts offering diverse international cuisines.'"}, {"q": "Why is the grammatical structure 'There is a magnificent coral reef' used in paragraph 2?", "options": ["Because coral reefs are uncountable", "Because 'a coral reef system' is a singular countable noun", "Because 'there' is plural", "Because it refers to past events"], "answer": "Because 'a coral reef system' is a singular countable noun", "explanation": "'There is' correctly agrees with the singular noun phrase 'a magnificent coral reef system'."}, {"q": "What is the main conclusion drawn about Yanbu in the final sentence?", "options": ["Industry must replace all nature", "Tourism has declined in recent years", "Modern economic growth can coexist with nature conservation", "The city has no commercial stores"], "answer": "Modern economic growth can coexist with nature conservation", "explanation": "The final sentence affirms: 'Yanbu effectively demonstrates that modern economic growth can coexist harmoniously with environmental conservation.'"}]}, "practice_questions": [{"text": "During the winter months, _____ significant rainfall in the coastal mountains near Yanbu.", "options": ["there are", "there is", "they are", "is there"], "answer": "there is", "topic": "There is / There are with Weather", "tutor": "كلمة rainfall (كمية هطول الأمطار) اسم غير معدود (uncountable)، والأسماء غير المعدودة تعامل معاملة المفرد وتأخذ دائماً there is."}, {"text": "_____ Red Sea is bordered by several countries, and Yanbu is located on its eastern coast.", "options": ["A", "An", "The", "Ø (no article)"], "answer": "The", "topic": "Definite Article with Seas", "tutor": "قاعدة جغرافية حتمية: أسماء البحار والأنهار والمحيطات تأخذ دائماً أداة التعريف The (The Red Sea, The Atlantic)."}, {"text": "Sultan hopes to enroll in _____ university in Jubail after finishing his preparatory year.", "options": ["a", "an", "the", "Ø"], "answer": "a", "topic": "Articles: Vowel Letter vs Sound", "tutor": "فخ الاختبار الأشهَر: كلمة university تبدأ بحرف u ولكنه ينطق بصوت ساكن (/j/ sound)، لذلك تأخذ أداة النكرة 'a' وليس 'an'."}, {"text": "The visitors parked their vehicle in the large _____ near the shopping centre entrance.", "options": ["car park", "lake", "island", "mountain"], "answer": "car park", "topic": "Places Vocabulary", "tutor": "المكان المخصص لصف وإيقاف المركبات هو car park (موقف السيارات)."}, {"text": "What _____ the official capital of the Kingdom of Saudi Arabia?", "options": ["is", "are", "be", "were"], "answer": "is", "topic": "Genitive Of Verb Agreement", "tutor": "في الأسئلة المسبوقة بـ of، يتفق الفعل مع الاسم الأول الرئيسي (capital) وهو اسم مفرد، لذا يأخذ is."}, {"text": "Yanbu Industrial City has _____ layout and modern coastal facilities.", "options": ["an modern", "a modern", "modern a", "the modern a"], "answer": "a modern", "topic": "Word Order: Adjective before Noun", "tutor": "الصفة تسبق الاسم (modern layout)، وكلمة modern تبدأ بصوت ساكن فيسبقها حرف التنكير 'a'."}, {"text": "Look at the western horizon; there are dark _____ gathering over the sea.", "options": ["cloud", "rain", "clouds", "cloudy"], "answer": "clouds", "topic": "There are + Plural Count Noun", "tutor": "عبارة 'there are' تدل على وجود جمع معدود، والاسم الجمع في الخيارات هو clouds."}, {"text": "After school, the children spent hours playing on the swings in the public _____.", "options": ["playground", "hospital", "supermarket", "airport"], "answer": "playground", "topic": "Vocabulary in Context", "tutor": "المكان المزود بالمراجيح والزحاليق لألعاب الأطفال في الهواء الطلق هو playground."}, {"text": "The delegates flew to _____ United Arab Emirates for an international educational summit.", "options": ["a", "an", "the", "Ø"], "answer": "the", "topic": "Articles with Political Country Names", "tutor": "الدول التي تتضمن أسماؤها كلمات سياسية مركبة مثل (United أو Kingdom) تأخذ أداة التعريف the إلزامياً."}, {"text": "Hawaii is a tropical _____ located in the middle of the Pacific Ocean.", "options": ["island", "mountain", "valley", "desert"], "answer": "island", "topic": "Geography Vocabulary", "tutor": "قطعة اليابسة المحاطة بالكامل بمياه المحيط تسمى island (جزيرة)."}]}, "unit_5": {"id": "unit_5", "number": 5, "title": "Unit 5: Travel, Transport & Rules", "theme": "Unlock 1 - Unit 5 • قواعد الإلزام، المقارنات ووسائل النقل", "badge": "📙 داخل بكويز 1 (Quiz 1)", "grammar_summary": {"title": "قواعد Unit 5 المعتمدة في كويز 1", "sections": [{"title": "1. أفعال الإلزام والضرورة (Modals of Necessity: MUST vs. HAVE TO vs. SHOULD)", "type": "HIGH-YIELD", "explanation_en": "Must expresses strong personal/moral obligation or strict institutional laws. Have to expresses external rules imposed from outside. Should gives mild advice.", "explanation_ar": "أفعال الإلزام تعبر عن درجات الإجبار والنصيحة:", "rules_table": [{"modal": "Must + base verb", "meaning": "إلزام قوي وقانون صارم", "example": "You must wear a helmet on the construction site."}, {"modal": "Have to / Has to + base verb", "meaning": "إلزام خارجي مفروض من النظام (قوانين/وظيفة)", "example": "In Saudi Arabia, drivers have to drive on the right."}, {"modal": "Should + base verb", "meaning": "نصيحة واقتراح لطيف (بدون to نهائياً)", "example": "You should visit the doctor if you feel feverish."}], "exam_classic": "الفارق المصيري بين النفي:\nmust not (mustn't) = ممنوع 100%، خطر، غير قانوني!\ndon't / doesn't have to = غير ملزم (اختياري تماماً وله حرية الاختيار)!\n✓ You must not smoke on campus. (ممنوع قانوناً)\n✓ It's Saturday; we don't have to wake up early. (اختياري / إجازة)"}, {"title": "2. صفات المقارنة والتفضيل (Comparatives & Superlatives)", "type": "HIGH-YIELD", "explanation_en": "Comparatives contrast two entities and require 'than'. Superlatives rank one entity against three or more and require 'the'.", "explanation_ar": "المقارنة بين شيئين تحتاج than، والتفضيل لشيء على مجموعة يحتاج the:", "rules_table": [{"type": "صفة قصيرة مقطع واحد", "comp": "adj + er + than (faster than)", "super": "the + adj + est (the fastest)"}, {"type": "تنتهي بـ ساكن-متحرك-ساكن (CVC)", "comp": "ضعف الحرف الأخير + er (bigger, hotter)", "super": "the + ضعف الحرف + est (the hottest)"}, {"type": "صفة مقطعين تنتهي بـ y", "comp": "احذف y وأضف -ier than (easier than)", "super": "the + iest (the easiest)"}, {"type": "صفة طويلة (مقطعان فأكثر)", "comp": "more + adj + than (more modern than)", "super": "the most + adj (the most modern)"}, {"type": "صفات شاذة حتمية الحفظ", "comp": "good → better than | bad → worse than", "super": "the best | the worst"}], "common_confusion": "فخ المقارنة المزدوجة (Double Comparison):\nممنوع الجمع بين more و -er في كلمة واحدة:\n✗ more taller, more bigger, more easier\n✓ taller, bigger, easier\nوفخ الشواذ:\n✗ more good, gooder\n✓ better than"}, {"title": "3. صفات المهارة والتعامل (good at vs. good with) وأداة الربط AND / BUT", "type": "IMPORTANT", "explanation_en": "'Good at' indicates proficiency in skills, academics, or sports. 'Good with' indicates ease and skill handling people, animals, or tools.", "explanation_ar": "الفرق بين حروف الجر مع good، وقواعد الربط:", "rules_table": [{"phrase": "good at + noun/V-ing", "meaning": "ماهر في مهارة علمية/رياضية/تقنية", "example": "He is good at math. She is good at programming."}, {"phrase": "good with + noun", "meaning": "لبق وماهر في التعامل مع (الناس/الأطفال/الأدوات)", "example": "Nurses must be good with people. Teachers are good with children."}, {"phrase": "and / but", "meaning": "and للإضافة و but للتناقض، ويسبقها فاصلة (,) عند ربط جملتين كاملتين", "example": "The hotel is modern, but the room rates are high."}], "exam_classic": "نصيحة (advice) اسم غير معدود لا يجمع ولا يأخذ an:\n✓ He gave me valuable advice.\n✗ He gave me many advices."}]}, "vocab": [{"word": "Interesting", "pos": "Adjective", "en_def": "Something that catches your attention and makes you want to know more about it.", "ar_def": "مثير للاهتمام وشيق ويجذب الانتباه.", "synonyms": "Engaging, fascinating", "antonyms": "Boring, dull", "example": "The book was so interesting that I couldn't put it down."}, {"word": "Company", "pos": "Noun", "en_def": "A commercial business organization or firm; also social companionship.", "ar_def": "شركة تجارية أو مؤسسة أعمال (أو صحبة ورفقة).", "synonyms": "Business, firm, corporation", "antonyms": "Solitude", "example": "She works for a large petrochemical company in Yanbu."}, {"word": "Good at", "pos": "Adjective phrase", "en_def": "To be skilled or talented in a particular subject, technical task, or sport.", "ar_def": "بارع ومتميز في مهارة معينة (رياضيات، لغات، برمجة).", "synonyms": "Skilled, proficient, talented", "antonyms": "Bad at, poor at", "example": "Fahad is very good at solving difficult mathematical equations."}, {"word": "High School", "pos": "Noun", "en_def": "A secondary school for students aged approximately 14–18 before college.", "ar_def": "المرحلة الثانوية (المدرسة الثانوية قبل الكلية).", "synonyms": "Secondary school", "antonyms": "Elementary school, primary school", "example": "He graduated from high school last year with top honors."}, {"word": "Engineer", "pos": "Noun / Verb", "en_def": "A person trained to design, build, and maintain machines, structures, or systems.", "ar_def": "مهندس متخصص في التصميم والبناء والأنظمة الصناعية.", "synonyms": "Designer, builder, architect", "antonyms": "-", "example": "He is a mechanical engineer working on the new petrochemical refinery."}, {"word": "Great", "pos": "Adjective", "en_def": "Very good, excellent, or large in amount and significance.", "ar_def": "رائع وممتاز وعظيم الأثر.", "synonyms": "Excellent, amazing, outstanding", "antonyms": "Poor, terrible, small", "example": "She did a great job on her engineering design presentation."}, {"word": "Directions", "pos": "Noun", "en_def": "Instructions that guide how to reach a specific destination.", "ar_def": "إرشادات وتوجيهات الاتجاهات للوصول إلى المكان.", "synonyms": "Instructions, route guidance", "antonyms": "-", "example": "The security officer gave us precise directions to the lecture hall."}, {"word": "Location", "pos": "Noun", "en_def": "The particular place or position that something occupies.", "ar_def": "الموقع الجغرافي أو الموضع الدقيق للمبنى.", "synonyms": "Position, site, spot", "antonyms": "-", "example": "The library has an accessible location at the center of the campus."}, {"word": "Map", "pos": "Noun", "en_def": "A diagrammatic representation of an area of land or sea showing physical features.", "ar_def": "خريطة جغرافية توضح المعالم والطرق.", "synonyms": "Chart, plan", "antonyms": "-", "example": "Consult the campus map to locate building 4 and the dining area."}, {"word": "Traffic", "pos": "Noun", "en_def": "Vehicles moving on a road or public highway (uncountable noun).", "ar_def": "حركة المرور والمركبات على الطرق (اسم غير معدود).", "synonyms": "Vehicles, congestion", "antonyms": "-", "example": "There is heavy traffic on the coastal highway during the morning rush."}, {"word": "Timetable / Schedule", "pos": "Noun", "en_def": "A chart or plan giving lists of intended events and times of buses or trains.", "ar_def": "جدول المواعيد والرحلات للقطارات والحافلات.", "synonyms": "Schedule, itinerary", "antonyms": "-", "example": "Check the bus timetable to ensure you arrive before the exam begins."}, {"word": "Capital City", "pos": "Noun", "en_def": "The city that functions as the seat of government and administrative center of a country.", "ar_def": "العاصمة السياسية والإدارية للدولة.", "synonyms": "Administrative center", "antonyms": "Province", "example": "Riyadh is the capital city of Saudi Arabia and houses major governmental bodies."}, {"word": "Arrive / Arrival", "pos": "Verb / Noun", "en_def": "To reach a destination at the end of a journey or flight.", "ar_def": "يصل إلى وجهته / موعد الوصول (عكس يغادر).", "synonyms": "Reach, land", "antonyms": "Depart, leave", "example": "The shuttle bus from the student dorms arrives at 7:45 a.m. sharp."}, {"word": "Depart / Departure", "pos": "Verb / Noun", "en_def": "To leave, typically in order to start a journey.", "ar_def": "يغادر أو ينطلق في رحلة السفر (عكس يصل).", "synonyms": "Leave, set off", "antonyms": "Arrive", "example": "International flights depart from Prince Abdul Mohsin Airport on time."}, {"word": "Go out / Stay in", "pos": "Verb phrase", "en_def": "Go out = socialize outside; Stay in = remain at home or in dorms.", "ar_def": "Go out = يخرج للتنزه واللقاء | Stay in = يبقى في السكن أو المنزل.", "synonyms": "Socialize / remain home", "antonyms": "Stay in / go out", "example": "On Thursday nights students like to go out, but before exams they stay in to review."}], "reading": {"title": "Engineering Careers and Modern Transit Rules", "passage": "Modern industrial expansion requires highly trained engineers and clear safety regulations. In Jubail and Yanbu, thousands of technical graduates work for prominent energy and manufacturing companies. When working inside chemical plants and industrial refineries, safety is the primary priority. Employees must wear certified hard hats and protective goggles at all times; they must not enter restricted hazardous zones without specialized clearance.\n\nTransportation infrastructure in the Kingdom has developed rapidly. High-speed express trains connect major commercial hubs, making business travel faster and more comfortable than driving long distances on crowded highways. However, commuters have to follow official rules: tickets must be purchased in advance, and passengers must arrive at the terminal at least twenty minutes before the scheduled departure. For new employees, technical managers advise that being good with people is just as important as being good at mathematics, because collaborative teamwork drives successful engineering innovations.", "questions": [{"q": "Why must workers wear hard hats and goggles inside refineries?", "options": ["Because they are fashionable", "Because safety is the primary priority by law", "Only when visitors arrive", "Because they don't have to follow rules"], "answer": "Because safety is the primary priority by law", "explanation": "Paragraph 1 explains: 'safety is the primary priority. Employees must wear certified hard hats and protective goggles at all times.'"}, {"q": "Why is high-speed train travel compared favorably to driving?", "options": ["It is slower and louder", "It is faster and more comfortable than driving", "It is completely free of charge", "It only runs once a month"], "answer": "It is faster and more comfortable than driving", "explanation": "Paragraph 2 states: 'making business travel faster and more comfortable than driving long distances on crowded highways.'"}, {"q": "What rule must rail passengers observe regarding departure?", "options": ["Arrive at least 20 minutes before departure", "Board the train without any tickets", "Travel without baggage", "Arrive after the train departs"], "answer": "Arrive at least 20 minutes before departure", "explanation": "Paragraph 2 notes: 'passengers must arrive at the terminal at least twenty minutes before the scheduled departure.'"}, {"q": "According to the passage, why is being 'good with people' essential for engineers?", "options": ["Because engineers work alone in isolation", "Because collaborative teamwork drives successful innovations", "Because math is completely useless", "Because companies don't hire mathematicians"], "answer": "Because collaborative teamwork drives successful innovations", "explanation": "The passage states: 'being good with people is just as important... because collaborative teamwork drives successful engineering innovations.'"}, {"q": "Which grammatical modal expresses strict prohibition in paragraph 1?", "options": ["should", "don't have to", "must not", "might"], "answer": "must not", "explanation": "'must not enter restricted hazardous zones' expresses absolute prohibition and danger."}]}, "practice_questions": [{"text": "In a hazardous chemical testing facility, technicians _____ enter without certified eye goggles.", "options": ["don't have to", "must not", "should", "doesn't have to"], "answer": "must not", "topic": "Modals of Necessity: Prohibition", "tutor": "الدخول إلى منطقة كيميائية خطرة بدون نظارات أمان أمر محظور وممنوع قانوناً وخطر (Strict Prohibition)، لذلك نستخدم must not."}, {"text": "Preparatory students _____ buy the printed textbook because digital editions are provided free.", "options": ["must not", "do not have to", "have to", "should not to"], "answer": "do not have to", "topic": "Modals: Absence of Obligation", "tutor": "بما أن النسخة الإلكترونية متوفرة مجاناً، فإن شراء الكتاب الورقي أمر غير إجباري واختياري (Absence of Obligation)، فنستخدم do not have to."}, {"text": "The newly built university research center is significantly _____ the older campus branch.", "options": ["moderner than", "more modern than", "most modern than", "more modern that"], "answer": "more modern than", "topic": "Comparative of Long Adjectives", "tutor": "الصفة modern صفة طويلة (مقطعان)، فالمقارنة بين مبنيين تتطلب: more + adjective + than."}, {"text": "Faris is exceptionally _____ solving advanced physics calculations and computer algorithms.", "options": ["good with", "good at", "good for", "good in"], "answer": "good at", "topic": "Adjective Complementation", "tutor": "المهارة في المواد الأكاديمية والرياضية والتقنية تأخذ دائماً good at. أما التعامل مع الأشخاص والأطفال فيأخذ good with."}, {"text": "Fatima feels feverish and exhausted; I genuinely think she _____ an appointment with the doctor.", "options": ["must to make", "has", "should make", "should to make"], "answer": "should make", "topic": "Giving Advice with SHOULD", "tutor": "لإعطاء النصيحة نستخدم should متبوعة مباشرة بمصدر الفعل المجرد (bare infinitive) بدون to نهائياً."}, {"text": "July is officially recorded as the _____ month of the entire year in the western desert provinces.", "options": ["hotest", "hotter", "hottest", "most hot"], "answer": "hottest", "topic": "Superlative of CVC Adjectives", "tutor": "الصفة hot تنتهي بساكن قبله متحرك واحد (CVC)، فنضاعف الحرف الأخير قبل إضافة -est مع أداة التفضيل the: the hottest."}, {"text": "Our exam scores this semester are substantially _____ than our previous midterm marks.", "options": ["more good", "gooder", "better", "best"], "answer": "better", "topic": "Irregular Comparatives", "tutor": "الصفة good شاذة ولا تأخذ more good أو gooder، بل تتحول في المقارنة إلى better than."}, {"text": "A professional nurse must be patient and exceptionally _____ people when caring for patients.", "options": ["good at", "good with", "good for", "good of"], "answer": "good with", "topic": "good with for Interpersonal Care", "tutor": "التعامل الإنساني مع المرضى والأشخاص والأطفال يأخذ حرف الجر with في التركيب: good with people."}, {"text": "Nawaf wanted to register for the engineering design project, _____ he did not meet the prerequisites.", "options": ["and", "but", "or", "so"], "answer": "but", "topic": "Compound Sentences: Contrast", "tutor": "الجملة تعبر عن تناقض بين الرغبة في التسجيل وعدم استيفاء الشروط، وأداة الربط الدالة على التناقض المسبوقة بفاصلة هي but."}, {"text": "The engineering supervisor gave us very helpful _____ on how to pass the safety inspection.", "options": ["advices", "advice", "an advice", "advises"], "answer": "advice", "topic": "Uncountable Nouns", "tutor": "كلمة advice اسم غير معدود (uncountable)، لا يُجمع بإضافة s ولا يسبق بـ an."}]}};
 
-  let activeUnitKey = 'unit_3';
-  let activeUnitView = 'grammar';
+  let currentUnitKey = 'unit_3';
+  let currentUnitView = 'quiz';
 
+  // Modal Elements
   const openUnitStudyBtn = document.getElementById('openUnitStudyBtn');
   const unitStudyModal = document.getElementById('unitStudyModal');
   const closeUnitStudyModalBtn = document.getElementById('closeUnitStudyModalBtn');
-  const closeUnitStudyFooterBtn = document.getElementById('closeUnitStudyFooterBtn');
 
-  const unitSelectorCards = document.querySelectorAll('.unit-selector-card');
-  const unitPills = document.querySelectorAll('.unit-pill');
+  // Nav Controls
+  const uViewQuizBtn = document.getElementById('uViewQuizBtn');
+  const uViewGrammarBtn = document.getElementById('uViewGrammarBtn');
+  const uViewVocabBtn = document.getElementById('uViewVocabBtn');
+  const uViewReadingBtn = document.getElementById('uViewReadingBtn');
+  const uUnitSelect = document.getElementById('uUnitSelect');
 
-  const unitGrammarPane = document.getElementById('unitGrammarPane');
-  const unitVocabPane = document.getElementById('unitVocabPane');
-  const unitQuizPane = document.getElementById('unitQuizPane');
-  const unitReadingPane = document.getElementById('unitReadingPane');
+  // Containers
+  const uQuizView = document.getElementById('uQuizView');
+  const uGrammarView = document.getElementById('uGrammarView');
+  const uVocabView = document.getElementById('uVocabView');
+  const uReadingView = document.getElementById('uReadingView');
+  const uGrammarContainer = document.getElementById('uGrammarContainer');
+  const uReadingContainer = document.getElementById('uReadingContainer');
+
+  // Quiz Elements (Centered Single-Question Card)
+  const uQuizCounter = document.getElementById('uQuizCounter');
+  const uQuizScoreBadge = document.getElementById('uQuizScoreBadge');
+  const uQuizTopicTag = document.getElementById('uQuizTopicTag');
+  const uQuizQuestionText = document.getElementById('uQuizQuestionText');
+  const uQuizOptionsContainer = document.getElementById('uQuizOptionsContainer');
+  const uQuizFeedback = document.getElementById('uQuizFeedback');
+  const uQuizNextBtn = document.getElementById('uQuizNextBtn');
+  const uQuizRetakeBtn = document.getElementById('uQuizRetakeBtn');
+
+  // Flashcards Elements
+  const uActiveFlashcard = document.getElementById('uActiveFlashcard');
+  const uFcUnitBadge = document.getElementById('uFcUnitBadge');
+  const uFcWord = document.getElementById('uFcWord');
+  const uFcPos = document.getElementById('uFcPos');
+  const uFcAudioBtn = document.getElementById('uFcAudioBtn');
+  const uFcArabic = document.getElementById('uFcArabic');
+  const uFcEnglish = document.getElementById('uFcEnglish');
+  const uFcExample = document.getElementById('uFcExample');
+  const uFcColloc = document.getElementById('uFcColloc');
+  const uFcCounter = document.getElementById('uFcCounter');
+  const uFcPrevBtn = document.getElementById('uFcPrevBtn');
+  const uFcNextBtn = document.getElementById('uFcNextBtn');
+
+  let uQuizIndex = 0;
+  let uQuizScore = 0;
+  let uQuizQuestions = [];
+
+  let uCardIndex = 0;
+  let uCards = [];
 
   function initUnitStudyHub() {
     if (openUnitStudyBtn && unitStudyModal) {
       openUnitStudyBtn.addEventListener('click', () => {
         unitStudyModal.classList.remove('hidden');
-        renderActiveUnit();
+        switchUnitView('quiz');
+        startUnitQuiz();
       });
     }
 
@@ -212,95 +251,281 @@
       });
     }
 
-    if (closeUnitStudyFooterBtn && unitStudyModal) {
-      closeUnitStudyFooterBtn.addEventListener('click', () => {
-        unitStudyModal.classList.add('hidden');
+    if (uUnitSelect) {
+      uUnitSelect.addEventListener('change', (e) => {
+        currentUnitKey = e.target.value;
+        if (currentUnitView === 'quiz') startUnitQuiz();
+        else if (currentUnitView === 'grammar') renderUnitGrammar();
+        else if (currentUnitView === 'vocab') startUnitFlashcards();
+        else if (currentUnitView === 'reading') renderUnitReading();
       });
     }
 
-    // Unit Card Switcher
-    unitSelectorCards.forEach(card => {
-      card.addEventListener('click', () => {
-        unitSelectorCards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        activeUnitKey = card.getAttribute('data-unit');
-        renderActiveUnit();
-      });
-    });
+    if (uViewQuizBtn) {
+      uViewQuizBtn.addEventListener('click', () => switchUnitView('quiz'));
+    }
+    if (uViewGrammarBtn) {
+      uViewGrammarBtn.addEventListener('click', () => switchUnitView('grammar'));
+    }
+    if (uViewVocabBtn) {
+      uViewVocabBtn.addEventListener('click', () => switchUnitView('vocab'));
+    }
+    if (uViewReadingBtn) {
+      uViewReadingBtn.addEventListener('click', () => switchUnitView('reading'));
+    }
 
-    // Sub-view Tab Switcher
-    unitPills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        unitPills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        activeUnitView = pill.getAttribute('data-view');
-        switchUnitView(activeUnitView);
+    // Quiz Navigation
+    if (uQuizNextBtn) {
+      uQuizNextBtn.addEventListener('click', () => {
+        uQuizIndex++;
+        renderUnitQuizQuestion();
       });
-    });
+    }
+
+    if (uQuizRetakeBtn) {
+      uQuizRetakeBtn.addEventListener('click', () => {
+        startUnitQuiz();
+      });
+    }
+
+    // Flashcard Interactions
+    if (uActiveFlashcard) {
+      uActiveFlashcard.addEventListener('click', () => {
+        uActiveFlashcard.classList.toggle('flipped');
+      });
+    }
+
+    if (uFcAudioBtn) {
+      uFcAudioBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (uCards[uCardIndex]) {
+          pronounceWord(uCards[uCardIndex].word);
+        }
+      });
+    }
+
+    if (uFcNextBtn) {
+      uFcNextBtn.addEventListener('click', () => {
+        if (uCardIndex < uCards.length - 1) {
+          uCardIndex++;
+          renderUnitCard();
+        }
+      });
+    }
+
+    if (uFcPrevBtn) {
+      uFcPrevBtn.addEventListener('click', () => {
+        if (uCardIndex > 0) {
+          uCardIndex--;
+          renderUnitCard();
+        }
+      });
+    }
   }
 
   function switchUnitView(viewName) {
-    document.querySelectorAll('.unit-pane').forEach(p => p.classList.remove('active'));
-    if (viewName === 'grammar' && unitGrammarPane) unitGrammarPane.classList.add('active');
-    else if (viewName === 'vocab' && unitVocabPane) unitVocabPane.classList.add('active');
-    else if (viewName === 'quiz' && unitQuizPane) unitQuizPane.classList.add('active');
-    else if (viewName === 'reading' && unitReadingPane) unitReadingPane.classList.add('active');
+    currentUnitView = viewName;
+    const pills = [uViewQuizBtn, uViewGrammarBtn, uViewVocabBtn, uViewReadingBtn];
+    const panes = [uQuizView, uGrammarView, uVocabView, uReadingView];
+
+    pills.forEach(p => p && p.classList.remove('active'));
+    panes.forEach(p => p && p.classList.add('hidden'));
+
+    if (viewName === 'quiz') {
+      if (uViewQuizBtn) uViewQuizBtn.classList.add('active');
+      if (uQuizView) uQuizView.classList.remove('hidden');
+      startUnitQuiz();
+    } else if (viewName === 'grammar') {
+      if (uViewGrammarBtn) uViewGrammarBtn.classList.add('active');
+      if (uGrammarView) uGrammarView.classList.remove('hidden');
+      renderUnitGrammar();
+    } else if (viewName === 'vocab') {
+      if (uViewVocabBtn) uViewVocabBtn.classList.add('active');
+      if (uVocabView) uVocabView.classList.remove('hidden');
+      startUnitFlashcards();
+    } else if (viewName === 'reading') {
+      if (uViewReadingBtn) uViewReadingBtn.classList.add('active');
+      if (uReadingView) uReadingView.classList.remove('hidden');
+      renderUnitReading();
+    }
   }
 
-  function renderActiveUnit() {
-    const data = UNIT_STUDY_DATA[activeUnitKey];
+  // 1. QUIZ LOGIC (Centered Single-Question Card like Vocab Quiz)
+  function startUnitQuiz() {
+    const data = UNIT_STUDY_DATA[currentUnitKey];
     if (!data) return;
 
-    renderUnitGrammar(data);
-    renderUnitVocab(data);
-    renderUnitQuiz(data);
-    renderUnitReading(data);
-    switchUnitView(activeUnitView);
+    uQuizIndex = 0;
+    uQuizScore = 0;
+    uQuizQuestions = [...(data.practice_questions || [])];
+    renderUnitQuizQuestion();
   }
 
-  function renderUnitGrammar(data) {
-    if (!unitGrammarPane) return;
+  function renderUnitQuizQuestion() {
+    if (!uQuizQuestionText) return;
+
+    if (uQuizIndex >= uQuizQuestions.length) {
+      uQuizCounter.textContent = 'Completed!';
+      uQuizScoreBadge.textContent = `Score: ${uQuizScore} / ${uQuizQuestions.length}`;
+      uQuizTopicTag.textContent = '🎉 نتيجة الاختبار النهائي للوحدة';
+      uQuizQuestionText.innerHTML = `
+        <div style="text-align:center; padding:1.5rem 0;">
+          <div style="font-size:2.5rem; margin-bottom:0.75rem;">🎯</div>
+          <h3 style="font-size:1.3rem; margin-bottom:0.5rem;">اكتمل اختبار الوحدة بنجاح!</h3>
+          <p style="font-size:1.1rem; color:#10b981; font-weight:700;">نتيجتك: ${uQuizScore} من ${uQuizQuestions.length} (${Math.round((uQuizScore / uQuizQuestions.length) * 100)}%)</p>
+        </div>
+      `;
+      uQuizOptionsContainer.innerHTML = '';
+      uQuizFeedback.style.display = 'none';
+      uQuizNextBtn.classList.add('hidden');
+      uQuizRetakeBtn.classList.remove('hidden');
+      return;
+    }
+
+    const q = uQuizQuestions[uQuizIndex];
+    uQuizCounter.textContent = `Question ${uQuizIndex + 1} of ${uQuizQuestions.length}`;
+    uQuizScoreBadge.textContent = `Score: ${uQuizScore} / ${uQuizIndex}`;
+    uQuizTopicTag.textContent = q.topic || 'Grammar Practice';
+    uQuizQuestionText.textContent = q.text;
+    uQuizFeedback.style.display = 'none';
+    uQuizFeedback.innerHTML = '';
+    uQuizNextBtn.classList.add('hidden');
+    uQuizRetakeBtn.classList.add('hidden');
+
+    uQuizOptionsContainer.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt-btn';
+      btn.textContent = opt;
+      btn.addEventListener('click', () => handleQuizOptionClick(btn, opt, q));
+      uQuizOptionsContainer.appendChild(btn);
+    });
+  }
+
+  function handleQuizOptionClick(selectedBtn, selectedOpt, questionObj) {
+    const allBtns = uQuizOptionsContainer.querySelectorAll('.quiz-opt-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const isCorrect = (selectedOpt === questionObj.answer);
+    if (isCorrect) {
+      selectedBtn.classList.add('quiz-correct');
+      uQuizScore++;
+    } else {
+      selectedBtn.classList.add('quiz-wrong');
+      allBtns.forEach(b => {
+        if (b.textContent === questionObj.answer) {
+          b.classList.add('quiz-correct');
+        }
+      });
+    }
+
+    uQuizScoreBadge.textContent = `Score: ${uQuizScore} / ${uQuizIndex + 1}`;
+
+    // Show instant tutor feedback
+    uQuizFeedback.style.display = 'block';
+    uQuizFeedback.innerHTML = `
+      <strong style="color:#4f46e5; display:block; margin-bottom:4px;">💡 شرح المعلم والقاعدة (Teacher Key):</strong>
+      ${questionObj.tutor}
+    `;
+
+    uQuizNextBtn.classList.remove('hidden');
+  }
+
+  // 2. FLASHCARDS LOGIC
+  function startUnitFlashcards() {
+    const data = UNIT_STUDY_DATA[currentUnitKey];
+    if (!data) return;
+
+    uCardIndex = 0;
+    uCards = data.vocab || [];
+    renderUnitCard();
+  }
+
+  function renderUnitCard() {
+    if (uCards.length === 0) return;
+    const card = uCards[uCardIndex];
+
+    if (uActiveFlashcard) uActiveFlashcard.classList.remove('flipped');
+    if (uFcUnitBadge) uFcUnitBadge.textContent = card.unit || currentUnitKey;
+    if (uFcWord) uFcWord.textContent = card.word;
+    if (uFcPos) uFcPos.textContent = card.pos || 'Term';
+    if (uFcArabic) uFcArabic.textContent = card.ar_def || '';
+    if (uFcEnglish) uFcEnglish.textContent = card.en_def || '';
+    if (uFcExample) uFcExample.textContent = card.example || '';
+    if (uFcColloc) {
+      let colText = '';
+      if (card.synonyms && card.synonyms !== '-') colText += `Synonym: ${card.synonyms}  `;
+      if (card.antonyms && card.antonyms !== '-') colText += `| Antonym: ${card.antonyms}`;
+      uFcColloc.textContent = colText || 'Key Exam Vocabulary';
+    }
+
+    if (uFcCounter) {
+      uFcCounter.textContent = `Card ${uCardIndex + 1} of ${uCards.length}`;
+    }
+
+    if (uFcPrevBtn) uFcPrevBtn.disabled = (uCardIndex === 0);
+    if (uFcNextBtn) uFcNextBtn.disabled = (uCardIndex === uCards.length - 1);
+  }
+
+  // 3. GRAMMAR GUIDE LOGIC (Clean Centered Scrollable)
+  function renderUnitGrammar() {
+    if (!uGrammarContainer) return;
+    const data = UNIT_STUDY_DATA[currentUnitKey];
+    if (!data || !data.grammar_summary) return;
+
     const gs = data.grammar_summary;
-    let html = '<div class="unit-grammar-grid">';
+    let html = `<div style="padding-bottom: 2rem;">`;
+
+    html += `
+      <div style="margin-bottom: 1.5rem; text-align: center;">
+        <h3 style="font-size: 1.4rem; font-weight: 800; color: var(--text-primary);">${gs.title}</h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); margin-top: 4px;">جميع القواعد مستخرجة من الدليل المعتمد الرسمي (ENG001 Study Guide) لكليات ومعاهد الهيئة الملكية</p>
+      </div>
+    `;
 
     gs.sections.forEach(sec => {
-      const badgeClass = sec.type === 'HIGH-YIELD' ? 'priority-high-yield' : 'priority-important';
+      const isHighYield = (sec.type === 'HIGH-YIELD');
       html += `
-        <div class="unit-grammar-card">
-          <div class="grammar-card-header">
-            <h4 class="grammar-card-title">${sec.title}</h4>
-            <span class="grammar-priority-badge ${badgeClass}">${sec.type}</span>
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: var(--shadow-sm);">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; margin-bottom: 1rem;">
+            <h4 style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary);">${sec.title}</h4>
+            <span style="font-size: 0.75rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; background: ${isHighYield ? 'rgba(239, 68, 68, 0.12)' : 'rgba(245, 158, 11, 0.12)'}; color: ${isHighYield ? '#ef4444' : '#f59e0b'};">${sec.type}</span>
           </div>
-          <p style="font-size:0.92rem; margin-bottom:8px; line-height:1.5;">${sec.explanation_ar}</p>
-          <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px; line-height:1.4;">${sec.explanation_en}</p>
+
+          <p style="font-size: 0.95rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; line-height: 1.5;">${sec.explanation_ar}</p>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.45;">${sec.explanation_en}</p>
       `;
 
       if (sec.formula) {
-        html += `<div class="grammar-box-formula"><strong>📐 القاعدة والتركيب (Formula):</strong>\n${sec.formula}</div>`;
+        html += `
+          <div style="background: rgba(99, 102, 241, 0.08); border: 1px dashed #6366f1; border-radius: 8px; padding: 12px 16px; margin: 12px 0; font-family: 'Inter', monospace; font-size: 0.92rem; color: #4f46e5; font-weight: 700; direction: ltr; text-align: left; white-space: pre-line;">
+            ${sec.formula}
+          </div>
+        `;
       }
 
       if (sec.rules_table && sec.rules_table.length > 0) {
         html += `
-          <div style="overflow-x:auto; margin: 12px 0;">
-            <table style="width:100%; border-collapse:collapse; font-size:0.86rem;">
+          <div style="overflow-x: auto; margin: 12px 0;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.86rem;">
               <thead>
-                <tr style="background:rgba(99,102,241,0.1); text-align:right;">
-                  <th style="padding:8px 10px; border:1px solid var(--border-color);">الأداة / الحرف</th>
-                  <th style="padding:8px 10px; border:1px solid var(--border-color);">الاستخدام المعتمد</th>
-                  <th style="padding:8px 10px; border:1px solid var(--border-color);">أمثلة نموذجية</th>
+                <tr style="background: rgba(99, 102, 241, 0.08); text-align: right;">
+                  <th style="padding: 8px 10px; border: 1px solid var(--border-subtle);">الأداة</th>
+                  <th style="padding: 8px 10px; border: 1px solid var(--border-subtle);">الاستخدام المعتمد</th>
+                  <th style="padding: 8px 10px; border: 1px solid var(--border-subtle);">أمثلة</th>
                 </tr>
               </thead>
               <tbody>
         `;
         sec.rules_table.forEach(r => {
-          const col1 = r.prep || r.tool || r.modal || r.structure || r.type || r.phrase || '';
-          const col2 = r.usage || r.condition || r.meaning || r.comp || '';
-          const col3 = r.examples || r.example || r.super || '';
+          const c1 = r.prep || r.tool || r.modal || r.structure || r.type || r.phrase || '';
+          const c2 = r.usage || r.condition || r.meaning || r.comp || '';
+          const c3 = r.examples || r.example || r.super || '';
           html += `
             <tr>
-              <td style="padding:8px 10px; border:1px solid var(--border-color); font-weight:700; color:#4f46e5; direction:ltr; text-align:left;">${col1}</td>
-              <td style="padding:8px 10px; border:1px solid var(--border-color);">${col2}</td>
-              <td style="padding:8px 10px; border:1px solid var(--border-color); direction:ltr; text-align:left; color:var(--text-muted);">${col3}</td>
+              <td style="padding: 8px 10px; border: 1px solid var(--border-subtle); font-weight: 700; color: #4f46e5; direction: ltr; text-align: left;">${c1}</td>
+              <td style="padding: 8px 10px; border: 1px solid var(--border-subtle);">${c2}</td>
+              <td style="padding: 8px 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary); direction: ltr; text-align: left;">${c3}</td>
             </tr>
           `;
         });
@@ -309,13 +534,13 @@
 
       if (sec.inflection_rules && sec.inflection_rules.length > 0) {
         html += `
-          <div style="overflow-x:auto; margin: 12px 0;">
-            <table style="width:100%; border-collapse:collapse; font-size:0.86rem;">
+          <div style="overflow-x: auto; margin: 12px 0;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.86rem;">
               <thead>
-                <tr style="background:rgba(99,102,241,0.1); text-align:right;">
-                  <th style="padding:8px 10px; border:1px solid var(--border-color);">نهاية الفعل</th>
-                  <th style="padding:8px 10px; border:1px solid var(--border-color);">التغيير مع (He/She/It)</th>
-                  <th style="padding:8px 10px; border:1px solid var(--border-color);">أمثلة</th>
+                <tr style="background: rgba(99, 102, 241, 0.08); text-align: right;">
+                  <th style="padding: 8px 10px; border: 1px solid var(--border-subtle);">نهاية الفعل</th>
+                  <th style="padding: 8px 10px; border: 1px solid var(--border-subtle);">التغيير مع He/She/It</th>
+                  <th style="padding: 8px 10px; border: 1px solid var(--border-subtle);">أمثلة</th>
                 </tr>
               </thead>
               <tbody>
@@ -323,42 +548,29 @@
         sec.inflection_rules.forEach(inf => {
           html += `
             <tr>
-              <td style="padding:8px 10px; border:1px solid var(--border-color); font-weight:700;">${inf.rule}</td>
-              <td style="padding:8px 10px; border:1px solid var(--border-color); color:#10b981; font-weight:700;">${inf.change}</td>
-              <td style="padding:8px 10px; border:1px solid var(--border-color); direction:ltr; text-align:left;">${inf.example}</td>
+              <td style="padding: 8px 10px; border: 1px solid var(--border-subtle); font-weight: 700;">${inf.rule}</td>
+              <td style="padding: 8px 10px; border: 1px solid var(--border-subtle); color: #10b981; font-weight: 700;">${inf.change}</td>
+              <td style="padding: 8px 10px; border: 1px solid var(--border-subtle); color: var(--text-secondary); direction: ltr; text-align: left;">${inf.example}</td>
             </tr>
           `;
         });
         html += `</tbody></table></div>`;
       }
 
-      if (sec.collocations && sec.collocations.length > 0) {
-        html += `<div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:8px; margin:12px 0;">`;
-        sec.collocations.forEach(c => {
-          html += `
-            <div style="background:var(--bg-surface); padding:8px 12px; border-radius:8px; border:1px solid var(--border-color);">
-              <span style="font-weight:700; color:#4f46e5; display:block; direction:ltr; text-align:left;">${c.pair}</span>
-              <span style="font-size:0.78rem; color:var(--text-muted);">${c.note}</span>
-            </div>
-          `;
-        });
-        html += `</div>`;
-      }
-
       if (sec.common_confusion) {
         html += `
-          <div style="background:rgba(239, 68, 68, 0.08); border-right:4px solid #ef4444; border-radius:4px 8px 8px 4px; padding:10px 14px; margin:10px 0; font-size:0.86rem; line-height:1.45;">
-            <strong style="color:#b91c1c; display:block; margin-bottom:4px;">⚠️ خطأ شائع يجب الحذر منه (Common Confusion):</strong>
-            <div style="white-space:pre-line;">${sec.common_confusion}</div>
+          <div style="background: rgba(239, 68, 68, 0.08); border-right: 4px solid #ef4444; border-radius: 4px 8px 8px 4px; padding: 12px 14px; margin: 12px 0; font-size: 0.88rem; line-height: 1.5;">
+            <strong style="color: #b91c1c; display: block; margin-bottom: 4px;">⚠️ خطأ شائع احذر منه (Common Confusion):</strong>
+            <div style="white-space: pre-line;">${sec.common_confusion}</div>
           </div>
         `;
       }
 
       if (sec.exam_classic) {
         html += `
-          <div class="grammar-classic-box">
-            <div class="grammar-classic-title">🎯 فخ الاختبار المتكرر (Absolute Exam Classic):</div>
-            <div style="white-space:pre-line;">${sec.exam_classic}</div>
+          <div style="background: rgba(245, 158, 11, 0.08); border-right: 4px solid #f59e0b; border-radius: 4px 8px 8px 4px; padding: 12px 14px; margin-top: 12px; font-size: 0.88rem; line-height: 1.5;">
+            <strong style="color: #d97706; display: block; margin-bottom: 4px;">🎯 فخ الاختبار المتكرر (Absolute Exam Classic):</strong>
+            <div style="white-space: pre-line;">${sec.exam_classic}</div>
           </div>
         `;
       }
@@ -366,210 +578,78 @@
       html += `</div>`;
     });
 
-    html += '</div>';
-    unitGrammarPane.innerHTML = html;
+    html += `</div>`;
+    uGrammarContainer.innerHTML = html;
   }
 
-  function renderUnitVocab(data) {
-    if (!unitVocabPane) return;
-    const vocabList = data.vocab || [];
+  // 4. READING LOGIC
+  function renderUnitReading() {
+    if (!uReadingContainer) return;
+    const data = UNIT_STUDY_DATA[currentUnitKey];
+    if (!data || !data.reading) return;
+
+    const r = data.reading;
     let html = `
-      <div style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <div>
-          <h4 style="font-size:1.1rem; font-weight:700;">مفردات ${data.title} (${vocabList.length} كلمة معتمدة)</h4>
-          <p style="font-size:0.82rem; color:var(--text-muted);">جميع الكلمات مأخوذة من سلايدات المقرر وشروحات كليات الهيئة الملكية مع الصوت الآلي</p>
-        </div>
-      </div>
-      <div class="unit-vocab-grid">
-    `;
-
-    vocabList.forEach(item => {
-      html += `
-        <div class="unit-vocab-card">
-          <div class="u-vocab-head">
-            <div class="u-vocab-word">
-              <span>${item.word}</span>
-              <button class="u-audio-play-btn" data-word="${item.word}" title="استمع للنطق الآلي">🔊</button>
-            </div>
-            <span class="u-vocab-pos">${item.pos}</span>
-          </div>
-          <p class="u-vocab-ar">${item.ar_def}</p>
-          <p class="u-vocab-en">${item.en_def}</p>
-          ${item.synonyms && item.synonyms !== '-' ? `<div style="font-size:0.76rem; color:var(--text-muted);"><strong>مرادف:</strong> ${item.synonyms}</div>` : ''}
-          ${item.antonyms && item.antonyms !== '-' ? `<div style="font-size:0.76rem; color:var(--text-muted);"><strong>مضاد:</strong> ${item.antonyms}</div>` : ''}
-          <div class="u-vocab-example">"${item.example}"</div>
-        </div>
-      `;
-    });
-
-    html += '</div>';
-    unitVocabPane.innerHTML = html;
-
-    // Attach audio play buttons
-    unitVocabPane.querySelectorAll('.u-audio-play-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const word = btn.getAttribute('data-word');
-        if (word) pronounceWord(word);
-      });
-    });
-  }
-
-  function renderUnitQuiz(data) {
-    if (!unitQuizPane) return;
-    const questions = data.practice_questions || [];
-    let html = `
-      <div style="margin-bottom:16px;">
-        <h4 style="font-size:1.1rem; font-weight:700;">اختبار تدريبي فوري لـ ${data.title} (${questions.length} سؤالاً)</h4>
-        <p style="font-size:0.82rem; color:var(--text-muted);">اختر الإجابة وستحصل على تصحيح فوري وشرح مباشر من المعلم الذكي للقاعدة</p>
-      </div>
-      <div class="unit-quiz-container">
-    `;
-
-    questions.forEach((q, idx) => {
-      html += `
-        <div class="unit-quiz-item" data-qidx="${idx}">
-          <div class="u-quiz-header">
-            <span>سؤال ${idx + 1} من ${questions.length}</span>
-            <span style="background:rgba(99,102,241,0.1); color:#4f46e5; padding:2px 8px; border-radius:6px; font-weight:700;">${q.topic}</span>
-          </div>
-          <div class="u-quiz-text">${q.text}</div>
-          <div class="u-quiz-opts">
-      `;
-
-      q.options.forEach(opt => {
-        html += `<button class="u-opt-btn" data-opt="${opt}">${opt}</button>`;
-      });
-
-      html += `
-          </div>
-          <div class="u-quiz-feedback">
-            <strong>💡 شرح المعلم الذكي:</strong><br>
-            ${q.tutor}
-          </div>
-        </div>
-      `;
-    });
-
-    html += '</div>';
-    unitQuizPane.innerHTML = html;
-
-    // Attach Quiz Question Option Clicks
-    unitQuizPane.querySelectorAll('.unit-quiz-item').forEach(item => {
-      const qIdx = parseInt(item.getAttribute('data-qidx'), 10);
-      const questionObj = questions[qIdx];
-      const optBtns = item.querySelectorAll('.u-opt-btn');
-      const feedbackBox = item.querySelector('.u-quiz-feedback');
-
-      optBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const chosen = btn.getAttribute('data-opt');
-          optBtns.forEach(b => {
-            b.disabled = true;
-            if (b.getAttribute('data-opt') === questionObj.answer) {
-              b.classList.add('correct');
-            }
-          });
-
-          if (chosen === questionObj.answer) {
-            btn.classList.add('correct');
-          } else {
-            btn.classList.add('wrong');
-          }
-
-          if (feedbackBox) {
-            feedbackBox.style.display = 'block';
-          }
-        });
-      });
-    });
-  }
-
-  function renderUnitReading(data) {
-    if (!unitReadingPane) return;
-    const reading = data.reading;
-    if (!reading) {
-      unitReadingPane.innerHTML = '<p>لا توجد قطعة قراءة لهذه الوحدة.</p>';
-      return;
-    }
-
-    let html = `
-      <div class="unit-reading-container">
-        <div class="unit-passage-card">
-          <h3 class="unit-passage-title">📖 ${reading.title}</h3>
-          <p style="font-size:1rem; line-height:1.8; color:var(--text-main); white-space:pre-line;">
-            ${reading.passage}
+      <div style="padding-bottom: 2rem;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem;">📖 ${r.title}</h3>
+          <p style="font-size: 0.98rem; line-height: 1.8; color: var(--text-primary); white-space: pre-line; direction: ltr; text-align: left;">
+            ${r.passage}
           </p>
         </div>
 
-        <div style="margin-top:10px;">
-          <h4 style="font-size:1.1rem; font-weight:700; margin-bottom:12px;">🎯 أسئلة الفهم والاستيعاب على النص (${reading.questions.length} أسئلة)</h4>
-          <div class="unit-quiz-container">
+        <div style="margin-top: 1.5rem;">
+          <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 1rem;">🎯 أسئلة الفهم والاستيعاب (${r.questions.length} أسئلة)</h4>
     `;
 
-    reading.questions.forEach((q, idx) => {
+    r.questions.forEach((q, idx) => {
       html += `
-        <div class="unit-quiz-item" data-ridx="${idx}">
-          <div class="u-quiz-header">
-            <span>سؤال استيعاب ${idx + 1} من ${reading.questions.length}</span>
-          </div>
-          <div class="u-quiz-text">${q.q}</div>
-          <div class="u-quiz-opts">
+        <div class="u-reading-q-box" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem;" data-rqidx="${idx}">
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 6px;">سؤال استيعاب ${idx + 1}</div>
+          <div style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; direction: ltr; text-align: left;">${q.q}</div>
+          <div class="quiz-options-list">
       `;
 
       q.options.forEach(opt => {
-        html += `<button class="u-opt-btn" data-opt="${opt}">${opt}</button>`;
+        html += `<button class="quiz-opt-btn u-rq-opt" data-opt="${opt}">${opt}</button>`;
       });
 
       html += `
           </div>
-          <div class="u-quiz-feedback">
-            <strong>💡 الدليل من النص:</strong><br>
-            ${q.explanation}
+          <div class="u-rq-feedback" style="display:none; margin-top: 12px; padding: 10px 12px; background: rgba(99, 102, 241, 0.08); border-right: 4px solid #6366f1; border-radius: 6px; font-size: 0.86rem;">
+            <strong>💡 الدليل من النص:</strong> ${q.explanation}
           </div>
         </div>
       `;
     });
 
-    html += `
-          </div>
-        </div>
-      </div>
-    `;
+    html += `</div></div>`;
+    uReadingContainer.innerHTML = html;
 
-    unitReadingPane.innerHTML = html;
-
-    // Attach Reading Question Clicks
-    unitReadingPane.querySelectorAll('.unit-quiz-item').forEach(item => {
-      const rIdx = parseInt(item.getAttribute('data-ridx'), 10);
-      const questionObj = reading.questions[rIdx];
-      const optBtns = item.querySelectorAll('.u-opt-btn');
-      const feedbackBox = item.querySelector('.u-quiz-feedback');
+    // Attach Reading clicks
+    uReadingContainer.querySelectorAll('.u-reading-q-box').forEach(box => {
+      const rqIdx = parseInt(box.getAttribute('data-rqidx'), 10);
+      const qObj = r.questions[rqIdx];
+      const optBtns = box.querySelectorAll('.u-rq-opt');
+      const fBox = box.querySelector('.u-rq-feedback');
 
       optBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-          const chosen = btn.getAttribute('data-opt');
-          optBtns.forEach(b => {
-            b.disabled = true;
-            if (b.getAttribute('data-opt') === questionObj.answer) {
-              b.classList.add('correct');
-            }
-          });
-
-          if (chosen === questionObj.answer) {
-            btn.classList.add('correct');
+          optBtns.forEach(b => b.disabled = true);
+          const val = btn.getAttribute('data-opt');
+          if (val === qObj.answer) {
+            btn.classList.add('quiz-correct');
           } else {
-            btn.classList.add('wrong');
+            btn.classList.add('quiz-wrong');
+            optBtns.forEach(b => {
+              if (b.getAttribute('data-opt') === qObj.answer) b.classList.add('quiz-correct');
+            });
           }
-
-          if (feedbackBox) {
-            feedbackBox.style.display = 'block';
-          }
+          if (fBox) fBox.style.display = 'block';
         });
       });
     });
   }
-
 
   function init() {
     initUnitStudyHub();
