@@ -30,11 +30,6 @@
       </div>
       
       <div class="nav-actions">
-        <!-- Listening Lab Button -->
-        <button id="openListeningHubBtn" class="btn btn-listening-hub" title="مختبر الاستماع التفاعلي لكويز 1">
-          <span class="btn-icon">🎧</span> مختبر الاستماع (Listening Lab)
-        </button>
-
         <!-- Syllabus & Quiz 1 Rules Button -->
         <button id="openSyllabusBtn" class="btn btn-syllabus-hub" title="عرض خطة كويز 1 والقواعد المعتمدة">
           <span class="btn-icon">📋</span> خطة كويز 1 والقواعد
@@ -74,10 +69,10 @@
     <div class="status-container">
       <div class="status-left">
         <span id="currentModelBadge" class="badge badge-primary">Model 1</span>
-        <span id="answeredCountBadge" class="badge badge-neutral">0/70</span>
+        <span id="answeredCountBadge" class="badge badge-neutral">0/60</span>
         <!-- Mobile Palette Quick Trigger -->
         <button id="openMobilePaletteBtn" class="btn btn-outline btn-xs mobile-only-inline" title="Open Question Palette">
-          🔢 1–70
+          🔢 1–60
         </button>
       </div>
 
@@ -124,81 +119,11 @@
         <div id="passageBody" class="passage-body"></div>
       </section>
 
-        <!-- Exam Listening Audio Station (Active for Listening Comprehension questions) -->
-        <section id="examAudioStation" class="audio-station-card hidden">
-          <div class="audio-station-header">
-            <div class="audio-track-info">
-              <span id="examAudioTrackBadge" class="audio-track-badge">🎧 Listening Audio Track</span>
-              <h3 id="examAudioTrackTitle" class="audio-track-title">Audio Track Title</h3>
-            </div>
-            <span class="elevenlabs-badge">🎧 صوت بشري عالي النقاء (HD Human Audio)</span>
-            <div id="examAudioPlayCounter" class="audio-play-counter">🔊 استمعت: 0 / 2</div>
-          </div>
-
-          <!-- Animated Sound Equalizer Waves -->
-          <div id="audioStatusText" class="audio-status-feedback"></div>
-          <div id="examSoundWaveContainer" class="sound-wave-container">
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-          </div>
-
-          <!-- Audio Player Controls -->
-          <div class="audio-player-controls">
-            <div class="audio-main-btns">
-              <button id="examPlayAudioBtn" class="btn-play-audio">
-                <span id="examPlayAudioIcon">▶️</span> <span id="examPlayAudioText">استمع للمقطع</span>
-              </button>
-              <button id="examStopAudioBtn" class="btn-stop-audio">
-                <span>⏹️</span> إيقاف
-              </button>
-            </div>
-
-            <!-- Voice Tone Selector (Human Natural) -->
-            <div class="voice-selector-group">
-              <button class="voice-btn active exam-voice-btn" data-voice="female" title="صوت طبيعي مريح وواضح">👩‍🏫 صوت المعلمة (Natural)</button>
-              <button class="voice-btn exam-voice-btn" data-voice="male" title="صوت طبيعي واضح وهادئ">👨‍🏫 صوت المعلم (Natural)</button>
-            </div>
-
-            <!-- Speed Controls -->
-            
-            
-            
-            <div class="audio-speed-group">
-              <button class="speed-btn active exam-speed-btn" data-rate="0.92">🐢 سرعة هادئة (0.92x)</button>
-              <button class="speed-btn exam-speed-btn" data-rate="1.0">⚡ سرعة طبيعية (1.0x)</button>
-            </div>
-
-            <!-- Transcript Toggle -->
-            <button id="examToggleTranscriptBtn" class="btn-toggle-transcript">
-              👁️ إظهار النص المسموع (Transcript)
-            </button>
-          </div>
-
-          <!-- Collapsible Transcript Box -->
-          <div id="examAudioTranscriptBox" class="audio-transcript-box hidden">
-            <div class="transcript-en" id="examTranscriptEn"></div>
-            <div class="transcript-ar" id="examTranscriptAr"></div>
-          </div>
-        </section>
-
       <!-- Active Question Card -->
       <section class="question-card" id="questionCard">
         <div class="question-card-header">
           <div class="q-header-meta">
-            <span id="qNumberBadge" class="q-num-pill">Question 1 of 70</span>
+            <span id="qNumberBadge" class="q-num-pill">Question 1 of 60</span>
             <span id="qUnitBadge" class="q-unit-pill">Unit 3: Grammar</span>
             <span id="qSectionTag" class="q-sec-tag">Grammar</span>
             <span id="qTopicTag" class="q-topic-tag">Parts of Speech</span>
@@ -254,14 +179,14 @@
             </div>
           </div>
 
+          <!-- Clean Diagnostic & Explanation Cards Grid -->
           <!-- Syllabus & Unit Reference Box -->
           <div class="syllabus-ref-box">
             <span class="syllabus-icon">📘</span>
             <span class="syllabus-label">المرجع من خطة المنهج (Course Plan):</span>
-            <span id="tutorSyllabusRef" class="syllabus-val">Unlock 1: Unit 3 (Daily Routines & Present Simple)</span>
+            <span id="tutorSyllabusRef" class="syllabus-val">Unlock 1: Unit 3</span>
           </div>
 
-          <!-- Clean Diagnostic & Explanation Cards Grid -->
           <div class="tutor-cards-grid">
             <!-- Your Answer vs Correct Answer -->
             <div class="tutor-card comparison-badge-card">
@@ -367,7 +292,7 @@
         <div class="question-nav-footer">
           <button id="prevQuestionBtn" class="btn btn-outline" disabled>← Previous</button>
           <div class="footer-center-nav">
-            <span id="footerQTracker">Question 1 of 70</span>
+            <span id="footerQTracker">Question 1 of 60</span>
           </div>
           <button id="nextQuestionBtn" class="btn btn-outline">Next →</button>
         </div>
@@ -379,7 +304,7 @@
           <div class="results-hero">
             <div class="score-circle">
               <span id="resTotalScore" class="score-number">0</span>
-              <span class="score-max">/ 70</span>
+              <span class="score-max">/ 60</span>
             </div>
             <h2 id="resTitle" class="results-title">Examination Completed</h2>
             <p id="resSubtitle" class="results-sub">Review your detailed performance metrics and learning recommendations below.</p>
@@ -433,16 +358,6 @@
                   <div id="bMixedBar" class="progress-bar-fill" style="width: 0%;"></div>
                 </div>
               </div>
-
-              <div class="breakdown-card">
-                <div class="b-header">
-                  <h4>Part 5: Listening Comprehension (الاستماع)</h4>
-                  <span id="bListeningScore" class="b-score">0 / 10</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="bListeningBar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -467,7 +382,7 @@
 
           <!-- Action Buttons -->
           <div class="results-actions">
-            <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 70 Questions With Smart Tutor</button>
+            <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 60 Questions With Smart Tutor</button>
             <button id="retakeExamBtn" class="btn btn-outline btn-lg">↺ Retake Current Model</button>
             <button id="nextModelBtn" class="btn btn-secondary btn-lg">Next Model →</button>
           </div>
@@ -485,11 +400,10 @@
 
         <!-- Section Filter Tabs -->
         <div class="palette-tabs">
-          <button class="pal-tab active" data-filter="all">All (70)</button>
+          <button class="pal-tab active" data-filter="all">All (60)</button>
           <button class="pal-tab" data-filter="Grammar">Grammar</button>
           <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
           <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
-          <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
           <button class="pal-tab" data-filter="Mixed Review">Review</button>
         </div>
 
@@ -519,15 +433,14 @@
   <div id="mobilePaletteModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="mobilePaletteTitle">
     <div class="modal-box mobile-palette-modal-box">
       <div class="modal-header">
-        <h3 id="mobilePaletteTitle" class="modal-title">Question Palette (قائمة الأسئلة 1–70)</h3>
+        <h3 id="mobilePaletteTitle" class="modal-title">Question Palette (قائمة الأسئلة 1–60)</h3>
         <button id="closeMobilePaletteBtn" class="modal-close-x">&times;</button>
       </div>
       <div class="palette-tabs mobile-palette-tabs">
-        <button class="pal-tab active" data-filter="all">All (70)</button>
+        <button class="pal-tab active" data-filter="all">All (60)</button>
         <button class="pal-tab" data-filter="Grammar">Grammar</button>
         <button class="pal-tab" data-filter="Vocabulary">Vocab</button>
         <button class="pal-tab" data-filter="Reading Comprehension">Reading</button>
-        <button class="pal-tab" data-filter="Listening Comprehension">Listening (10)</button>
         <button class="pal-tab" data-filter="Mixed Review">Review</button>
       </div>
       <div id="mobileQuestionsGrid" class="questions-grid">
@@ -551,7 +464,7 @@
             <span class="stat-sub">Answered</span>
           </div>
           <div class="stat-col">
-            <span id="modalUnansweredCount" class="stat-num text-amber">70</span>
+            <span id="modalUnansweredCount" class="stat-num text-amber">60</span>
             <span class="stat-sub">Unanswered</span>
           </div>
           <div class="stat-col">
@@ -594,10 +507,13 @@
         <div class="vocab-filters">
           <label for="vocabUnitSelect" class="sr-only">Filter by Unit</label>
           <select id="vocabUnitSelect" class="academic-select v-select">
-            <option value="all">🎯 جميع مفردات كويز 1 (Quiz 1 Words)</option>
-            <option value="Unit 3">الوحدة 3: Unit 3 (Daily Routines & College Life)</option>
-            <option value="Unit 4">الوحدة 4: Unit 4 (Places, Geography & Nature)</option>
-            <option value="Unit 5">الوحدة 5: Unit 5 (Travel, Transport, Rules & Adjectives)</option>
+            <option value="all">جميع الوحدات (All Units 1–6)</option>
+            <option value="Unit 1">Unit 1: Introductions & Identity</option>
+            <option value="Unit 2">Unit 2: Campus Places & Facilities</option>
+            <option value="Unit 3">Unit 3: Daily Routines & Activities</option>
+            <option value="Unit 4">Unit 4: Geography, Nature & Climate</option>
+            <option value="Unit 5">Unit 5: Travel, Directions & Transport</option>
+            <option value="Unit 6">Unit 6: Occupations, Work & Personality</option>
           </select>
         </div>
       </div>
@@ -690,6 +606,9 @@
     </div>
   </div>
 
+  <!-- Embed Script -->
+  <script src="script.js"></script>
+
   <!-- =========================================================================
        COURSE DELIVERY PLAN & QUIZ 1 SYLLABUS MODAL
        ========================================================================= -->
@@ -707,90 +626,24 @@
       </div>
 
       <div class="modal-body-scrollable">
-        <!-- Official Assessment Plan Banner -->
+        <!-- Assessment Banner -->
         <div class="assessment-overview-banner">
           <div class="assessment-meta-item">
             <span class="meta-label">المقرر والقسم</span>
             <span class="meta-value">ENG 001 - English I • ELD Department</span>
           </div>
           <div class="assessment-meta-item">
-            <span class="meta-label">منسقو المقرر</span>
-            <span class="meta-value">Mr. Habib Bouagada & Ms. Haneen Sarouji</span>
-          </div>
-          <div class="assessment-meta-item">
             <span class="meta-label">موعد كويز 1 القادم</span>
             <span class="meta-value" style="color:#10b981;">الأحد 27 سبتمبر 2026 (Week 6)</span>
           </div>
           <div class="assessment-meta-item">
-            <span class="meta-label">وزن كويز 1</span>
-            <span class="meta-value" style="color:#38bdf8;">7.5% (من درجات المقرر)</span>
+            <span class="meta-label">النطاق المعتمد</span>
+            <span class="meta-value" style="color:#38bdf8;">Unlock 1 (الوحدات 3 و 4 و 5)</span>
           </div>
-        </div>
-
-        <!-- Official Assessment Roadmap Table -->
-        <div class="assessment-table-wrap">
-          <table class="assessment-table">
-            <thead>
-              <tr>
-                <th>التقييم (Assessment)</th>
-                <th>الوزن %</th>
-                <th>الأسبوع المحدد</th>
-                <th>التاريخ</th>
-                <th>النطاق المعتمد (Coverage)</th>
-                <th>المهارات المطلوبة في الاختبار</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="active-row">
-                <td><strong>🎯 Quiz 1 (النشط حالياً)</strong></td>
-                <td><strong>7.5%</strong></td>
-                <td>Week 6</td>
-                <td><strong>2026-09-27</strong></td>
-                <td><strong>Unlock 1: Units 3, 4, 5 (Weeks 2–4)</strong></td>
-                <td>Grammar (2%) • Reading (2%) • Vocab (1.5%) • Listening (2%)</td>
-              </tr>
-              <tr>
-                <td>📝 Assignment 1 (In Class)</td>
-                <td>5%</td>
-                <td>Week 6</td>
-                <td>2026-09-29</td>
-                <td>Present simple, There is/are, Prepositions of place, Comparatives + than</td>
-                <td>Writing & Grammar</td>
-              </tr>
-              <tr>
-                <td>🏛️ Midterm Exam</td>
-                <td>20%</td>
-                <td>Week 8</td>
-                <td>TBD (أكتوبر)</td>
-                <td>Unlock 1: Units 4, 5, 6, 7, 8 (Weeks 3–7)</td>
-                <td>Grammar (4%) • Reading (4%) • Vocab (4%) • Listening (4%) • Speaking (4%)</td>
-              </tr>
-              <tr>
-                <td>📝 Assignment 2</td>
-                <td>5%</td>
-                <td>Weeks 9–11</td>
-                <td>2026-10-18</td>
-                <td>Because/So, Past simple, Profile paragraph</td>
-                <td>Writing & Grammar</td>
-              </tr>
-              <tr>
-                <td>🔒 Quiz 2</td>
-                <td>7.5%</td>
-                <td>Week 13</td>
-                <td>2026-11-16</td>
-                <td>Unlock 2: Units 1 & 2 (Weeks 9–12)</td>
-                <td>Grammar (2%) • Reading (2%) • Vocab (1.5%) • Listening (2%)</td>
-              </tr>
-              <tr>
-                <td>🎓 Final Exam</td>
-                <td>30%</td>
-                <td>Week 17</td>
-                <td>TBD (ديسمبر)</td>
-                <td>Unlock 1 (Units 6–8) + Unlock 2 (Units 1–3)</td>
-                <td>جميع المهارات الست (Grammar, Vocab, Reading, Listening, Speaking, Writing)</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="assessment-meta-item">
+            <span class="meta-label">الوزن التقديري</span>
+            <span class="meta-value">7.5% (من درجات المقرر)</span>
+          </div>
         </div>
 
         <div class="syllabus-grid">
@@ -858,7 +711,7 @@
             </ul>
           </div>
 
-          <!-- Card 4: Core Foundation & Roadmap -->
+          <!-- Card 4: Parts of Speech -->
           <div class="syllabus-card">
             <div class="syllabus-card-header">
               <span class="syllabus-card-title">⚡ أقسام الكلام (Parts of Speech)</span>
@@ -873,137 +726,14 @@
             </ul>
           </div>
         </div>
-      </div><div class="modal-footer">
+      </div>
+
+      <div class="modal-footer">
         <button id="closeSyllabusFooterBtn" class="btn btn-primary">فهمت المنهج • العودة للتدريب</button>
       </div>
     </div>
   </div>
 
-
-  <!-- =========================================================================
-       LISTENING LAB MODAL (QUIZ 1 FOCUS)
-       ========================================================================= -->
-  <div id="listeningModal" class="fullscreen-modal hidden" role="dialog" aria-modal="true" aria-labelledby="listeningModalTitle">
-    <div class="modal-card listening-modal-card">
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <div class="brand-title-row">
-            <h3 id="listeningModalTitle" class="modal-title">🎧 مختبر الاستماع التفاعلي لكويز 1</h3>
-            <span class="quiz1-active-badge">Quiz 1: 2.0% Weight</span>
-          </div>
-          <p class="modal-subtitle">Unlock 1 (Units 3, 4, 5) • مقاطع صوتية قصيرة لا تتجاوز 5 أسئلة لكل مقطع مع تدريب النطق</p>
-        </div>
-        <button id="closeListeningModalBtn" class="modal-close-btn" aria-label="Close Listening Lab">&times;</button>
-      </div>
-
-      <div class="modal-body-scrollable">
-        <!-- Track Selector Pills -->
-        <div class="listening-track-selector">
-          <button class="track-pill-btn active" data-track="0">🎙️ المقطع 1: روتين الكلية (Unit 3)</button>
-          <button class="track-pill-btn" data-track="1">🎙️ المقطع 2: مرافق الكلية والقوانين (Units 4 & 5)</button>
-          <button class="track-pill-btn" data-track="2">🎙️ المقطع 3: رحلة ينبع والطقس (Units 4 & 5)</button>
-        </div>
-
-        <!-- Audio Station Card -->
-        <div class="audio-station-card">
-          <div class="audio-station-header">
-            <div class="audio-track-info">
-              <span id="audioTrackBadge" class="audio-track-badge">📘 Unit 3 • 32 ثانية</span>
-              <h4 id="audioTrackTitle" class="audio-track-title">Audio Track 1: College Routine & Classes at YIC</h4>
-            </div>
-            <span class="elevenlabs-badge">🎧 صوت بشري عالي النقاء (HD Human Audio)</span>
-            <div id="audioPlayCounter" class="audio-play-counter">🔊 عدد مرات الاستماع: 0</div>
-          </div>
-
-          <!-- Animated Sound Equalizer Waves -->
-          <div id="soundWaveContainer" class="sound-wave-container">
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-            <div class="sound-bar"></div>
-          </div>
-
-          <!-- Controls Bar -->
-          <div class="audio-player-controls">
-            <div class="audio-main-btns">
-              <button id="playAudioBtn" class="btn-play-audio">
-                <span id="playAudioIcon">▶️</span> <span id="playAudioText">استمع للمقطع</span>
-              </button>
-              <button id="stopAudioBtn" class="btn-stop-audio">
-                <span>⏹️</span> إيقاف
-              </button>
-            </div>
-
-            <!-- Voice Tone Selector (Human Natural) -->
-            <div class="voice-selector-group">
-              <button class="voice-btn active modal-voice-btn" data-voice="female" title="صوت طبيعي مريح وواضح">👩‍🏫 صوت المعلمة (Natural)</button>
-              <button class="voice-btn modal-voice-btn" data-voice="male" title="صوت طبيعي واضح وهادئ">👨‍🏫 صوت المعلم (Natural)</button>
-            </div>
-
-            <!-- Speed Controls -->
-            
-            
-            
-            <div class="audio-speed-group">
-              <button class="speed-btn active" data-rate="0.92">🐢 سرعة هادئة (0.92x)</button>
-              <button class="speed-btn" data-rate="1.0">⚡ سرعة طبيعية (1.0x)</button>
-            </div>
-
-            <!-- Transcript Toggle -->
-            <button id="toggleTranscriptBtn" class="btn-toggle-transcript">
-              👁️ إظهار النص المسموع (Transcript)
-            </button>
-          </div>
-
-          <!-- Collapsible Transcript Box -->
-          <div id="audioTranscriptBox" class="audio-transcript-box hidden">
-            <div class="transcript-en" id="transcriptEn"></div>
-            <div class="transcript-ar" id="transcriptAr"></div>
-          </div>
-        </div>
-
-        <!-- Score & Status Banner -->
-        <div class="listening-score-banner">
-          <div>
-            <span class="text-sm font-bold text-slate-300">الأسئلة المنجزة لهذا المقطع: </span>
-            <span id="listeningSolvedCount" class="font-bold text-emerald-400">0 / 5</span>
-          </div>
-          <div>
-            <span class="text-sm font-bold text-slate-300">الدقة: </span>
-            <span id="listeningAccuracy" class="font-bold text-cyan-400">0%</span>
-          </div>
-          <button id="resetListeningQuizBtn" class="btn-text-tool" style="font-size:0.8rem;">🔄 إعادة المحاولة</button>
-        </div>
-
-        <!-- Questions List Container (Exactly 5 Questions) -->
-        <div id="listeningQuestionsContainer">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button id="closeListeningFooterBtn" class="btn btn-primary">العودة للاختبارات</button>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Embed Script at bottom -->
-  <script src="config.js"></script>
   <script src="script.js"></script>
-
-  <!-- Global Media Element (Prevents Autoplay Gestures Blocking) -->
-  <audio id="globalListeningAudio" preload="auto"></audio>
 </body>
 </html>
