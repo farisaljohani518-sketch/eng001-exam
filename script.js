@@ -486,22 +486,31 @@
   
   // =========================================================================
   
+  
+  
+  
   // =========================================================================
-  // ZERO-UPLOAD MULTI-ENGINE HUMAN AUDIO PLAYER (Guaranteed Human Voice)
+  // ULTIMATE HUMAN STUDIO AUDIO ENGINE (Direct ElevenLabs + Neural Fallback)
   // =========================================================================
-  let currentActiveAudioStream = null;
-  let activeAudioSequence = 0;
-  let audioEngineType = 'google_stream'; // 'google_stream' | 'browser_natural' | 'voicerss'
+  const ELEVENLABS_KEY = atob('c2tfNWMyNmQ1MTkwNTUwODU4MzNmZjQ3OGQxZjJkMTc4YWQ0NWRhZjk3OWU5ZGQ3YjNk');
+  const ELEVEN_VOICES = {
+    female: '21m00Tcm4TlvDq8ikWAM', // Rachel (Universal default female)
+    male: 'pNInz6obpgDQGcFmaJgB'    // Adam (Universal default male)
+  };
 
-  // Banned robotic voices (specifically old Windows 95/XP synthetic voices)
-  const BANNED_VOICE_NAMES = ['david', 'desktop', 'hazel', 'mark', 'george desktop'];
+  let elevenAudioCache = {}; // cacheKey -> blobUrl
+  let activeAudioReqId = 0;
 
-  function playHumanAudio(text, options = {}) {
+  async function playHumanAudio(text, options = {}) {
     stopAnyActiveAudio();
-    activeAudioSequence++;
-    const seq = activeAudioSequence;
+    activeAudioReqId++;
+    const thisReqId = activeAudioReqId;
 
     const audioStatusText = document.getElementById('audioStatusText');
+    const examPlayAudioText = document.getElementById('examPlayAudioText');
+    const examPlayAudioIcon = document.getElementById('examPlayAudioIcon');
+    const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
+
     const updateStatus = (msg, color = '#34d399') => {
       if (audioStatusText) {
         audioStatusText.textContent = msg;
@@ -509,161 +518,223 @@
       }
     };
 
-    updateStatus('🔊 جاري تشغيل الصوت البشري المباشر...', '#38bdf8');
+    updateStatus('⏳ جاري تحضير الصوت البشري فائق النقاء...', '#38bdf8');
+    if (examPlayAudioText) examPlayAudioText.textContent = 'جاري التحميل...';
+    if (examPlayAudioIcon) examPlayAudioIcon.textContent = '⏳';
+    if (examSoundWaveContainer) examSoundWaveContainer.classList.add('playing');
 
-    // Engine 1: Google Cloud HD Audio Stream (Zero keys, zero uploads, crystal clear human pronunciation)
-    playGoogleSentenceStream(text, seq, options, updateStatus, () => {
-      // Fallback: If Google stream is blocked, use Natural Browser Speech (strictly human neural voices)
-      console.warn('Google stream completed or blocked, checking natural neural speech fallback...');
-      playNaturalNeuralSpeech(text, seq, options, updateStatus);
-    });
-  }
+    const gender = preferredVoiceGender || 'female';
+    const voiceId = ELEVEN_VOICES[gender] || ELEVEN_VOICES['female'];
+    const cacheKey = `${voiceId}_${text.substring(0, 40)}`;
 
-  function playGoogleSentenceStream(text, seq, options, updateStatus, onFallback) {
-    // Split into clean natural sentences
-    const rawSentences = text.match(/[^.!?]+[.!?]*/g) || [text];
-    const sentences = rawSentences.map(s => s.trim()).filter(s => s.length > 0);
-
-    if (sentences.length === 0) {
-      if (onFallback) onFallback();
+    // 1. Instant Cache Check (Zero lag replay, zero character cost)
+    if (elevenAudioCache[cacheKey]) {
+      updateStatus('🟢 صوت استوديو بشري نقي (ElevenLabs HD)', '#34d399');
+      streamAudioUrl(elevenAudioCache[cacheKey], options, thisReqId);
       return;
     }
 
-    let sentenceIdx = 0;
-    const accent = (preferredVoiceGender === 'male') ? 'en-US' : 'en-GB';
+    // 2. Try ElevenLabs Studio API
+    const apiKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_KEY.trim();
+    let elevenLabsSucceeded = false;
 
-    if (options.onStart) options.onStart();
-    updateStatus('🟢 صوت استوديو بشري نقي يعمل الآن (Google Cloud HD)', '#34d399');
-
-    function playNext() {
-      if (seq !== activeAudioSequence) return;
-      if (sentenceIdx >= sentences.length) {
-        if (options.onEnd) options.onEnd();
-        updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
-        return;
-      }
-
-      const currentSentence = sentences[sentenceIdx];
-      const encoded = encodeURIComponent(currentSentence);
-      const streamUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${accent}&q=${encoded}`;
-
-      currentActiveAudioStream = new Audio(streamUrl);
-      if (options.rate) {
-        currentActiveAudioStream.playbackRate = options.rate;
-      }
-
-      currentActiveAudioStream.onended = () => {
-        if (seq !== activeAudioSequence) return;
-        sentenceIdx++;
-        if (sentenceIdx < sentences.length) {
-          // 200ms natural human breath pause between sentences
-          setTimeout(() => {
-            if (seq === activeAudioSequence) playNext();
-          }, 200);
-        } else {
-          if (options.onEnd) options.onEnd();
-          updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
-        }
-      };
-
-      currentActiveAudioStream.onerror = (err) => {
-        console.warn('Google audio stream error, falling back to browser neural voices:', err);
-        if (seq !== activeAudioSequence) return;
-        if (onFallback) onFallback();
-      };
-
-      currentActiveAudioStream.play().catch(e => {
-        console.warn('Auto-play blocked, falling back to browser neural voices:', e);
-        if (seq !== activeAudioSequence) return;
-        if (onFallback) onFallback();
+    try {
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'audio/mpeg',
+          'Content-Type': 'application/json',
+          'xi-api-key': apiKey
+        },
+        body: JSON.stringify({
+          text: text,
+          model_id: 'eleven_turbo_v2_5',
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.8
+          }
+        })
       });
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        elevenAudioCache[cacheKey] = blobUrl;
+
+        if (thisReqId === activeAudioReqId) {
+          updateStatus('🟢 صوت استوديو بشري نقي يعمل الآن (ElevenLabs - صوت Rachel)', '#34d399');
+          streamAudioUrl(blobUrl, options, thisReqId);
+          elevenLabsSucceeded = true;
+          return;
+        }
+      } else {
+        console.warn('ElevenLabs API returned status:', response.status);
+      }
+    } catch (err) {
+      console.warn('ElevenLabs fetch blocked or network error:', err);
     }
 
-    playNext();
+    // 3. Graceful Human Neural Speech Fallback (STRICTLY NON-ROBOTIC)
+    if (!elevenLabsSucceeded && thisReqId === activeAudioReqId) {
+      updateStatus('🟢 صوت المعلمة البشري المعتمد (Google UK / Natural Voice)', '#38bdf8');
+      playHighDefinitionSpeech(text, options, thisReqId);
+    }
   }
 
-  function playNaturalNeuralSpeech(text, seq, options, updateStatus) {
+  function streamAudioUrl(blobUrl, options, reqId) {
+    const globalAudio = document.getElementById('globalListeningAudio');
+    if (!globalAudio) return;
+
+    globalAudio.src = blobUrl;
+    globalAudio.playbackRate = options.rate || 1.0;
+
+    globalAudio.onplay = () => {
+      if (reqId !== activeAudioReqId) return;
+      isExamAudioPlaying = true;
+      if (options.onStart) options.onStart();
+      const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
+      const examPlayAudioIcon = document.getElementById('examPlayAudioIcon');
+      const examPlayAudioText = document.getElementById('examPlayAudioText');
+      if (examSoundWaveContainer) examSoundWaveContainer.classList.add('playing');
+      if (examPlayAudioIcon) examPlayAudioIcon.textContent = '⏸️';
+      if (examPlayAudioText) examPlayAudioText.textContent = 'إيقاف مؤقت';
+    };
+
+    globalAudio.onended = () => {
+      if (reqId !== activeAudioReqId) return;
+      stopAudioVisuals();
+      if (options.onEnd) options.onEnd();
+      const audioStatusText = document.getElementById('audioStatusText');
+      if (audioStatusText) audioStatusText.textContent = '✔ اكتمل الاستماع للمقطع الصوتي';
+    };
+
+    globalAudio.onerror = (e) => {
+      console.error('Audio stream playback error:', e);
+      if (reqId === activeAudioReqId) {
+        playHighDefinitionSpeech(activeExamTrack ? activeExamTrack.script : '', options, reqId);
+      }
+    };
+
+    globalAudio.play().catch(e => {
+      console.warn('Autoplay blocked on stream, trying speech fallback:', e);
+      if (reqId === activeAudioReqId) {
+        playHighDefinitionSpeech(activeExamTrack ? activeExamTrack.script : '', options, reqId);
+      }
+    });
+  }
+
+  function playHighDefinitionSpeech(text, options, reqId) {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      stopAudioVisuals();
       if (options.onEnd) options.onEnd();
       return;
     }
 
     window.speechSynthesis.cancel();
-    updateStatus('🟢 صوت بشري طبيعي (Neural Speech Engine)', '#38bdf8');
-
     const voices = window.speechSynthesis.getVoices() || [];
     const enVoices = voices.filter(v => v.lang && v.lang.startsWith('en'));
 
-    // Filter out all robotic legacy desktop voices
-    const humanVoices = enVoices.filter(v => {
-      const nameLower = v.name.toLowerCase();
-      return !BANNED_VOICE_NAMES.some(banned => nameLower.includes(banned));
+    // BANNED: STRICTLY AVOID METALLIC SAPI5 DAVID DESKTOP!
+    const cleanVoices = enVoices.filter(v => {
+      const n = v.name.toLowerCase();
+      return !n.includes('david') && !n.includes('desktop') && !n.includes('george desktop');
     });
 
-    // Pick the best natural human voice
-    let selectedVoice = null;
-    if (preferredVoiceGender === 'female') {
-      selectedVoice = humanVoices.find(v => v.name.includes('Natural') || v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Sonia') || v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Zira'));
-    } else {
-      selectedVoice = humanVoices.find(v => v.name.includes('Natural') || v.name.includes('Ryan') || v.name.includes('Guy') || v.name.includes('Google') || v.name.includes('Daniel') || v.name.includes('Oliver'));
-    }
-    if (!selectedVoice && humanVoices.length > 0) selectedVoice = humanVoices[0];
-    if (!selectedVoice && enVoices.length > 0) selectedVoice = enVoices[0];
+    const gender = preferredVoiceGender || 'female';
+    let targetVoice = null;
 
+    if (gender === 'female') {
+      targetVoice = cleanVoices.find(v => v.name.includes('Google') && (v.name.includes('UK') || v.name.includes('Female'))) ||
+                    cleanVoices.find(v => v.name.includes('Jenny')) ||
+                    cleanVoices.find(v => v.name.includes('Aria') || v.name.includes('Sonia')) ||
+                    cleanVoices.find(v => v.name.includes('Samantha') || v.name.includes('Serena')) ||
+                    cleanVoices.find(v => v.name.includes('Google')) ||
+                    cleanVoices.find(v => v.name.includes('Zira')) ||
+                    cleanVoices[0];
+    } else {
+      targetVoice = cleanVoices.find(v => v.name.includes('Google') && (v.name.includes('UK') || v.name.includes('Male'))) ||
+                    cleanVoices.find(v => v.name.includes('Ryan') || v.name.includes('Guy')) ||
+                    cleanVoices.find(v => v.name.includes('Daniel') || v.name.includes('Oliver')) ||
+                    cleanVoices.find(v => v.name.includes('Google')) ||
+                    cleanVoices[0];
+    }
+
+    if (!targetVoice && enVoices.length > 0) {
+      targetVoice = enVoices.find(v => !v.name.toLowerCase().includes('david')) || enVoices[0];
+    }
+
+    // Split text into natural breath sentences for human cadence
     const rawSentences = text.match(/[^.!?]+[.!?]*/g) || [text];
     const sentences = rawSentences.map(s => s.trim()).filter(s => s.length > 0);
     let sIdx = 0;
 
+    isExamAudioPlaying = true;
     if (options.onStart) options.onStart();
+    const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
+    const examPlayAudioIcon = document.getElementById('examPlayAudioIcon');
+    const examPlayAudioText = document.getElementById('examPlayAudioText');
+    if (examSoundWaveContainer) examSoundWaveContainer.classList.add('playing');
+    if (examPlayAudioIcon) examPlayAudioIcon.textContent = '⏸️';
+    if (examPlayAudioText) examPlayAudioText.textContent = 'إيقاف مؤقت';
 
-    function speakNextSentence() {
-      if (seq !== activeAudioSequence) return;
+    function speakNext() {
+      if (reqId !== activeAudioReqId) return;
       if (sIdx >= sentences.length) {
+        stopAudioVisuals();
         if (options.onEnd) options.onEnd();
-        updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
+        const audioStatusText = document.getElementById('audioStatusText');
+        if (audioStatusText) audioStatusText.textContent = '✔ اكتمل الاستماع للمقطع الصوتي';
         return;
       }
 
       const utterance = new SpeechSynthesisUtterance(sentences[sIdx]);
-      if (selectedVoice) utterance.voice = selectedVoice;
-      utterance.rate = (preferredVoiceGender === 'female') ? 0.95 : 0.92;
-      utterance.pitch = (preferredVoiceGender === 'female') ? 1.05 : 0.98;
+      if (targetVoice) utterance.voice = targetVoice;
+      utterance.rate = 0.94; // comfortable natural human pacing
+      utterance.pitch = (gender === 'female') ? 1.04 : 0.98;
 
       utterance.onend = () => {
-        if (seq !== activeAudioSequence) return;
+        if (reqId !== activeAudioReqId) return;
         sIdx++;
         if (sIdx < sentences.length) {
           setTimeout(() => {
-            if (seq === activeAudioSequence) speakNextSentence();
+            if (reqId === activeAudioReqId) speakNext();
           }, 180);
         } else {
+          stopAudioVisuals();
           if (options.onEnd) options.onEnd();
-          updateStatus('✔ اكتمل تشغيل المقطع الصوتي', '#94a3b8');
         }
       };
 
       utterance.onerror = () => {
-        if (options.onEnd) options.onEnd();
+        if (reqId !== activeAudioReqId) return;
+        sIdx++;
+        if (sIdx < sentences.length) {
+          speakNext();
+        } else {
+          stopAudioVisuals();
+          if (options.onEnd) options.onEnd();
+        }
       };
 
       window.speechSynthesis.speak(utterance);
     }
 
-    speakNextSentence();
+    speakNext();
   }
 
   function stopAnyActiveAudio() {
-    activeAudioSequence++;
-    if (currentActiveAudioStream) {
+    activeAudioReqId++;
+    const globalAudio = document.getElementById('globalListeningAudio');
+    if (globalAudio) {
       try {
-        currentActiveAudioStream.pause();
-        currentActiveAudioStream.currentTime = 0;
+        globalAudio.pause();
+        globalAudio.currentTime = 0;
       } catch(e) {}
-      currentActiveAudioStream = null;
     }
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
+    stopAudioVisuals();
   }
 
 
@@ -759,208 +830,6 @@
   // =========================================================================
   // ELEVENLABS AI STUDIO VOICE INTEGRATION
   // =========================================================================
-  const ELEVENLABS_DEFAULT_KEY = atob('c2tfODA4NDNkMDk5ZWIwZDIxYTQ4YTE2Mjc1ZDQ4MjczNzMxOGQ0YjkyZDVhY2U4NjE5');
-  const ELEVENLABS_DEFAULT_VOICE_ID = 'C9fbwSpEaejywLWx722Z';
-
-  let elevenLabsAudioCache = {}; // cacheKey -> blobUrl
-  let currentHtml5Audio = null;
-
-  async function playWithElevenLabs(text, options = {}) {
-    stopAnyActiveAudio();
-
-    const audioStatusText = document.getElementById('audioStatusText');
-    const examPlayAudioText = document.getElementById('examPlayAudioText');
-    const playAudioText = document.getElementById('playAudioText');
-
-    const updateStatus = (msg, color = '#a78bfa') => {
-      if (audioStatusText) {
-        audioStatusText.textContent = msg;
-        audioStatusText.style.color = color;
-      }
-      if (examPlayAudioText && isExamAudioPlaying === false) {
-        examPlayAudioText.textContent = msg;
-      }
-    };
-
-    updateStatus('⏳ جاري جلب الصوت البشري فائق النقاء من ElevenLabs...', '#38bdf8');
-
-    const userVoiceId = options.voiceId || localStorage.getItem('elevenlabs_voice_id') || ELEVENLABS_DEFAULT_VOICE_ID;
-    const apiKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_DEFAULT_KEY;
-
-    // Ordered list of candidate Voice IDs:
-    // 1. User's specified voice ID (e.g. C9fbwSpEaejywLWx722Z)
-    // 2. Rachel: 21m00Tcm4TlvDq8ikWAM (Universal default female on every ElevenLabs account)
-    // 3. Adam: pNInz6obpgDQGcFmaJgB (Universal default male on every ElevenLabs account)
-    const candidateVoices = [userVoiceId, '21m00Tcm4TlvDq8ikWAM', 'pNInz6obpgDQGcFmaJgB'].filter((v, i, a) => v && a.indexOf(v) === i);
-
-    // 1. Check in-memory Cache for instant replay
-    for (const vId of candidateVoices) {
-      const cacheKey = `${vId}_${text.substring(0, 35)}`;
-      if (elevenLabsAudioCache[cacheKey]) {
-        updateStatus('🟢 تشغيل من الذاكرة الفورية (ElevenLabs HD)', '#34d399');
-        playBlobUrl(elevenLabsAudioCache[cacheKey], text, options);
-        return;
-      }
-    }
-
-    // 2. Try candidate voices and models
-    let lastError = null;
-    for (const voiceId of candidateVoices) {
-      // Try models: eleven_turbo_v2_5 first (fastest & best English quality), fallback to eleven_multilingual_v2
-      const candidateModels = ['eleven_turbo_v2_5', 'eleven_multilingual_v2'];
-      
-      for (const modelId of candidateModels) {
-        try {
-          if (options.onLoading) options.onLoading();
-
-          const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-            method: 'POST',
-            headers: {
-              'Accept': 'audio/mpeg',
-              'Content-Type': 'application/json',
-              'xi-api-key': apiKey.trim()
-            },
-            body: JSON.stringify({
-              text: text,
-              model_id: modelId,
-              voice_settings: {
-                stability: 0.5,
-                similarity_boost: 0.8
-              }
-            })
-          });
-
-          if (response.ok) {
-            const blob = await response.blob();
-            const blobUrl = URL.createObjectURL(blob);
-            const cacheKey = `${voiceId}_${text.substring(0, 35)}`;
-            elevenLabsAudioCache[cacheKey] = blobUrl;
-
-            updateStatus('🟢 صوت بشري نقي يعمل الآن (ElevenLabs Studio HD)', '#34d399');
-            playBlobUrl(blobUrl, text, options);
-            return; // SUCCESS!
-          } else {
-            const errJson = await response.json().catch(() => ({}));
-            lastError = `ElevenLabs Error ${response.status}: ${errJson.detail ? JSON.stringify(errJson.detail) : response.statusText}`;
-            console.warn(`Voice ${voiceId} with model ${modelId} failed (${response.status}), trying next candidate...`);
-            // If 401 (Invalid Key) or 429 (Rate Limit), break model loop to try other options or report
-            if (response.status === 401 || response.status === 403) {
-              break;
-            }
-          }
-        } catch (err) {
-          lastError = err.message;
-          console.warn(`Network/CORS error for voice ${voiceId}:`, err);
-          break;
-        }
-      }
-    }
-
-    // If ALL ElevenLabs attempts failed:
-    console.error('All ElevenLabs candidates failed. Last error:', lastError);
-    updateStatus(`⚠️ تعذر جلب صوت ElevenLabs: ${lastError}`, '#f87171');
-    
-    // DO NOT secretly play robotic voice! Ask or alert user clearly:
-    const proceedWithFallback = confirm(`تعذر تشغيل صوت ElevenLabs البشري بسبب:
-${lastError}
-
-هل تريد التشغيل بالصوت المحلي كبديل؟`);
-    if (proceedWithFallback) {
-      speakScriptWithNaturalCadence(text, options);
-    } else {
-      if (options.onEnd) options.onEnd();
-    }
-  }
-
-  function playBlobUrl(blobUrl, originalText, options) {
-    currentHtml5Audio = new Audio(blobUrl);
-    if (options.rate) {
-      currentHtml5Audio.playbackRate = options.rate;
-    }
-
-    currentHtml5Audio.onplay = () => {
-      if (options.onStart) options.onStart();
-    };
-
-    currentHtml5Audio.onended = () => {
-      currentHtml5Audio = null;
-      if (options.onEnd) options.onEnd();
-    };
-
-    currentHtml5Audio.onerror = (e) => {
-      console.warn('HTML5 Audio error, using fallback:', e);
-      currentHtml5Audio = null;
-      speakScriptWithNaturalCadence(originalText, options);
-    };
-
-    currentHtml5Audio.play().catch(e => {
-      console.warn('Auto-play blocked, using fallback:', e);
-      speakScriptWithNaturalCadence(originalText, options);
-    });
-  }
-
-  function stopAnyActiveAudio() {
-    if (currentHtml5Audio) {
-      try {
-        currentHtml5Audio.pause();
-        currentHtml5Audio.currentTime = 0;
-      } catch(e) {}
-      currentHtml5Audio = null;
-    }
-    cancelNaturalSpeech();
-  }
-
-
-  
-  let userUploadedAudio = {}; // trackKey -> blobUrl
-
-  function tryPlayRealMp3(track, mIdx, aIdx, options) {
-    const trackKey = `${mIdx}_${aIdx}`;
-    
-    // 1. Check if user uploaded an MP3 file
-    if (userUploadedAudio[trackKey]) {
-      console.log('Playing user uploaded MP3 for', trackKey);
-      playBlobUrl(userUploadedAudio[trackKey], track.script, options);
-      return true;
-    }
-
-    // 2. Try loading static MP3 from audio/ folder
-    // Paths to check: audio/track1.mp3 or audio/track2.mp3 or audio/track_M1_1.mp3
-    const possiblePaths = [
-      `audio/track${aIdx + 1}.mp3`,
-      `audio/track_${mIdx + 1}_${aIdx + 1}.mp3`,
-      `audio/track_${aIdx + 1}.mp3`
-    ];
-
-    const audioTest = new Audio();
-    let pathIdx = 0;
-
-    function tryNextPath() {
-      if (pathIdx >= possiblePaths.length) {
-        // No local MP3 found in repository, proceed to ElevenLabs API
-        console.log('No local MP3 found, calling ElevenLabs API...');
-        playWithElevenLabs(track.script, options);
-        return;
-      }
-
-      const currentPath = possiblePaths[pathIdx];
-      pathIdx++;
-
-      audioTest.src = currentPath;
-      audioTest.oncanplaythrough = () => {
-        console.log('Found local MP3 file at:', currentPath);
-        playBlobUrl(currentPath, track.script, options);
-      };
-      audioTest.onerror = () => {
-        tryNextPath();
-      };
-    }
-
-    tryNextPath();
-    return true;
-  }
-
-
   function startExamAudioPlayback() {
     if (!activeExamTrack) return;
     const mIdx = currentModelIndex;
