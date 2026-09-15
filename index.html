@@ -30,6 +30,11 @@
       </div>
       
       <div class="nav-actions">
+        <!-- Unit Study Hub Button -->
+        <button id="openUnitStudyBtn" class="btn btn-unit-study-hub" title="مذاكرة مركزة لكل وحدة (Unit 3, 4, 5)">
+          <span class="btn-icon">🎯</span> مذاكرة حسب اليونت (Units 3, 4, 5)
+        </button>
+
         <!-- Syllabus & Quiz 1 Rules Button -->
         <button id="openSyllabusBtn" class="btn btn-syllabus-hub" title="عرض خطة كويز 1 والقواعد المعتمدة">
           <span class="btn-icon">📋</span> خطة كويز 1 والقواعد
@@ -607,6 +612,84 @@
   </div>
 
   <!-- Embed Script -->
+  <!-- UNIT STUDY & PRACTICE HUB MODAL (FULLSCREEN EXPERIENCE) -->
+  <div id="unitStudyModal" class="fullscreen-modal hidden" role="dialog" aria-modal="true" aria-labelledby="unitStudyModalTitle">
+    <div class="modal-box unit-study-modal-box fullscreen-box">
+      <!-- Fullscreen Top Header Bar -->
+      <div class="unit-study-modal-header">
+        <div class="unit-study-title-wrap">
+          <span class="unit-study-badge-icon">🎯</span>
+          <div>
+            <h3 id="unitStudyModalTitle" class="modal-title">مركز المذاكرة المركزة حسب الوحدة (Unit Study Hub)</h3>
+            <p class="unit-study-modal-sub">خطة كويز 1 المعتمدة (Unlock 1: Units 3, 4, 5) • قواعد وشرح الاختبار + مفردات ونطق آلي + اختبارات تدريبية + نصوص قراءة</p>
+          </div>
+        </div>
+        <button id="closeUnitStudyModalBtn" class="modal-close-x" title="Close Unit Hub">&times;</button>
+      </div>
+
+      <!-- Unit Selector Cards (3 Units) -->
+      <div class="unit-selector-bar">
+        <button class="unit-selector-card active" data-unit="unit_3">
+          <div class="unit-card-top">
+            <span class="unit-card-badge">Unit 3</span>
+            <span class="unit-card-tag">📘 داخل بكويز 1</span>
+          </div>
+          <h4 class="unit-card-title">Daily Routines & Activities</h4>
+          <p class="unit-card-desc">المضارع البسيط، حروف جر الوقت (at/on/in)، والتلازمات اللفظية (do vs make)</p>
+        </button>
+
+        <button class="unit-selector-card" data-unit="unit_4">
+          <div class="unit-card-top">
+            <span class="unit-card-badge">Unit 4</span>
+            <span class="unit-card-tag">📗 داخل بكويز 1</span>
+          </div>
+          <h4 class="unit-card-title">Places, Nature & Climate</h4>
+          <p class="unit-card-desc">قاعدة There is/are، أدوات النكرة والتعريف (a/an/the/Ø)، والمضاف بـ of</p>
+        </button>
+
+        <button class="unit-selector-card" data-unit="unit_5">
+          <div class="unit-card-top">
+            <span class="unit-card-badge">Unit 5</span>
+            <span class="unit-card-tag">📙 داخل بكويز 1</span>
+          </div>
+          <h4 class="unit-card-title">Travel, Transport & Rules</h4>
+          <p class="unit-card-desc">أفعال الإلزام (must/have to/should)، صفات المقارنة والتفضيل، و good at/with</p>
+        </button>
+      </div>
+
+      <!-- Sub-Navigation Pills -->
+      <div class="unit-subnav-bar">
+        <div class="unit-subnav-pills">
+          <button class="unit-pill active" data-view="grammar">📖 القواعد وشرح الاختبار (Grammar)</button>
+          <button class="unit-pill" data-view="vocab">🗂️ الكلمات والنطق الآلي (Vocab & Audio)</button>
+          <button class="unit-pill" data-view="quiz">🎯 اختبار تدريبي فوري (Practice Quiz)</button>
+          <button class="unit-pill" data-view="reading">📰 نصوص القراءة والفهم (Reading)</button>
+        </div>
+      </div>
+
+      <!-- Unit View Container (Dynamic Content) -->
+      <div class="unit-body-scrollable">
+        <!-- VIEW 1: Grammar View -->
+        <div id="unitGrammarPane" class="unit-pane active"></div>
+
+        <!-- VIEW 2: Vocab View -->
+        <div id="unitVocabPane" class="unit-pane"></div>
+
+        <!-- VIEW 3: Quiz View -->
+        <div id="unitQuizPane" class="unit-pane"></div>
+
+        <!-- VIEW 4: Reading View -->
+        <div id="unitReadingPane" class="unit-pane"></div>
+      </div>
+
+      <!-- Bottom Status / Return Bar -->
+      <div class="unit-study-footer">
+        <span id="unitFooterStatus" class="unit-footer-text">جاهز للمذاكرة المركزة • اختر الوحدة والمهارة التي تريد التدرب عليها</span>
+        <button id="closeUnitStudyFooterBtn" class="btn btn-primary">العودة للاختبارات الكاملة</button>
+      </div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 
   <!-- =========================================================================
