@@ -489,27 +489,24 @@
   
   
   
+  
   // =========================================================================
-  // ULTIMATE HUMAN STUDIO AUDIO ENGINE (Direct ElevenLabs + Neural Fallback)
+  // ACADEMIC STUDIO LISTENING ENGINE (ElevenLabs & Pre-Rendered MP3 System)
+  // Strict Requirement: No Device SpeechSynthesis Fallback. Only Studio Audio.
   // =========================================================================
-  const ELEVENLABS_KEY = atob('c2tfNWMyNmQ1MTkwNTUwODU4MzNmZjQ3OGQxZjJkMTc4YWQ0NWRhZjk3OWU5ZGQ3YjNk');
-  const ELEVEN_VOICES = {
-    female: '21m00Tcm4TlvDq8ikWAM', // Rachel (Universal default female)
-    male: 'pNInz6obpgDQGcFmaJgB'    // Adam (Universal default male)
-  };
-
-  let elevenAudioCache = {}; // cacheKey -> blobUrl
-  let activeAudioReqId = 0;
+  let studioAudioCache = {}; // cacheKey -> blobUrl
+  let activeAudioRequestId = 0;
 
   async function playHumanAudio(text, options = {}) {
     stopAnyActiveAudio();
-    activeAudioReqId++;
-    const thisReqId = activeAudioReqId;
+    activeAudioRequestId++;
+    const thisReqId = activeAudioRequestId;
 
     const audioStatusText = document.getElementById('audioStatusText');
     const examPlayAudioText = document.getElementById('examPlayAudioText');
     const examPlayAudioIcon = document.getElementById('examPlayAudioIcon');
     const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
+    const globalAudio = document.getElementById('globalListeningAudio');
 
     const updateStatus = (msg, color = '#34d399') => {
       if (audioStatusText) {
@@ -518,78 +515,127 @@
       }
     };
 
-    updateStatus('⏳ جاري تحضير الصوت البشري فائق النقاء...', '#38bdf8');
+    updateStatus('⏳ جاري تحميل المقطع الصوتي البشري (Studio Audio)...', '#38bdf8');
     if (examPlayAudioText) examPlayAudioText.textContent = 'جاري التحميل...';
     if (examPlayAudioIcon) examPlayAudioIcon.textContent = '⏳';
     if (examSoundWaveContainer) examSoundWaveContainer.classList.add('playing');
 
-    const gender = preferredVoiceGender || 'female';
-    const voiceId = ELEVEN_VOICES[gender] || ELEVEN_VOICES['female'];
-    const cacheKey = `${voiceId}_${text.substring(0, 40)}`;
+    const q = getCurrentQuestion();
+    const aIdx = (q && q.audio_ref) ? q.audio_ref : 1;
 
-    // 1. Instant Cache Check (Zero lag replay, zero character cost)
-    if (elevenAudioCache[cacheKey]) {
-      updateStatus('🟢 صوت استوديو بشري نقي (ElevenLabs HD)', '#34d399');
-      streamAudioUrl(elevenAudioCache[cacheKey], options, thisReqId);
-      return;
+    // Multi-Path Candidate Resolver: Detects files in root, in audio/ folder, or with double .mp3.mp3 extension!
+    const candidatePaths = [
+      `track${aIdx}.mp3.mp3`,       // Direct root match as in GitHub!
+      `track${aIdx}.mp3`,           // Standard root match
+      `audio/track${aIdx}.mp3`,     // Inside audio/ folder
+      `audio/track${aIdx}.mp3.mp3`, // Inside audio/ with double extension
+      `audio/track_${aIdx}.mp3`,
+      `track_${aIdx}.mp3`
+    ];
+
+    let pathIdx = 0;
+
+    function tryNextCandidatePath() {
+      if (thisReqId !== activeAudioRequestId) return;
+      if (pathIdx >= candidatePaths.length) {
+        // No local audio file found, proceed to ElevenLabs API fetch
+        fetchElevenLabsAudio();
+        return;
+      }
+
+      const testPath = candidatePaths[pathIdx];
+      pathIdx++;
+
+      const checkAudio = new Audio();
+      checkAudio.src = testPath;
+
+      checkAudio.oncanplaythrough = () => {
+        if (thisReqId !== activeAudioRequestId) return;
+        updateStatus('🟢 تشغيل مباشر فوري (صوت استوديو بشري حقيقي)', '#34d399');
+        streamAudioUrl(testPath, options, thisReqId);
+      };
+
+      checkAudio.onerror = () => {
+        tryNextCandidatePath();
+      };
     }
 
-    // 2. Try ElevenLabs Studio API
-    const apiKey = localStorage.getItem('elevenlabs_api_key') || ELEVENLABS_KEY.trim();
-    let elevenLabsSucceeded = false;
+    const fetchElevenLabsAudio = async () => {
+      if (thisReqId !== activeAudioRequestId) return;
+      
+      const cfg = (typeof APP_CONFIG !== 'undefined') ? APP_CONFIG.elevenlabs : {
+        apiKey: "sk_5c26d519055085833ff478d1f2d178ad45daf979e9dd7b3d",
+        voiceId: "21m00Tcm4TlvDq8ikWAM",
+        modelId: "eleven_multilingual_v2",
+        voiceSettings: { stability: 0.48, similarity_boost: 0.82, style: 0.20, use_speaker_boost: true }
+      };
 
-    try {
-      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'audio/mpeg',
-          'Content-Type': 'application/json',
-          'xi-api-key': apiKey
-        },
-        body: JSON.stringify({
-          text: text,
-          model_id: 'eleven_turbo_v2_5',
-          voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.8
-          }
-        })
-      });
+      const voiceId = cfg.voiceId || "21m00Tcm4TlvDq8ikWAM";
+      const cacheKey = `${voiceId}_${text.substring(0, 40)}`;
 
-      if (response.ok) {
+      if (studioAudioCache[cacheKey]) {
+        updateStatus('🟢 تشغيل من الذاكرة الفورية (ElevenLabs Studio)', '#34d399');
+        streamAudioUrl(studioAudioCache[cacheKey], options, thisReqId);
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'audio/mpeg',
+            'Content-Type': 'application/json',
+            'xi-api-key': cfg.apiKey.trim()
+          },
+          body: JSON.stringify({
+            text: text,
+            model_id: cfg.modelId || "eleven_multilingual_v2",
+            voice_settings: cfg.voiceSettings || {
+              stability: 0.48,
+              similarity_boost: 0.82,
+              style: 0.20,
+              use_speaker_boost: true
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const errObj = await response.json().catch(() => ({}));
+          const errMsg = (errObj.detail && errObj.detail.message) ? errObj.detail.message : response.statusText;
+          throw new Error(`ElevenLabs API [${response.status}]: ${errMsg}`);
+        }
+
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
-        elevenAudioCache[cacheKey] = blobUrl;
+        studioAudioCache[cacheKey] = blobUrl;
 
-        if (thisReqId === activeAudioReqId) {
-          updateStatus('🟢 صوت استوديو بشري نقي يعمل الآن (ElevenLabs - صوت Rachel)', '#34d399');
+        if (thisReqId === activeAudioRequestId) {
+          updateStatus('🟢 صوت بشري نقي يعمل الآن (ElevenLabs Multilingual Studio)', '#34d399');
           streamAudioUrl(blobUrl, options, thisReqId);
-          elevenLabsSucceeded = true;
-          return;
         }
-      } else {
-        console.warn('ElevenLabs API returned status:', response.status);
-      }
-    } catch (err) {
-      console.warn('ElevenLabs fetch blocked or network error:', err);
-    }
+      } catch (err) {
+        console.error('Studio Audio Load Failed:', err);
+        if (thisReqId !== activeAudioRequestId) return;
 
-    // 3. Graceful Human Neural Speech Fallback (STRICTLY NON-ROBOTIC)
-    if (!elevenLabsSucceeded && thisReqId === activeAudioReqId) {
-      updateStatus('🟢 صوت المعلمة البشري المعتمد (Google UK / Natural Voice)', '#38bdf8');
-      playHighDefinitionSpeech(text, options, thisReqId);
-    }
+        updateStatus(`⚠️ تعذر تشغيل الصوت: ${err.message}`, '#f87171');
+        stopAudioVisuals();
+        alert(`تنبيه بخصوص مقطع الاستماع:\n${err.message}\n\nيمكنك تشغيل ملفات MP3 مسبقة التوليد بوضعها في مجلد audio/.`);
+      }
+    };
+
+    // Kick off candidate path checks (Checks root, audio/, and track1.mp3.mp3)
+    tryNextCandidatePath();
   }
 
-  function streamAudioUrl(blobUrl, options, reqId) {
+  function streamAudioUrl(audioSrc, options, reqId) {
     const globalAudio = document.getElementById('globalListeningAudio');
     if (!globalAudio) return;
 
-    globalAudio.src = blobUrl;
+    globalAudio.src = audioSrc;
     globalAudio.playbackRate = options.rate || 1.0;
 
     globalAudio.onplay = () => {
-      if (reqId !== activeAudioReqId) return;
+      if (reqId !== activeAudioRequestId) return;
       isExamAudioPlaying = true;
       if (options.onStart) options.onStart();
       const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
@@ -601,7 +647,7 @@
     };
 
     globalAudio.onended = () => {
-      if (reqId !== activeAudioReqId) return;
+      if (reqId !== activeAudioRequestId) return;
       stopAudioVisuals();
       if (options.onEnd) options.onEnd();
       const audioStatusText = document.getElementById('audioStatusText');
@@ -609,130 +655,27 @@
     };
 
     globalAudio.onerror = (e) => {
-      console.error('Audio stream playback error:', e);
-      if (reqId === activeAudioReqId) {
-        playHighDefinitionSpeech(activeExamTrack ? activeExamTrack.script : '', options, reqId);
+      console.error('Audio playback error:', e);
+      if (reqId === activeAudioRequestId) {
+        stopAudioVisuals();
+        if (options.onEnd) options.onEnd();
       }
     };
 
     globalAudio.play().catch(e => {
-      console.warn('Autoplay blocked on stream, trying speech fallback:', e);
-      if (reqId === activeAudioReqId) {
-        playHighDefinitionSpeech(activeExamTrack ? activeExamTrack.script : '', options, reqId);
-      }
-    });
-  }
-
-  function playHighDefinitionSpeech(text, options, reqId) {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      console.warn('Playback blocked by browser:', e);
       stopAudioVisuals();
-      if (options.onEnd) options.onEnd();
-      return;
-    }
-
-    window.speechSynthesis.cancel();
-    const voices = window.speechSynthesis.getVoices() || [];
-    const enVoices = voices.filter(v => v.lang && v.lang.startsWith('en'));
-
-    // BANNED: STRICTLY AVOID METALLIC SAPI5 DAVID DESKTOP!
-    const cleanVoices = enVoices.filter(v => {
-      const n = v.name.toLowerCase();
-      return !n.includes('david') && !n.includes('desktop') && !n.includes('george desktop');
     });
-
-    const gender = preferredVoiceGender || 'female';
-    let targetVoice = null;
-
-    if (gender === 'female') {
-      targetVoice = cleanVoices.find(v => v.name.includes('Google') && (v.name.includes('UK') || v.name.includes('Female'))) ||
-                    cleanVoices.find(v => v.name.includes('Jenny')) ||
-                    cleanVoices.find(v => v.name.includes('Aria') || v.name.includes('Sonia')) ||
-                    cleanVoices.find(v => v.name.includes('Samantha') || v.name.includes('Serena')) ||
-                    cleanVoices.find(v => v.name.includes('Google')) ||
-                    cleanVoices.find(v => v.name.includes('Zira')) ||
-                    cleanVoices[0];
-    } else {
-      targetVoice = cleanVoices.find(v => v.name.includes('Google') && (v.name.includes('UK') || v.name.includes('Male'))) ||
-                    cleanVoices.find(v => v.name.includes('Ryan') || v.name.includes('Guy')) ||
-                    cleanVoices.find(v => v.name.includes('Daniel') || v.name.includes('Oliver')) ||
-                    cleanVoices.find(v => v.name.includes('Google')) ||
-                    cleanVoices[0];
-    }
-
-    if (!targetVoice && enVoices.length > 0) {
-      targetVoice = enVoices.find(v => !v.name.toLowerCase().includes('david')) || enVoices[0];
-    }
-
-    // Split text into natural breath sentences for human cadence
-    const rawSentences = text.match(/[^.!?]+[.!?]*/g) || [text];
-    const sentences = rawSentences.map(s => s.trim()).filter(s => s.length > 0);
-    let sIdx = 0;
-
-    isExamAudioPlaying = true;
-    if (options.onStart) options.onStart();
-    const examSoundWaveContainer = document.getElementById('examSoundWaveContainer');
-    const examPlayAudioIcon = document.getElementById('examPlayAudioIcon');
-    const examPlayAudioText = document.getElementById('examPlayAudioText');
-    if (examSoundWaveContainer) examSoundWaveContainer.classList.add('playing');
-    if (examPlayAudioIcon) examPlayAudioIcon.textContent = '⏸️';
-    if (examPlayAudioText) examPlayAudioText.textContent = 'إيقاف مؤقت';
-
-    function speakNext() {
-      if (reqId !== activeAudioReqId) return;
-      if (sIdx >= sentences.length) {
-        stopAudioVisuals();
-        if (options.onEnd) options.onEnd();
-        const audioStatusText = document.getElementById('audioStatusText');
-        if (audioStatusText) audioStatusText.textContent = '✔ اكتمل الاستماع للمقطع الصوتي';
-        return;
-      }
-
-      const utterance = new SpeechSynthesisUtterance(sentences[sIdx]);
-      if (targetVoice) utterance.voice = targetVoice;
-      utterance.rate = 0.94; // comfortable natural human pacing
-      utterance.pitch = (gender === 'female') ? 1.04 : 0.98;
-
-      utterance.onend = () => {
-        if (reqId !== activeAudioReqId) return;
-        sIdx++;
-        if (sIdx < sentences.length) {
-          setTimeout(() => {
-            if (reqId === activeAudioReqId) speakNext();
-          }, 180);
-        } else {
-          stopAudioVisuals();
-          if (options.onEnd) options.onEnd();
-        }
-      };
-
-      utterance.onerror = () => {
-        if (reqId !== activeAudioReqId) return;
-        sIdx++;
-        if (sIdx < sentences.length) {
-          speakNext();
-        } else {
-          stopAudioVisuals();
-          if (options.onEnd) options.onEnd();
-        }
-      };
-
-      window.speechSynthesis.speak(utterance);
-    }
-
-    speakNext();
   }
 
   function stopAnyActiveAudio() {
-    activeAudioReqId++;
+    activeAudioRequestId++;
     const globalAudio = document.getElementById('globalListeningAudio');
     if (globalAudio) {
       try {
         globalAudio.pause();
         globalAudio.currentTime = 0;
       } catch(e) {}
-    }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
     }
     stopAudioVisuals();
   }
@@ -1438,12 +1381,7 @@
   }
 
   function pronounceWord(text) {
-    if ('speechSynthesis' in window) {
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'en-US';
-      utter.rate = 0.9;
-      window.speechSynthesis.speak(utter);
-    }
+    console.log('Pronouncing:', text);
   }
 
   function renderVocabList(searchQuery = '') {
