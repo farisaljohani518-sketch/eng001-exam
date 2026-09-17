@@ -8,6 +8,35 @@
 (function() {
   'use strict';
 
+  window.toggleTheme = function() {
+    const isCurrentlyDark = document.documentElement.classList.contains('dark-mode') || document.body.classList.contains('dark-mode');
+    const newDark = !isCurrentlyDark;
+    
+    if (newDark) {
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
+      document.body.setAttribute('data-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+      document.body.setAttribute('data-theme', 'light');
+    }
+    
+    document.querySelectorAll('.theme-icon-slot').forEach(el => {
+      el.textContent = newDark ? '☀️' : '🌙';
+    });
+    
+    try {
+      localStorage.setItem('rcjy_theme', newDark ? 'dark' : 'light');
+    } catch (e) {}
+  };
+
   // State
   const STORAGE_KEY = 'RCJY_ENG001_EXAM_STATE_V6_60Q';
   const MEMORY_KEY = 'RCJY_ENG001_LEARNING_MEMORY_V5_0';
@@ -652,6 +681,7 @@
   }
 
   function init() {
+    initTheme();
     initUnitStudyHub();
     try {
       localStorage.removeItem('RCJY_ENG001_EXAM_STATE_V5_0');
@@ -849,13 +879,36 @@
     saveState();
   }
 
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode', !isDark);
+  // ==========================================
+  // BULLETPROOF PERSISTENT THEME SWITCHER
+  // ==========================================
+  function initTheme() {
+    const saved = localStorage.getItem('rcjy_theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = (saved === 'dark') || (!saved && prefersDark);
+    applyTheme(isDark);
+  }
+
+  function applyTheme(isDark) {
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.add('dark-mode');
+      document.documentElement.classList.remove('light-mode');
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.classList.remove('dark-mode');
+      document.documentElement.classList.add('light-mode');
+      document.body.classList.remove('dark-mode');
+      document.body.classList.add('light-mode');
+    }
     document.querySelectorAll('.theme-icon-slot').forEach(el => {
       el.textContent = isDark ? '☀️' : '🌙';
     });
   }
+
+  function toggleTheme() { window.toggleTheme(); }
 
   function switchModel(index) {
     currentModelIndex = index;
@@ -865,6 +918,11 @@
     isReviewMode = false;
     resultsSection.classList.add('hidden');
     questionCard.classList.remove('hidden');
+
+    const mainLayout = document.querySelector('.main-layout');
+    if (mainLayout) mainLayout.classList.remove('results-active');
+    const desktopPalette = document.getElementById('desktopPalette');
+    if (desktopPalette) desktopPalette.classList.remove('hidden');
     timerRemaining = 3600;
     
     modelSelect.value = index;
@@ -1212,6 +1270,8 @@
     // Calculate Scores
     const model = getCurrentModel();
     let totalScore = 0;
+    let wrongCount = 0;
+    let unansweredCount = 0;
     let scoresBySection = {
       'Grammar': { correct: 0, total: 20 },
       'Vocabulary': { correct: 0, total: 15 },
@@ -1226,77 +1286,125 @@
       if (chosen === q.answer) {
         totalScore++;
         if (scoresBySection[sec]) scoresBySection[sec].correct++;
+      } else if (chosen === undefined) {
+        unansweredCount++;
+        const topic = (q.tutor && q.tutor.topic) ? q.tutor.topic : sec;
+        missedTopics[topic] = (missedTopics[topic] || 0) + 1;
       } else {
+        wrongCount++;
         const topic = (q.tutor && q.tutor.topic) ? q.tutor.topic : sec;
         missedTopics[topic] = (missedTopics[topic] || 0) + 1;
         recordLearningMistake(topic);
       }
     });
 
-    displayResults(totalScore, scoresBySection, missedTopics);
+    displayResults(totalScore, scoresBySection, missedTopics, wrongCount, unansweredCount);
   }
 
-  function displayResults(totalScore, secScores, missedTopics) {
+  function displayResults(totalScore, secScores, missedTopics, wrongCount, unansweredCount) {
     questionCard.classList.add('hidden');
     passageSection.classList.add('hidden');
     smartTutorPanel.classList.add('hidden');
     resultsSection.classList.remove('hidden');
 
-    const pct = Math.round((totalScore / 60) * 100);
-    resTotalScore.textContent = totalScore;
-    resPercentageBadge.textContent = `${pct}%`;
+    const mainLayout = document.querySelector('.main-layout');
+    if (mainLayout) mainLayout.classList.add('results-active');
+    const desktopPalette = document.getElementById('desktopPalette');
+    if (desktopPalette) desktopPalette.classList.add('hidden');
 
-    let grade = 'F';
-    if (pct >= 95) grade = 'A+';
-    else if (pct >= 90) grade = 'A';
-    else if (pct >= 85) grade = 'B+';
-    else if (pct >= 80) grade = 'B';
-    else if (pct >= 75) grade = 'C+';
-    else if (pct >= 70) grade = 'C';
-    else if (pct >= 60) grade = 'D';
+    const totalQuestions = getCurrentModel().questions.length || 60;
+    const pct = Math.round((totalScore / totalQuestions) * 100);
 
-    resGradeBadge.textContent = `Grade: ${grade}`;
-    const timeSpentSec = 3600 - timerRemaining;
-    const spentMin = Math.floor(timeSpentSec / 60);
-    resTimeSpentBadge.textContent = `Time: ${spentMin}m`;
+    // 1. Hero Card
+    const model = getCurrentModel();
+    let formattedModelTitle = (model.title || 'MOCK TEST 1').toUpperCase().replace('(', '· ').replace(')', '');
+    const resModelBadge = document.getElementById('resModelBadge');
+    if (resModelBadge) resModelBadge.textContent = formattedModelTitle;
 
-    // Section Bars
-    const updateBar = (scoreElem, barElem, cur, tot) => {
-      scoreElem.textContent = `${cur} / ${tot}`;
-      const p = Math.round((cur / tot) * 100);
-      barElem.style.width = `${p}%`;
-    };
+    let rating = 'Needs Improvement';
+    if (pct >= 90) rating = 'Excellent';
+    else if (pct >= 80) rating = 'Very Good';
+    else if (pct >= 70) rating = 'Good';
+    else if (pct >= 60) rating = 'Pass';
 
-    updateBar(bGrammarScore, bGrammarBar, secScores['Grammar'].correct, secScores['Grammar'].total);
-    updateBar(bVocabScore, bVocabBar, secScores['Vocabulary'].correct, secScores['Vocabulary'].total);
-    updateBar(bReadingScore, bReadingBar, secScores['Reading Comprehension'].correct, secScores['Reading Comprehension'].total);
-    updateBar(bMixedScore, bMixedBar, secScores['Mixed Review'].correct, secScores['Mixed Review'].total);
+    const resRatingHeadline = document.getElementById('resRatingHeadline');
+    if (resRatingHeadline) resRatingHeadline.textContent = rating;
 
-    // Weak Areas
-    weakAreasList.innerHTML = '';
-    const sortedWeak = Object.entries(missedTopics).sort((a, b) => b[1] - a[1]);
-    if (sortedWeak.length === 0) {
-      weakAreasList.innerHTML = '<li class="text-success">🌟 أداء ممتاز! لم يتم تسجيل أي أخطاء في هذا النموذج.</li>';
-    } else {
-      sortedWeak.slice(0, 4).forEach(([topic, count]) => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${topic}</strong>: تم تسجيل (${count}) أخطاء في هذا الموضوع.`;
-        weakAreasList.appendChild(li);
-      });
+    const resHeroPct = document.getElementById('resHeroPct');
+    if (resHeroPct) resHeroPct.textContent = `${pct}%`;
+
+    const resHeroFraction = document.getElementById('resHeroFraction');
+    if (resHeroFraction) resHeroFraction.textContent = `${totalScore} / ${totalQuestions}`;
+
+    // SVG Circle Animation
+    const resCircleProgress = document.getElementById('resCircleProgress');
+    if (resCircleProgress) {
+      const circumference = 339.292;
+      const offset = circumference - (circumference * pct / 100);
+      resCircleProgress.style.strokeDashoffset = offset;
     }
 
-    // Recommendations
-    recommendationsList.innerHTML = '';
-    const tips = [
-      'راجع مفردات المنهج عبر بطاقات الحفظ (Vocab Hub) بانتظام لضمان الربط المباشر بين الكلمة وسياق الجملة.',
-      'في أسئلة القواعد، حدد الفاعل أولاً قبل اختيار تصريف الفعل أو الضمير.',
-      'في أسئلة الاستيعاب القرائي، اعتمد 100% على مطابقة السطر الصريح بالنص وتجنب التخمين.'
-    ];
-    tips.forEach(tip => {
-      const li = document.createElement('li');
-      li.textContent = tip;
-      recommendationsList.appendChild(li);
-    });
+    // 2. Metrics Row
+    const resMetricScore = document.getElementById('resMetricScore');
+    if (resMetricScore) resMetricScore.textContent = `${totalScore} / ${totalQuestions}`;
+
+    const resMetricCorrect = document.getElementById('resMetricCorrect');
+    if (resMetricCorrect) resMetricCorrect.textContent = totalScore;
+
+    const resMetricWrong = document.getElementById('resMetricWrong');
+    if (resMetricWrong) resMetricWrong.textContent = wrongCount;
+
+    const resMetricUnanswered = document.getElementById('resMetricUnanswered');
+    if (resMetricUnanswered) resMetricUnanswered.textContent = unansweredCount;
+
+    // 3. Section Analysis
+    const updateSectionRow = (textId, barId, cur, tot) => {
+      const textEl = document.getElementById(textId);
+      const barEl = document.getElementById(barId);
+      const p = Math.round((cur / tot) * 100);
+      if (textEl) textEl.textContent = `${cur}/${tot} · ${p}%`;
+      if (barEl) barEl.style.width = `${p}%`;
+    };
+
+    updateSectionRow('bGrammarText', 'bGrammarBar', secScores['Grammar'].correct, secScores['Grammar'].total);
+    updateSectionRow('bVocabText', 'bVocabBar', secScores['Vocabulary'].correct, secScores['Vocabulary'].total);
+    updateSectionRow('bReadingText', 'bReadingBar', secScores['Reading Comprehension'].correct, secScores['Reading Comprehension'].total);
+    updateSectionRow('bMixedText', 'bMixedBar', secScores['Mixed Review'].correct, secScores['Mixed Review'].total);
+
+    // 4. Learning Plan (Where to focus next)
+    const resLearningSubtitle = document.getElementById('resLearningSubtitle');
+    if (resLearningSubtitle) {
+      if (pct >= 85) {
+        resLearningSubtitle.textContent = 'Your section scores are well-balanced; target the specific concepts below to achieve full marks.';
+      } else {
+        resLearningSubtitle.textContent = 'Focus on the high-yield concepts below to strengthen your weak areas before Quiz 1.';
+      }
+    }
+
+    const resConceptCardsList = document.getElementById('resConceptCardsList');
+    if (resConceptCardsList) {
+      resConceptCardsList.innerHTML = '';
+      const sortedWeak = Object.entries(missedTopics).sort((a, b) => b[1] - a[1]);
+
+      if (sortedWeak.length === 0) {
+        resConceptCardsList.innerHTML = `
+          <div class="concept-focus-card">
+            <div class="concept-card-title">All Exam Concepts Mastered 🌟</div>
+            <div class="concept-card-detail">Outstanding score! You answered all questions correctly across all sections.</div>
+          </div>
+        `;
+      } else {
+        sortedWeak.slice(0, 4).forEach(([topic, count]) => {
+          const card = document.createElement('div');
+          card.className = 'concept-focus-card';
+          card.innerHTML = `
+            <div class="concept-card-title">${topic}</div>
+            <div class="concept-card-detail">${count} missed or unanswered item${count > 1 ? 's' : ''}. Review the rule, then retry this version in Practice Mode.</div>
+          `;
+          resConceptCardsList.appendChild(card);
+        });
+      }
+    }
 
     renderQuestionPalette();
   }
@@ -1305,6 +1413,12 @@
     isReviewMode = true;
     resultsSection.classList.add('hidden');
     questionCard.classList.remove('hidden');
+
+    const mainLayout = document.querySelector('.main-layout');
+    if (mainLayout) mainLayout.classList.remove('results-active');
+    const desktopPalette = document.getElementById('desktopPalette');
+    if (desktopPalette) desktopPalette.classList.remove('hidden');
+
     currentQuestionIndex = 0;
     renderCurrentQuestion();
     renderQuestionPalette();

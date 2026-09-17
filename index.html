@@ -9,6 +9,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('rcjy_theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark-mode');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.classList.add('light-mode');
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch(e) {}
+  })();
+</script>
 </head>
 <body class="light-mode">
   <!-- Top Academic Navigation Bar -->
@@ -24,7 +39,7 @@
           <p class="brand-subtitle">Royal Commission for Jubail & Yanbu • Course Delivery Plan 481</p>
         </div>
         <!-- Theme Toggle Mobile Button -->
-        <button id="themeToggleBtnMobile" class="icon-btn mobile-only-inline" aria-label="Toggle Theme" title="Toggle Theme">
+        <button id="themeToggleBtnMobile" class="icon-btn mobile-only-inline" onclick="toggleTheme()" aria-label="Toggle Theme" title="Toggle Theme">
           <span class="theme-icon-slot">🌙</span>
         </button>
       </div>
@@ -62,7 +77,7 @@
         </div>
 
         <!-- Theme Toggle Desktop -->
-        <button id="themeToggleBtn" class="icon-btn desktop-only-inline" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
+        <button id="themeToggleBtn" class="icon-btn desktop-only-inline" onclick="toggleTheme()" aria-label="Toggle Dark / Light Theme" title="Toggle Theme">
           <span class="theme-icon-slot">🌙</span>
         </button>
       </div>
@@ -305,92 +320,119 @@
 
       <!-- Results View (Hidden until submission) -->
       <section id="resultsSection" class="results-container hidden">
-        <div class="results-card">
-          <div class="results-hero">
-            <div class="score-circle">
-              <span id="resTotalScore" class="score-number">0</span>
-              <span class="score-max">/ 60</span>
-            </div>
-            <h2 id="resTitle" class="results-title">Examination Completed</h2>
-            <p id="resSubtitle" class="results-sub">Review your detailed performance metrics and learning recommendations below.</p>
-            <div class="results-tags">
-              <span id="resPercentageBadge" class="badge badge-primary">0%</span>
-              <span id="resGradeBadge" class="badge badge-secondary">Grade: -</span>
-              <span id="resTimeSpentBadge" class="badge badge-neutral">Time: 0m</span>
-            </div>
+        <!-- 1. Top Hero Card (Deep Navy Blue Gradient) -->
+        <div class="results-hero-card">
+          <div class="hero-left">
+            <div id="resModelBadge" class="hero-model-pill">MOCK TEST 1 · VERSION 1</div>
+            <h1 id="resRatingHeadline" class="hero-rating-title">Very Good</h1>
+            <div class="hero-candidate-sub">Student</div>
           </div>
-
-          <!-- Section Breakdown -->
-          <div class="results-breakdown-section">
-            <h3 class="section-title">Section Performance Breakdown</h3>
-            <div class="breakdown-grid">
-              <div class="breakdown-card">
-                <div class="b-header">
-                  <h4>Part 1: Grammar (القواعد)</h4>
-                  <span id="bGrammarScore" class="b-score">0 / 20</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="bGrammarBar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-              </div>
-
-              <div class="breakdown-card">
-                <div class="b-header">
-                  <h4>Part 2: Vocabulary (المفردات)</h4>
-                  <span id="bVocabScore" class="b-score">0 / 15</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="bVocabBar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-              </div>
-
-              <div class="breakdown-card">
-                <div class="b-header">
-                  <h4>Part 3: Reading Comprehension (الاستيعاب القرائي)</h4>
-                  <span id="bReadingScore" class="b-score">0 / 15</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="bReadingBar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
-              </div>
-
-              <div class="breakdown-card">
-                <div class="b-header">
-                  <h4>Part 4: Mixed Review (المراجعة العامة)</h4>
-                  <span id="bMixedScore" class="b-score">0 / 10</span>
-                </div>
-                <div class="progress-bar-container">
-                  <div id="bMixedBar" class="progress-bar-fill" style="width: 0%;"></div>
-                </div>
+          <div class="hero-right">
+            <!-- Circular Progress Ring (SVG) -->
+            <div class="circular-progress-wrap">
+              <svg class="progress-ring" width="130" height="130" viewBox="0 0 130 130">
+                <circle class="progress-ring-bg" cx="65" cy="65" r="54" stroke="rgba(255,255,255,0.15)" stroke-width="9" fill="transparent" />
+                <circle id="resCircleProgress" class="progress-ring-fill" cx="65" cy="65" r="54" stroke="#2dd4bf" stroke-width="9" stroke-linecap="round" fill="transparent" stroke-dasharray="339.292" stroke-dashoffset="67.858" transform="rotate(-90 65 65)" />
+              </svg>
+              <div class="progress-ring-text">
+                <span id="resHeroPct" class="ring-pct">88%</span>
+                <span id="resHeroFraction" class="ring-fraction">53 / 60</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Weak Areas & Recommendations -->
-          <div class="analytics-recommendations-grid">
-            <div class="analytics-card weak-card">
-              <div class="a-header">
-                <span class="a-icon">⚠️</span>
-                <h4>Identified Weak Areas (نقاط الضعف المحددة)</h4>
-              </div>
-              <ul id="weakAreasList" class="recommendations-list"></ul>
-            </div>
+        <!-- 2. 4 Metric Cards Row -->
+        <div class="results-metrics-grid">
+          <div class="metric-box-card">
+            <div class="metric-label">SCORE</div>
+            <div id="resMetricScore" class="metric-value">53 / 60</div>
+          </div>
+          <div class="metric-box-card">
+            <div class="metric-label">CORRECT</div>
+            <div id="resMetricCorrect" class="metric-value value-correct">53</div>
+          </div>
+          <div class="metric-box-card">
+            <div class="metric-label">WRONG</div>
+            <div id="resMetricWrong" class="metric-value value-wrong">7</div>
+          </div>
+          <div class="metric-box-card">
+            <div class="metric-label">UNANSWERED</div>
+            <div id="resMetricUnanswered" class="metric-value value-unanswered">0</div>
+          </div>
+        </div>
 
-            <div class="analytics-card tips-card">
-              <div class="a-header">
-                <span class="a-icon">🎯</span>
-                <h4>Actionable Study Directives (توجيهات المذاكرة المركزة)</h4>
+        <!-- 3. Two-Column Lower Section (Section Analysis & Learning Plan) -->
+        <div class="results-two-col-grid">
+          <!-- Left Column: Section Analysis -->
+          <div class="results-col-card">
+            <div class="col-pretitle">SECTION ANALYSIS</div>
+            <h2 class="col-main-title">Performance by part</h2>
+            
+            <div class="section-part-rows">
+              <!-- Part 1 -->
+              <div class="part-row">
+                <div class="part-row-header">
+                  <span class="part-title">Part 1 · Grammar</span>
+                  <span id="bGrammarText" class="part-score-text">19/20 · 95%</span>
+                </div>
+                <div class="part-progress-track">
+                  <div id="bGrammarBar" class="part-progress-fill" style="width: 95%;"></div>
+                </div>
               </div>
-              <ul id="recommendationsList" class="recommendations-list"></ul>
+
+              <!-- Part 2 -->
+              <div class="part-row">
+                <div class="part-row-header">
+                  <span class="part-title">Part 2 · Vocabulary</span>
+                  <span id="bVocabText" class="part-score-text">13/15 · 87%</span>
+                </div>
+                <div class="part-progress-track">
+                  <div id="bVocabBar" class="part-progress-fill" style="width: 87%;"></div>
+                </div>
+              </div>
+
+              <!-- Part 3 -->
+              <div class="part-row">
+                <div class="part-row-header">
+                  <span class="part-title">Part 3 · Reading Comprehension</span>
+                  <span id="bReadingText" class="part-score-text">13/15 · 87%</span>
+                </div>
+                <div class="part-progress-track">
+                  <div id="bReadingBar" class="part-progress-fill" style="width: 87%;"></div>
+                </div>
+              </div>
+
+              <!-- Part 4 -->
+              <div class="part-row">
+                <div class="part-row-header">
+                  <span class="part-title">Part 4 · Mixed Review</span>
+                  <span id="bMixedText" class="part-score-text">8/10 · 80%</span>
+                </div>
+                <div class="part-progress-track">
+                  <div id="bMixedBar" class="part-progress-fill" style="width: 80%;"></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Action Buttons -->
-          <div class="results-actions">
-            <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 60 Questions With Smart Tutor</button>
-            <button id="retakeExamBtn" class="btn btn-outline btn-lg">↺ Retake Current Model</button>
-            <button id="nextModelBtn" class="btn btn-secondary btn-lg">Next Model →</button>
+          <!-- Right Column: Learning Plan -->
+          <div class="results-col-card">
+            <div class="col-pretitle">LEARNING PLAN</div>
+            <h2 class="col-main-title">Where to focus next</h2>
+            <p id="resLearningSubtitle" class="learning-plan-sub">Your section scores are balanced; target the specific concepts below.</p>
+
+            <div id="resConceptCardsList" class="concept-cards-list">
+              <!-- Dynamically populated concept cards -->
+            </div>
           </div>
+        </div>
+
+        <!-- 4. Action Buttons -->
+        <div class="results-action-buttons-row">
+          <button id="reviewExamBtn" class="btn btn-primary btn-lg">🔍 Review All 60 Questions</button>
+          <button id="retakeExamBtn" class="btn btn-outline btn-lg">↺ Retake Current Model</button>
+          <button id="nextModelBtn" class="btn btn-secondary btn-lg">Next Model →</button>
         </div>
       </section>
     </div>
