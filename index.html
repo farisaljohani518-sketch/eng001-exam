@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>RCJY ENG001 Examination Platform | English Language & Preparatory Year</title>
   <meta name="description" content="Official ENG001 Foundation English Examination Platform with 15 Mock Tests, 900 Questions, Direct Academic Tutor, Textual Evidence, and Fullscreen Vocabulary Hub.">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260917_v15">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -680,10 +680,11 @@
 
         <div class="vocab-filters" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           <label for="uUnitSelect" class="sr-only">Select Unit</label>
-          <select id="uUnitSelect" class="academic-select v-select" title="اختر الوحدة">
-            <option value="unit_3" selected>📘 Unit 3: Daily Routines (5 نماذج خاصة)</option>
-            <option value="unit_4">📗 Unit 4: Places & Climate (5 نماذج خاصة)</option>
-            <option value="unit_5">📙 Unit 5: Transport & Rules (5 نماذج خاصة)</option>
+          <select id="uUnitSelect" class="academic-select v-select" title="اختر الوحدة أو الاختبار الشامل">
+            <option value="quiz1_all" selected>🎯 كويز 1 الشامل (Units 3–5: 5 نماذج متوازنة - 150 سؤال)</option>
+            <option value="unit_3">📘 Unit 3: Daily Routines (5 نماذج خاصة - 150 سؤال)</option>
+            <option value="unit_4">📗 Unit 4: Places & Climate (5 نماذج خاصة - 150 سؤال)</option>
+            <option value="unit_5">📙 Unit 5: Transport & Rules (5 نماذج خاصة - 150 سؤال)</option>
           </select>
 
           <!-- Grammar Practice Model Selector (5 Models per Unit, 30 Qs each) -->
@@ -698,8 +699,17 @@
         </div>
       </div>
 
-      <!-- VIEW 1: Interactive Unit Quiz (Full Page Centered Card, 1 Question at a time, Exactly like Vocab Quiz!) -->
+      <!-- VIEW 1: Interactive Unit Quiz (Full Page Centered Card with 30-Question Palette) -->
       <div id="uQuizView" class="vocab-view-container">
+        <!-- 30-Question Quick Palette Bar -->
+        <div class="u-palette-wrapper" style="max-width: 820px; margin: 0 auto 1rem auto; width: 100%;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; font-size:0.85rem; font-weight:700; color:var(--text-secondary);">
+            <span>🔢 قائمة الأسئلة (Questions 1–30):</span>
+            <span id="uPaletteProgressHint" style="color:var(--color-primary);">اختر أي سؤال للانتقال إليه مباشرة</span>
+          </div>
+          <div id="uQuizPaletteContainer" class="u-palette-strip"></div>
+        </div>
+
         <div class="quiz-box-card">
           <div class="quiz-header">
             <span id="uQuizCounter" class="badge badge-secondary">Question 1 of 10</span>
@@ -718,7 +728,10 @@
               <button id="uQuizRetakeBtn" class="btn btn-outline hidden">🔄 إعادة النموذج</button>
               <button id="uQuizNextModelBtn" class="btn btn-secondary hidden">النموذج التالي (Next Model) →</button>
             </div>
-            <button id="uQuizNextBtn" class="btn btn-primary hidden">Next Question →</button>
+            <div style="display: flex; gap: 8px;">
+              <button id="uQuizPrevBtn" class="btn btn-outline" style="display:none;">← السابق</button>
+              <button id="uQuizNextBtn" class="btn btn-primary">التالي (Next) →</button>
+            </div>
           </div>
         </div>
       </div>
@@ -784,7 +797,7 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260917_v15"></script>
 
   <!-- =========================================================================
        COURSE DELIVERY PLAN & QUIZ 1 SYLLABUS MODAL
@@ -911,6 +924,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=20260917_v15"></script>
 </body>
 </html>
