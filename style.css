@@ -2704,3 +2704,23 @@ html.dark-mode .pal-btn.incorrect {
 html.dark-mode .part-progress-track {
   background-color: #1e293b !important;
 }
+
+
+.vocab-filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .vocab-filters {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .vocab-filters select {
+    width: 100%;
+  }
+}

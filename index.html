@@ -678,12 +678,23 @@
           <button id="uViewReadingBtn" class="v-pill">📰 نصوص القراءة (Reading)</button>
         </div>
 
-        <div class="vocab-filters">
+        <div class="vocab-filters" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
           <label for="uUnitSelect" class="sr-only">Select Unit</label>
-          <select id="uUnitSelect" class="academic-select v-select">
-            <option value="unit_3">📘 Unit 3: Daily Routines & Activities</option>
-            <option value="unit_4">📗 Unit 4: Places, Nature & Climate</option>
-            <option value="unit_5">📙 Unit 5: Travel, Transport & Rules</option>
+          <select id="uUnitSelect" class="academic-select v-select" title="اختر الوحدة أو الاختبار الشامل">
+            <option value="quiz1_all" selected>🎯 كويز 1 الشامل (Units 3–5: 5 نماذج متوازنة)</option>
+            <option value="unit_3">📘 Unit 3: Daily Routines (5 نماذج)</option>
+            <option value="unit_4">📗 Unit 4: Places & Climate (5 نماذج)</option>
+            <option value="unit_5">📙 Unit 5: Transport & Rules (5 نماذج)</option>
+          </select>
+
+          <!-- Grammar Practice Model Selector (5 Models per Unit, 30 Qs each) -->
+          <label for="uModelSelect" class="sr-only">Select Grammar Model</label>
+          <select id="uModelSelect" class="academic-select v-select" title="اختر نموذج القواعد (30 سؤالاً)">
+            <option value="0">Model 1 (30 Qs)</option>
+            <option value="1">Model 2 (30 Qs)</option>
+            <option value="2">Model 3 (30 Qs)</option>
+            <option value="3">Model 4 (30 Qs)</option>
+            <option value="4">Model 5 (30 Qs)</option>
           </select>
         </div>
       </div>
@@ -703,8 +714,11 @@
             <!-- 4 Options dynamically rendered -->
           </div>
           <div id="uQuizFeedback" class="u-quiz-feedback" style="display:none; margin-top: 14px; padding: 12px 14px; border-radius: 8px; background: rgba(99,102,241,0.08); border-right: 4px solid #6366f1; font-size: 0.88rem; line-height: 1.5;"></div>
-          <div class="quiz-footer" style="margin-top: 1.25rem; display: flex; justify-content: space-between; align-items: center;">
-            <button id="uQuizRetakeBtn" class="btn btn-outline hidden">🔄 إعادة الاختبار</button>
+          <div class="quiz-footer" style="margin-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; gap: 8px;">
+              <button id="uQuizRetakeBtn" class="btn btn-outline hidden">🔄 إعادة النموذج</button>
+              <button id="uQuizNextModelBtn" class="btn btn-secondary hidden">النموذج التالي (Next Model) →</button>
+            </div>
             <button id="uQuizNextBtn" class="btn btn-primary hidden">Next Question →</button>
           </div>
         </div>
